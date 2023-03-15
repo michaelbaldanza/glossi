@@ -7,3 +7,22 @@
 #nonfooter {
   min-height: 100vh;
 }
+
+@media (min-width: 640px) {
+  .App {
+    max-width: 760px;
+    margin: auto;
+  }         
+}
+
+@media (min-width: 768px) {
+
+}
+
+@media (min-width: 1024px) {
+  
+}
+
+@media (min-width: 1200px) {
+        
+}
