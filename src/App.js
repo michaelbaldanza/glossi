@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import React, { useState } from 'react';
 import { Link, Outlet, redirect } from 'react-router-dom';
@@ -14,15 +13,11 @@ function App() {
   const mostRecent = lookupHistory[lookupHistory.length - 1];
   console.log(`here's the most recent lookup`)
   console.log(mostRecent);
-  console.log(user);
+  console.log(`here's the user ${user}`);
 
   function handleLogout() {
     logout();
     setUser(null);
-  }
-
-  function handleSignup() {
-    setUser(user);
   }
 
   async function addLookup(lookup) {
@@ -96,7 +91,7 @@ function App() {
         <Nav user={user} handleLogout={handleLogout} />
         <div className="container-fluid">
           <Form addLookup={addLookup} />
-          <Outlet />
+          <Outlet context={[user, setUser]} />
         </div>
         <div className="container-fluid">
           {responses}

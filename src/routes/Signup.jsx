@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { signup } from '../services/users'; 
+import { useOutletContext } from 'react-router-dom';
+import { getUser, signup } from '../services/users'; 
 
 export default function Signup(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [user, setUser] = useOutletContext();
+  
   function handleEmail(e) {
     setEmail(e.target.value);
   }
@@ -23,6 +25,7 @@ export default function Signup(props) {
     console.log(newUser);
     try {
       await signup(newUser);
+      setUser(getUser);
     } catch (err) {
       console.error(err)
     }

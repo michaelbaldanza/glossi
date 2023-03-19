@@ -22,7 +22,17 @@ testUserSchema.pre('save', function(next) {
     console.log(user);
     next();
   })
-
 });
+
+testUserSchema.methods.comparePassword = function(tryPassword, cb) {
+  console.log(`hitting comparePassword method in testUser model`)
+  // 'this' represents the document that you called comparePassword on
+  bcrypt.compare(tryPassword, this.password, function(err, isMatch) {
+    console.log(`hitting bcrypt compare`)
+    console.log(tryPassword);
+    if (err) return cb(err);
+    cb(null, isMatch);
+  });
+};
 
 module.exports = mongoose.model('TestUser', testUserSchema);
