@@ -1,17 +1,30 @@
 import logo from './logo.svg';
 import './App.css';
 import React, { useState } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Link, Outlet, redirect } from 'react-router-dom';
 import { lexica } from './services/dictionaries';
+import { getUser, logout } from './services/users';
 import { capitalize, clipTags } from './services/helpers';
 import Form from './components/Form.js';
+import Nav from './components/Nav.jsx';
 
 function App() {
   const [lookupHistory, setLookupHistory] = useState([]);
+  const [user, setUser] = useState(getUser());
   const mostRecent = lookupHistory[lookupHistory.length - 1];
   console.log(`here's the most recent lookup`)
   console.log(mostRecent);
-  
+  console.log(user);
+
+  function handleLogout() {
+    logout();
+    setUser(null);
+  }
+
+  function handleSignup() {
+    setUser(user);
+  }
+
   async function addLookup(lookup) {
     const fdRes = await lexica.fd.compose(lookup);
     const wikres = await fetch(`https://en.wiktionary.org/api/rest_v1/page/html/${lookup}`, {
@@ -80,46 +93,7 @@ function App() {
   return (
     <div className="App">
       <div id="nonfooter" className="">
-        <nav className="navbar navbar-expand-sm">
-          <div className="container-fluid">
-            <Link className="navbar-brand" to={`/`}>Glossi</Link>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to={'/decks'}>
-                  Decks
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={'/entries'}>
-                  Reader
-                </Link>
-              </li>
-                <li className="nav-item dropdown">
-                  <Link className="nav-link dropdown-toggle" to={'#'} role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</Link>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <Link className="dropdown-item" to={`/profile`}>View profile</Link>
-                    </li>
-                    <li><div className="dropdown-divider"></div></li>
-                    <li>
-                      <Link className="dropdown-item" to={`/logout`}>Log out</Link>
-                    </li>
-                  </ul>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={`/auth/google`}>
-                    Login
-                  </Link>
-                </li>
-            </ul>
-          </div>
-          </div>
-        </nav>
+        <Nav user={user} handleLogout={handleLogout} />
         <div className="container-fluid">
           <Form addLookup={addLookup} />
           <Outlet />

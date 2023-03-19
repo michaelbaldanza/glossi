@@ -7,6 +7,9 @@ import {
 import './index.css';
 import App from './App';
 import Lookup from './routes/lookup';
+import { action as logoutAction } from './routes/Logout';
+import Login from './routes/Login';
+import Signup from './routes/Signup';
 import ErrorPage from './error-page';
 import reportWebVitals from './reportWebVitals';
 
@@ -19,6 +22,18 @@ const router = createBrowserRouter([
       {
         path:'lookup',
         element: <Lookup />,
+      },
+      {
+        path: 'logout',
+        action: logoutAction,
+      },
+      {
+        path: 'login',
+        element: <Login />
+      },
+      {
+        path: 'signup',
+        element: <Signup />
       }
     ],
   },
