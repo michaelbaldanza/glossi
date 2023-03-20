@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { redirect, useNavigate, useOutletContext } from 'react-router-dom';
 import { getUser, login } from '../services/users';
+
+export function action() {
+  console.log(`hitting login action`)
+  return redirect('/');
+}
 
 export default function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useOutletContext();
+  const navigate = useNavigate();
 
   function handleEmail(e) {
     setEmail(e.target.value);
@@ -21,9 +27,11 @@ export default function Login(props) {
       email: email,
       password: password,
     };
+    console.log(`hitting login handleSubmit`)
     try {
       await login(creds);
       setUser(getUser);
+      navigate('/')
     } catch (err) {
       alert('invalid credentials');
     }

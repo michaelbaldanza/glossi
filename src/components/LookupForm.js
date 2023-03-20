@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function Form(props) {
+export default function LookupForm(props) {
   const [lookup, setLookup] = useState('');
 
   function handleChange(e) {

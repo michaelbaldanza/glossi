@@ -7,9 +7,9 @@ import {
 import './index.css';
 import App from './App';
 import Lookup from './routes/lookup';
-import { action as logoutAction } from './routes/Logout';
-import Login from './routes/Login';
+import Login, { action as loginAction } from './routes/Login';
 import Signup from './routes/Signup';
+import Reader from './routes/Reader';
 import ErrorPage from './error-page';
 import reportWebVitals from './reportWebVitals';
 
@@ -20,16 +20,16 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
+        path: 'reader',
+        element: <Reader />,
+      },
+      {
         path:'lookup',
         element: <Lookup />,
       },
       {
-        path: 'logout',
-        action: logoutAction,
-      },
-      {
         path: 'login',
-        element: <Login />
+        element: <Login />,
       },
       {
         path: 'signup',

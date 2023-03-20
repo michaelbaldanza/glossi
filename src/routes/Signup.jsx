@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { getUser, signup } from '../services/users'; 
 
 export default function Signup(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useOutletContext();
+  const navigate = useNavigate();
   
   function handleEmail(e) {
     setEmail(e.target.value);
@@ -21,11 +22,10 @@ export default function Signup(props) {
       email: email,
       password: password,
     };
-    console.log(`here's the newUser in Signup handleSubmit`)
-    console.log(newUser);
     try {
       await signup(newUser);
       setUser(getUser);
+      navigate('/');
     } catch (err) {
       console.error(err)
     }

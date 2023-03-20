@@ -1,23 +1,22 @@
 import './App.css';
 import React, { useState } from 'react';
-import { Link, Outlet, redirect } from 'react-router-dom';
+import { Form, Link, Outlet, useNavigate } from 'react-router-dom';
 import { lexica } from './services/dictionaries';
 import { getUser, logout } from './services/users';
 import { capitalize, clipTags } from './services/helpers';
-import Form from './components/Form.js';
-import Nav from './components/Nav.jsx';
 
 function App() {
   const [lookupHistory, setLookupHistory] = useState([]);
   const [user, setUser] = useState(getUser());
   const mostRecent = lookupHistory[lookupHistory.length - 1];
-  console.log(`here's the most recent lookup`)
-  console.log(mostRecent);
-  console.log(`here's the user ${user}`);
+  const navigate = useNavigate();
 
-  function handleLogout() {
+  function handleLogout(e) {
+    e.preventDefault();
     logout();
     setUser(null);
+    console.log('in handleLogout right about navigate("/"')
+    navigate('/');
   }
 
   async function addLookup(lookup) {
@@ -84,11 +83,63 @@ function App() {
     }
   </div>;
 
+  const logged = <div className="container-fluid">
+      <Link className="navbar-brand" to={`/`}>Glossi</Link>
+      <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span className="navbar-toggler-icon"></span>
+      </button>
+      <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <ul className="navbar-nav mr-auto">
+          <li className="nav-item">
+            <Link className="nav-link" to={'/decks'}>
+              Decks
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to={'/reader'}>
+              Reader
+            </Link>
+          </li>
+          {
+            user ?
+            <>
+              <li className="nav-item">
+                <Link className="nav-link" to={`/profile`}>View profile</Link>
+              </li>
+              <li class="nav-item">
+                <Form
+                  
+                  action={`logout`}
+                  method="post"
+                  onSubmit={handleLogout}
+                >
+                  <button className="btn btn-link nav-link nav-btn" height="40" type="submit">Log out</button>
+                </Form>
+              </li>
+            </> :
+            <>
+              <li className="nav-item">
+                <Link className="nav-link" to={`/login`}>
+                  Log in
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={`/signup`}>
+                  Sign up
+                </Link>
+              </li>
+            </>
+          }
+        </ul>
+      </div>
+    </div>
 
   return (
     <div className="App">
       <div id="nonfooter" className="">
-        <Nav user={user} handleLogout={handleLogout} />
+        <nav className="navbar navbar-expand-sm">
+          {logged}
+        </nav>
         <div className="container-fluid">
           <Form addLookup={addLookup} />
           <Outlet context={[user, setUser]} />
