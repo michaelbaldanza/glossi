@@ -19,39 +19,6 @@ function App() {
     navigate('/');
   }
 
-  async function addLookup(lookup) {
-    const fdRes = await lexica.fd.compose(lookup);
-    const wikres = await fetch(`https://en.wiktionary.org/api/rest_v1/page/html/${lookup}`, {
-      method: 'GET', headers: {
-        'accept': 'text/html; charset=utf-8; profile="https://www.mediawiki.org/wiki/Specs/HTML/2.1.0"',
-        'User-Agent': 'michael.snider.baldanza@gmail.com'
-      },})
-    // .then((res) => res.json()
-    .then((response) => response.text()
-    .then((data) => {
-      return data;
-    }));
-    const termres = await fetch(`https://en.wiktionary.org/api/rest_v1/page/definition/${lookup}`, {
-      method: 'GET',  
-      headers: {
-          'accept': 'application/json; charset=utf-8; profile="https://www.mediawiki.org/wiki/Specs/definition/0.8.0"',
-          'User-Agent': 'michael.snider.baldanza@gmail.com'
-        }
-    })
-    .then((res) => res.json()
-    .then((data) => {
-      console.log(data);
-      return data;
-    }));
-    const newLookup = {
-      'term': lookup,
-      'fd': fdRes,
-      'wk': termres,
-    };
-    // console.log(clipTags(wikres));
-    setLookupHistory([...lookupHistory, newLookup]);
-  }
-
   const responses = <div>
     <h1>{mostRecent?.term}</h1>
     {

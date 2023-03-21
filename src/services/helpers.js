@@ -8,4 +8,9 @@ function clipTags(str) {
   return tagless;
 }
 
-export { capitalize, clipTags };
+function breakLines(str) {
+  console.log(`hitting breakLines()`)
+  return str.split(/\r?\n|\r|\n/g);
+}
+
+export { breakLines, capitalize, clipTags };
