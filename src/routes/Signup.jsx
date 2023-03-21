@@ -5,25 +5,21 @@ import { getUser, signup } from '../services/users';
 export default function Signup(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [creds, setCreds] = useState({email: '', password: ''});
   const [user, setUser] = useOutletContext();
   const navigate = useNavigate();
   
-  function handleEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function handlePassword(e) {
-    setPassword(e.target.value);
+  function handleChange(e) {
+    setCreds({
+      ...creds,
+      [e.target.name]: e.target.value,
+    })
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const newUser = {
-      email: email,
-      password: password,
-    };
     try {
-      await signup(newUser);
+      await signup(creds);
       setUser(getUser);
       navigate('/');
     } catch (err) {
@@ -36,11 +32,11 @@ export default function Signup(props) {
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="email">Email</label>
-          <input className="form-control" type="text" onChange={handleEmail} />
+          <input className="form-control" name="email" type="text" onChange={handleChange} />
         </div>
         <div className="mb-3">
           <label htmlFor="password">Password</label>
-          <input className="form-control" type="text" onChange={handlePassword} />
+          <input className="form-control" name="password" type="text" onChange={handleChange} />
         </div>
         <button type="submit" className="btn btn-primary">
           Go

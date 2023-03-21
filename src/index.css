@@ -4,6 +4,10 @@ body, .App {
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+.reader-body {
+  white-space: pre-wrap;
+}
+
 #nonfooter {
   min-height: 100vh;
 }

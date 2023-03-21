@@ -10,7 +10,7 @@ function App() {
   const [user, setUser] = useState(getUser());
   const mostRecent = lookupHistory[lookupHistory.length - 1];
   const navigate = useNavigate();
-
+  console.log(user);
   function handleLogout(e) {
     e.preventDefault();
     logout();
@@ -106,7 +106,7 @@ function App() {
               <li className="nav-item">
                 <Link className="nav-link" to={`/profile`}>View profile</Link>
               </li>
-              <li class="nav-item">
+              <li className="nav-item">
                 <Form
                   
                   action={`logout`}
@@ -141,7 +141,6 @@ function App() {
           {logged}
         </nav>
         <div className="container-fluid">
-          <Form addLookup={addLookup} />
           <Outlet context={[user, setUser]} />
         </div>
         <div className="container-fluid">
