@@ -5,20 +5,28 @@ import Word from '../components/Word';
 
 export default function Reader() {
   const [submission, setSubmission] = useState({title: '', body: ''})
+  const [lookupHistory, setLookupHistory] = useState([]);
   const lines = breakLines(submission.body);
   const words = lines.map((line, idx0) => (
-    <div key={'line-' + idx0}>
+    <div className="line" key={'line-' + idx0}>
       {
         line.split(' ').map((word, idx1) => (
-          <span key={'line-' + idx0 + '-word-' + idx1}>
-            <Word word={word} />{' '}
-          </span>
+          <>
+            <Word
+              key={'line-' + idx0 + '-word-' + idx1}
+              word={word}
+              lookupHistory={[lookupHistory, setLookupHistory]}
+            />
+            {' '}
+          </>
         ))
       }
     </div>
   ));
   
-  const dictionary = <div id="dictionary-container"></div>
+  const dictionary = <div id="dictionary-container">
+
+  </div>
 
   const reader = submission.body.length
     ?

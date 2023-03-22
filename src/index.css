@@ -15,11 +15,21 @@ body, .App {
   width: fit-content;
   height: fit-content;
   padding: 0;
+  display: contents;
 }
 
 .scroll {
   max-width: 380px;
   
+}
+
+.line {
+  text-align: justify;
+  hyphens: auto;
+}
+
+.word-span {
+  word-break: keep-all;
 }
 
 #error-page {

@@ -7,6 +7,8 @@ import { capitalize, clipTags } from './services/helpers';
 
 function App() {
   const [lookupHistory, setLookupHistory] = useState([]);
+  console.log(`here's the lookup history`)
+  console.log(lookupHistory)
   const [user, setUser] = useState(getUser());
   const mostRecent = lookupHistory[lookupHistory.length - 1];
   const navigate = useNavigate();
