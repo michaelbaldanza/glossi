@@ -1,25 +1,66 @@
 body, .App {
   background-color: #fdfdfd;
-  /* background-color: purple; */
   font-family: Georgia, 'Times New Roman', Times, serif;
-}
-
-#reader-body {
-  white-space: pre-wrap;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 #nonfooter {
   min-height: 100vh;
 }
-.word-btn {
-  width: fit-content;
-  height: fit-content;
-  padding: 0;
-  display: contents;
-}
 
 .scroll {
+  margin: 0 auto;
+  position: relative;
   max-width: 380px;
+}
+
+#reader-body {
+  white-space: pre-wrap;
+  height: 100vh;
+  overflow-y: auto;
+  max-width: 380px;
+}
+
+#dictionary-container {
+  /* width: 100%; */
+  /* overflow-y: auto; */
+  /* min-height: 100vh; */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* padding: auto 10px; */
+  position: fixed;
+  /* margin: auto 0; */
+  /* z-index: 1; */
+  /* min-width: 380px; */
+  background-color: #fdfdfd;
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  
+  /* overflow-y: auto; */
+}
+
+#hexapla {
+  max-width: 380px;
+  overflow-y: auto;
+  /* max-width: 320px; */
+  /* display: flex;
+  flex-direction: column;
+  justify-content:center;
+  overflow-y: auto; */
+}
+
+.action-heading {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+
+.scroll {
   
 }
 
@@ -28,17 +69,15 @@ body, .App {
   hyphens: auto;
 }
 
-.word-span {
-  word-break: keep-all;
+.word-btn {
+  width: fit-content;
+  height: fit-content;
+  padding: 0;
+  display: contents;
 }
 
-#error-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100%;
+.word-span {
+  word-break: keep-all;
 }
 
 .nav-btn {
@@ -46,11 +85,27 @@ body, .App {
 }
 
 @media (min-width: 640px) {
-           
+  /* #reader-body, #dictionary-container {
+    position: static;
+  } */
+  #reader-container {
+    max-width: 768px;
+    margin: 0 auto;
+    /* display: flex;
+    justify-content: space-evenly; */
+  }
+  
+  #dictionary-container {
+    /* min-width: 380px; */
+    /* max-width: 380px; */
+    /* width: 280px; */
+    /* font-size: 0.81em; */
+    /* max-height: 100vh; */
+  }
 }
 
 @media (min-width: 768px) {
-
+  
 }
 
 @media (min-width: 1024px) {
@@ -59,8 +114,14 @@ body, .App {
     margin: auto;
   }
   #reader-container {
-    max-width: 780px;
-    margin: 0 auto;
+    min-width: 768px;
+    display: flex;
+    justify-content: space-between;
+    /* max-width: 940px;
+    margin: 0 auto; */
+    /* display: flex;
+    justify-content: space-around; */
+
   }
 
   .scroll {
@@ -70,4 +131,13 @@ body, .App {
 
 @media (min-width: 1200px) {
         
+}
+
+#error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
 }
