@@ -1,11 +1,22 @@
+import Infobox from './Infobox';
 import { depunctuate } from '../services/helpers';
 import { get, lexica } from '../services/dictionaries.js'
+import { useState } from 'react';
 
 export default function Word(props) {
+  const [y, setY] = useState(null);
+
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
-  async function handleClick() {
-    console.log(props.word)
-    console.log(window.innerHeight);
+  const numLookups = lookupHistory.length;
+  const mostRecent = numLookups ? lookupHistory[numLookups - 1] : null;
+  const isSelected = mostRecent?.wordId === props.wordId ? true : false;
+
+  async function handleClick(e) {
+    console.log(mostRecent);
+    console.log(`hitting handleClick`)
+    const newY = e.target.getBoundingClientRect().top;
+    setY(newY)
+    console.log(`newY is ${newY}`);
     const lookup = depunctuate(props.word).toLowerCase();
     const termres = await get(lexica.wikt.args(lookup));
     const resObj = termres.title && termres.detail ? {
@@ -22,17 +33,28 @@ export default function Word(props) {
     };
     const responses = {
       'term': lookup,
+      'wordId': props.wordId,
       'wikt': wikt,
     };
     setLookupHistory([...lookupHistory.slice(), responses]);
   }
 
+  const infobox = mostRecent?.wordId === props.wordId  ?
+    <Infobox
+      lookupHistory={[lookupHistory, setLookupHistory]}
+      mostRecent={mostRecent}
+      word={props.word}
+      y={y}
+    />
+    : ''
+  ;  
   return (
-    // <button
-    //   className="btn btn-link link-dark text-decoration-none word-btn"
-    //   onClick={() => handleClick()}
-    // >
-      <span className="word-span" onClick={() => handleClick()}>{props.word}</span>
-    // </button>
+    <span
+      id={props.wordId}
+      className={`word-span ${isSelected ? 'highlighted' : ''}`}
+      onClick={(e) => handleClick(e)}
+    >
+      {props.word}{infobox}
+    </span>
   )
 }

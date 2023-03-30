@@ -17,48 +17,64 @@ body, .App {
 
 #reader-body {
   white-space: pre-wrap;
-  height: 100vh;
-  overflow-y: auto;
+  /* height: 100vh;
+  overflow-y: auto; */
   max-width: 380px;
+  position: relative;
 }
 
 #dictionary-container {
-  /* width: 100%; */
-  /* overflow-y: auto; */
-  /* min-height: 100vh; */
-  top: 0;
+  font-size: smaller;
+  
+  /* top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  /* padding: auto 10px; */
   position: fixed;
-  /* margin: auto 0; */
-  /* z-index: 1; */
-  /* min-width: 380px; */
   background-color: #fdfdfd;
   display: flex;
   flex-direction: column;
-  justify-content:center;
-  
-  /* overflow-y: auto; */
+  justify-content:center; */
 }
 
 #hexapla {
+  margin: 0 auto;
+  padding: 0 !important;
   max-width: 380px;
+  /* overflow-y: auto; */
+}
+
+.faded {
+  opacity: 50%;
+}
+
+.infobox {
+  background-color: #fdfdfd;
+  padding: 12px;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  max-height: 200px;
   overflow-y: auto;
-  /* max-width: 320px; */
-  /* display: flex;
-  flex-direction: column;
-  justify-content:center;
-  overflow-y: auto; */
+}
+
+.infobox-top {
+  top: 0;
+}
+
+.infobox-bottom {
+  bottom: 0;
+}
+
+.highlighted {
+  background: #d3d3d3;
 }
 
 .action-heading {
   display: flex;
   justify-content: space-between;
 }
-
-
 
 .scroll {
   

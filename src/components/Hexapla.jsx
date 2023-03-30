@@ -3,16 +3,23 @@ import { clipTags } from '../services/helpers';
 export default function Hexapla(props) {
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
 
-  function handleClick() {
-    setLookupHistory([...lookupHistory, null]);
+  function handleClick(e) {
+    e.stopPropagation();
+    setLookupHistory([...lookupHistory.slice(), null]);
+  }
+  
+  function makeHeading(headingText) {
+    return (
+      <div className="action-heading">
+          <h5>{headingText}</h5>
+          <h5 className="faded" onClick={(e) => handleClick(e)}>X</h5>
+      </div>
+    );
   }
 
   const lookupErr = props.mostRecent && props.mostRecent.wikt.response.error ?
-    <div>
-      <div className="action-heading">
-        <h5>{props.mostRecent.wikt.response.title}</h5>
-        <span onClick={() => handleClick()}>X</span>
-      </div>
+    <div id="hexapla">
+      {makeHeading(props.mostRecent.wikt.response.title)}
       <p>
         {props.mostRecent.wikt.response.detail}
       </p>
@@ -21,12 +28,9 @@ export default function Hexapla(props) {
   const dictionary = props.mostRecent ? (lookupErr ?
     lookupErr
     : 
-    <div id="hexapla" className="container-fluid">
+    <div id="hexapla" className="">
       <div>
-      <div className="action-heading">
-        <h5>{props.mostRecent.term}</h5>
-        <span onClick={() => handleClick()}>X</span>
-      </div>
+      {makeHeading(props.mostRecent.term)}
       {
         props.mostRecent.wikt.response.en?.map((entry, idx0) => (
           <div key={`entry-${idx0}`}>
