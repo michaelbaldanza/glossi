@@ -30,16 +30,14 @@ export default function Reader() {
       }
     </div>
   ));
-
+  
   const reader = submission.body.length
     ?
     <div id="reader-container">
-      <div className="scroll">
-        <div id="reader-body" className="">
-          {
-            words
-          }
-        </div>
+      <div id="reader-body" className="">
+        {
+          words
+        }
       </div>
     </div>
     :

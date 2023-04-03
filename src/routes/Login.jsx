@@ -3,31 +3,23 @@ import { redirect, useNavigate, useOutletContext } from 'react-router-dom';
 import { getUser, login } from '../services/users';
 
 export function action() {
-  console.log(`hitting login action`)
   return redirect('/');
 }
 
 export default function Login(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [creds, setCreds] = useState({email: '', password: ''});
   const [user, setUser] = useOutletContext();
   const navigate = useNavigate();
 
-  function handleEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function handlePassword(e) {
-    setPassword(e.target.value);
+  function handleChange(e) {
+    setCreds({
+      ...creds,
+      [e.target.name]: e.target.value,
+    });
   }
   
   async function handleSubmit(e) {
     e.preventDefault();
-    const creds = {
-      email: email,
-      password: password,
-    };
-    console.log(`hitting login handleSubmit`)
     try {
       await login(creds);
       setUser(getUser);
@@ -38,15 +30,15 @@ export default function Login(props) {
   }
   
   return (
-    <div>
+    <div className="form-container">
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="email">Email</label>
-          <input className="form-control" type="text" onChange={handleEmail} />
+          <input className="form-control" name="email" type="text" onChange={handleChange} />
         </div>
         <div className="mb-3">
           <label htmlFor="password">Password</label>
-          <input className="form-control" type="text" onChange={handlePassword} />
+          <input className="form-control" name="password" type="text" onChange={handleChange} />
         </div>
         <button type="submit" className="btn btn-primary">
           Go

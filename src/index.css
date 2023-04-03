@@ -1,12 +1,16 @@
-body, .App {
+.App {
   background-color: #fdfdfd;
   font-family: Georgia, 'Times New Roman', Times, serif;
   max-width: 1200px;
-  margin: 0 auto;
 }
 
 #nonfooter {
   min-height: 100vh;
+}
+
+.form-container {
+  max-width: 380px;
+  margin: 0 auto;
 }
 
 .scroll {
@@ -17,31 +21,20 @@ body, .App {
 
 #reader-body {
   white-space: pre-wrap;
-  /* height: 100vh;
-  overflow-y: auto; */
   max-width: 380px;
   position: relative;
+  margin: 0 auto;
 }
 
 #dictionary-container {
   font-size: smaller;
-  
-  /* top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  position: fixed;
-  background-color: #fdfdfd;
-  display: flex;
-  flex-direction: column;
-  justify-content:center; */
 }
 
 #hexapla {
   margin: 0 auto;
   padding: 0 !important;
   max-width: 380px;
-  /* overflow-y: auto; */
+
 }
 
 .faded {
@@ -59,14 +52,6 @@ body, .App {
   overflow-y: auto;
 }
 
-.infobox-top {
-  top: 0;
-}
-
-.infobox-bottom {
-  bottom: 0;
-}
-
 .highlighted {
   background: #d3d3d3;
 }
@@ -74,10 +59,6 @@ body, .App {
 .action-heading {
   display: flex;
   justify-content: space-between;
-}
-
-.scroll {
-  
 }
 
 .line {
@@ -105,8 +86,6 @@ body, .App {
     position: static;
   } */
   #reader-container {
-    max-width: 768px;
-    margin: 0 auto;
     /* display: flex;
     justify-content: space-evenly; */
   }
@@ -121,18 +100,41 @@ body, .App {
 }
 
 @media (min-width: 768px) {
-  
+  #reader-container {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  #reader-body {
+    margin: 0;
+  }
+
+  .scroll {
+    margin: 0;
+  }
+
+  .word-span {
+    position: relative;
+  }
+
+  .infobox {
+    position: absolute;
+    width: 380px;
+  }
+
+  .parallel-scroll {
+
+  }
 }
 
 @media (min-width: 1024px) {
   .App {
-    /* max-width: 760px; */
     margin: auto;
   }
   #reader-container {
     min-width: 768px;
-    display: flex;
-    justify-content: space-between;
+    /* display: flex;
+    justify-content: space-between; */
     /* max-width: 940px;
     margin: 0 auto; */
     /* display: flex;
@@ -146,7 +148,9 @@ body, .App {
 }
 
 @media (min-width: 1200px) {
-        
+  #reader-body {
+    margin: 0 auto;
+  }
 }
 
 #error-page {

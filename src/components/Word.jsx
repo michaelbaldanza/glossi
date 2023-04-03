@@ -4,7 +4,8 @@ import { get, lexica } from '../services/dictionaries.js'
 import { useState } from 'react';
 
 export default function Word(props) {
-  const [y, setY] = useState(null);
+  const [position, setPosition] = useState(null);
+  const [readerPosition, setReaderPosition] = useState(null);
 
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const numLookups = lookupHistory.length;
@@ -12,11 +13,8 @@ export default function Word(props) {
   const isSelected = mostRecent?.wordId === props.wordId ? true : false;
 
   async function handleClick(e) {
-    console.log(mostRecent);
-    console.log(`hitting handleClick`)
-    const newY = e.target.getBoundingClientRect().top;
-    setY(newY)
-    console.log(`newY is ${newY}`);
+    setPosition(e.target.getBoundingClientRect());
+    setReaderPosition(e.target.parentNode.getBoundingClientRect());
     const lookup = depunctuate(props.word).toLowerCase();
     const termres = await get(lexica.wikt.args(lookup));
     const resObj = termres.title && termres.detail ? {
@@ -44,7 +42,8 @@ export default function Word(props) {
       lookupHistory={[lookupHistory, setLookupHistory]}
       mostRecent={mostRecent}
       word={props.word}
-      y={y}
+      position={position}
+      readerPosition={readerPosition}
     />
     : ''
   ;  

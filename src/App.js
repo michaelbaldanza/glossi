@@ -1,23 +1,18 @@
 import './App.css';
 import React, { useState } from 'react';
 import { Form, Link, Outlet, useNavigate } from 'react-router-dom';
-import { lexica } from './services/dictionaries';
 import { getUser, logout } from './services/users';
-import { capitalize, clipTags } from './services/helpers';
+import { clipTags } from './services/helpers';
 
 function App() {
   const [lookupHistory, setLookupHistory] = useState([]);
-  console.log(`here's the lookup history`)
-  console.log(lookupHistory)
   const [user, setUser] = useState(getUser());
   const mostRecent = lookupHistory[lookupHistory.length - 1];
   const navigate = useNavigate();
-  console.log(user);
   function handleLogout(e) {
     e.preventDefault();
     logout();
     setUser(null);
-    console.log('in handleLogout right about navigate("/"')
     navigate('/');
   }
 
@@ -109,12 +104,9 @@ function App() {
         <nav className="navbar navbar-expand-sm">
           {logged}
         </nav>
-        <div className="container-fluid">
+        <main className="container-fluid">
           <Outlet context={[user, setUser]} />
-        </div>
-        <div className="container-fluid">
-          {responses}
-        </div>
+        </main>
       </div>
       <footer className="container-fluid">
         Definitions from <a className="text-decoration-none" href="https://en.wiktionary.org/wiki/Wiktionary:Main_Page">Wiktionary</a>, provided by <a className="text-decoration-none" href="https://en.wiktionary.org/api/rest_v1/">the Wikimedia REST API</a>.

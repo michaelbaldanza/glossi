@@ -3,8 +3,6 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { getUser, signup } from '../services/users'; 
 
 export default function Signup(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [creds, setCreds] = useState({email: '', password: ''});
   const [user, setUser] = useOutletContext();
   const navigate = useNavigate();
@@ -13,7 +11,7 @@ export default function Signup(props) {
     setCreds({
       ...creds,
       [e.target.name]: e.target.value,
-    })
+    });
   }
 
   async function handleSubmit(e) {
@@ -28,7 +26,7 @@ export default function Signup(props) {
   }
   
   return (
-    <div>
+    <div className="form-container">
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="email">Email</label>
