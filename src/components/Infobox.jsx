@@ -3,14 +3,14 @@ import Hexapla from './Hexapla';
 export default function Infobox(props) {
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const [x, y, bottom] = [
-    props.position.x,
-    props.position.y,
-    props.position.bottom
+    props?.position.x,
+    props?.position.y,
+    props?.position.bottom
   ];
   const [rX, rWidth, rRight] = [
-    props.readerPosition.x,
-    props.readerPosition.width,
-    props.readerPosition.right
+    props?.readerPosition.x,
+    props?.readerPosition.width,
+    props?.readerPosition.right
   ];
 
   const position = window.innerWidth > 767 ?
@@ -20,7 +20,7 @@ export default function Infobox(props) {
   ;
 
   return (
-      <div className={`infobox ${position}`} style={position} >
+      <div className={`infobox`} style={position} >
         {
             props.mostRecent ?
             <div id="dictionary-container" className={``}>

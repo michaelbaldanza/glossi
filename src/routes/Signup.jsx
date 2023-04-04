@@ -3,7 +3,11 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { getUser, signup } from '../services/users'; 
 
 export default function Signup(props) {
-  const [creds, setCreds] = useState({email: '', password: ''});
+  const [creds, setCreds] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
   const [user, setUser] = useOutletContext();
   const navigate = useNavigate();
   
@@ -28,6 +32,10 @@ export default function Signup(props) {
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label htmlFor="username">Username</label>
+          <input className="form-control" name="username" type="text" onChange={handleChange} />
+        </div>
         <div className="mb-3">
           <label htmlFor="email">Email</label>
           <input className="form-control" name="email" type="text" onChange={handleChange} />

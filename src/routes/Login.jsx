@@ -7,7 +7,10 @@ export function action() {
 }
 
 export default function Login(props) {
-  const [creds, setCreds] = useState({email: '', password: ''});
+  const [creds, setCreds] = useState({
+    emailOrUsername: '',
+    password: '',
+  });
   const [user, setUser] = useOutletContext();
   const navigate = useNavigate();
 
@@ -33,8 +36,8 @@ export default function Login(props) {
     <div className="form-container">
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="email">Email</label>
-          <input className="form-control" name="email" type="text" onChange={handleChange} />
+          <label htmlFor="username">Email or username</label>
+          <input className="form-control" name="emailOrUsername" type="text" onChange={handleChange} />
         </div>
         <div className="mb-3">
           <label htmlFor="password">Password</label>

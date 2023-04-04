@@ -1,6 +1,9 @@
-.App {
+body {
   background-color: #fdfdfd;
   font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.App {
   max-width: 1200px;
 }
 
@@ -17,6 +20,26 @@
   margin: 0 auto;
   position: relative;
   max-width: 380px;
+}
+
+#reader-header {
+  margin: 0 auto;
+  max-width: 380px;
+  /* display: flex; */
+}
+
+#reader-header > h1 {
+  margin-bottom: 0;
+}
+
+.toolbar {
+
+}
+
+
+.toolbar-btn {
+  padding: 0;
+  margin: auto 0;
 }
 
 #reader-body {
@@ -42,7 +65,6 @@
 }
 
 .infobox {
-  background-color: #fdfdfd;
   padding: 12px;
   position: fixed;
   z-index: 1;
@@ -82,27 +104,21 @@
 }
 
 @media (min-width: 640px) {
-  /* #reader-body, #dictionary-container {
-    position: static;
-  } */
-  #reader-container {
-    /* display: flex;
-    justify-content: space-evenly; */
-  }
-  
-  #dictionary-container {
-    /* min-width: 380px; */
-    /* max-width: 380px; */
-    /* width: 280px; */
-    /* font-size: 0.81em; */
-    /* max-height: 100vh; */
-  }
+
 }
 
 @media (min-width: 768px) {
+  .toolbar {
+    margin: 0;
+  }
+
   #reader-container {
     max-width: 768px;
     margin: 0 auto;
+  }
+
+  #reader-header {
+    margin: 0;
   }
 
   #reader-body {
@@ -120,6 +136,8 @@
   .infobox {
     position: absolute;
     width: 380px;
+    margin: 0 12px;
+    border: 1px rgba(239, 239, 240, 0.5) solid;
   }
 
   .parallel-scroll {
@@ -133,24 +151,11 @@
   }
   #reader-container {
     min-width: 768px;
-    /* display: flex;
-    justify-content: space-between; */
-    /* max-width: 940px;
-    margin: 0 auto; */
-    /* display: flex;
-    justify-content: space-around; */
-
-  }
-
-  .scroll {
-    
   }
 }
 
 @media (min-width: 1200px) {
-  #reader-body {
-    margin: 0 auto;
-  }
+
 }
 
 #error-page {
