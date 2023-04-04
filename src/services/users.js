@@ -47,4 +47,4 @@ export {
   login,
   logout,
   signup,
-}
+};

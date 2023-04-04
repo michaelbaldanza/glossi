@@ -1,18 +1,20 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const Scroll = require('../models/scroll');
 
-const scrollSchema = new Schema({
-  title: { type: String, },
-  body: { type: String, required: true },
-  source: { type: String, },
-  createdBy: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  decks: [{ type: Schema.Types.ObjectId, ref: 'Deck', required: true, }],
-}, {
-  timestamps: true,
-});
+async function create(req, res) {
+  const existing = await Scroll.find({})
+    .then(allScrolls => {
+      console.log(allScrolls);
+    });
+  const scroll = new Scroll(req.body);
+  scroll.createdBy = req.user._id;
+  try {
+    await scroll.save()
+  } catch (err) {
+    res.status(400).json(err);
+    console.log(err);
+  }
+}
 
-module.exports.model('Scroll', scrollSchema);
+module.exports = {
+  create: create,
+};
