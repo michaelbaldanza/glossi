@@ -14,7 +14,7 @@ function create(scroll) {
   .then(res => {
     if (res.ok) return res.json();
     throw new Error('bad credentials');
-  })
+  });
 }
 
 export {

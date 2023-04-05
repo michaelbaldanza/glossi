@@ -7,6 +7,7 @@ import { clipTags } from './services/helpers';
 function App() {
   const [lookupHistory, setLookupHistory] = useState([]);
   const [user, setUser] = useState(getUser());
+  console.log(user);
   const mostRecent = lookupHistory[lookupHistory.length - 1];
   const navigate = useNavigate();
   function handleLogout(e) {

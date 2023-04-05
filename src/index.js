@@ -7,6 +7,7 @@ import {
 import './index.css';
 import App from './App';
 import Lookup from './routes/lookup';
+import Profile from './routes/Profile'
 import Login, { action as loginAction } from './routes/Login';
 import Signup from './routes/Signup';
 import Reader from './routes/Reader';
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: 'reader',
         element: <Reader />,
+      },
+      {
+        path: 'profile',
+        element: <Profile />
       },
       {
         path:'lookup',

@@ -11,31 +11,18 @@ body {
   min-height: 100vh;
 }
 
-.form-container {
-  max-width: 380px;
-  margin: 0 auto;
-}
-
 .scroll {
-  margin: 0 auto;
   position: relative;
-  max-width: 380px;
 }
 
-#reader-header {
+.scroll, #reader-header, #hexapla, #reader-body, .form-container, .form-container > form, .inner-container{
   margin: 0 auto;
   max-width: 380px;
-  /* display: flex; */
 }
 
 #reader-header > h1 {
   margin-bottom: 0;
 }
-
-.toolbar {
-
-}
-
 
 .toolbar-btn {
   padding: 0;
@@ -44,20 +31,11 @@ body {
 
 #reader-body {
   white-space: pre-wrap;
-  max-width: 380px;
   position: relative;
-  margin: 0 auto;
 }
 
 #dictionary-container {
   font-size: smaller;
-}
-
-#hexapla {
-  margin: 0 auto;
-  padding: 0 !important;
-  max-width: 380px;
-
 }
 
 .faded {
@@ -99,6 +77,15 @@ body {
   word-break: keep-all;
 }
 
+.scroll-preview-container {
+  padding: 12px;
+  border: 1px rgba(239, 239, 240, 1) solid;
+}
+
+.scroll-preview {
+  font-size: smaller;
+}
+
 .nav-btn {
   height: 40px;
 }
@@ -108,24 +95,12 @@ body {
 }
 
 @media (min-width: 768px) {
-  .toolbar {
-    margin: 0;
-  }
-
-  #reader-container {
+  #reader-container, .form-container, .outer-container {
     max-width: 768px;
     margin: 0 auto;
   }
 
-  #reader-header {
-    margin: 0;
-  }
-
-  #reader-body {
-    margin: 0;
-  }
-
-  .scroll {
+  #reader-header, #reader-body, .scroll, .toolbar, .form-container > form, .inner-container  {
     margin: 0;
   }
 
@@ -139,18 +114,11 @@ body {
     margin: 0 12px;
     border: 1px rgba(239, 239, 240, 0.5) solid;
   }
-
-  .parallel-scroll {
-
-  }
 }
 
 @media (min-width: 1024px) {
   .App {
     margin: auto;
-  }
-  #reader-container {
-    min-width: 768px;
   }
 }
 

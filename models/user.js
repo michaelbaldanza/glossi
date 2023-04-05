@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, },
   bio: { type: String, },
   profilePictureUrl: { type: String, },
+  scrolls: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Scroll' }]
 }, {
   timestamps: true,
 });

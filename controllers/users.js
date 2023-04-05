@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Scroll = require('../models/scroll');
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET;
 
@@ -43,7 +44,18 @@ async function signup(req, res) {
   };
 }
 
+async function indexUserScrolls(req, res) {
+  console.log(`LOOKING FOR USER SCROLLS`)
+  const user = await User.findById(req.user._id).exec();
+  // console.log(`logging user`)
+  // console.log(user);
+  await user.populate('scrolls');
+  const scrolls = user.scrolls;
+  res.json(user.scrolls);
+}
+
 module.exports = {
   login: login,
   signup: signup,
+  index: indexUserScrolls,
 }

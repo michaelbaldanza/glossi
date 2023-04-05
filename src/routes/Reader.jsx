@@ -53,10 +53,9 @@ export default function Reader() {
     </svg>
   ;
 
-
   const reader = editMode
     ?
-    <div id="reader-container">
+    <div className="outer-container" id="reader-container">
       <div id="reader-header">
         <h1>
           {
