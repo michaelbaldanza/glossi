@@ -53,7 +53,7 @@ async function indexUserScrolls(req, res) {
     await user.populate('scrolls');
     res.json(user.scrolls);
   } else {
-    const scrolls = await Scroll.find({}).sort({createdAt: 'desc'}).limit(2);
+    const scrolls = await Scroll.find({}).sort({createdAt: 'desc'}).limit(5);
     res.json(scrolls);
   }
 
