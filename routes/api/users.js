@@ -5,9 +5,10 @@ const usersCtrl = require('../../controllers/users');
 /*---------- Public Routes ----------*/
 router.post('/login', usersCtrl.login);
 router.post('/signup', usersCtrl.signup);
+router.get('/profile', usersCtrl.index);
 
 /*---------- Protected Routes ----------*/
 router.use(require('../../config/auth'));
-router.get('/profile', usersCtrl.index);
+
 
 module.exports = router;

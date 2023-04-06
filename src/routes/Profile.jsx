@@ -33,7 +33,7 @@ export default function Profile() {
               <div className="scroll-preview-container">
                 <h5>{scroll.title ? scroll.title : 'untitled'}</h5>
                 <div className="scroll-preview">
-                  {scroll.body.slice(0,140) + '...'}
+                  {scroll.body.slice(0,70) + '...'}
                 </div>
               </div>
             ))

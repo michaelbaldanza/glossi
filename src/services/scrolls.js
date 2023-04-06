@@ -17,6 +17,13 @@ function create(scroll) {
   });
 }
 
+async function getScroll(scrollId) {
+  console.log(scrollId);
+  console.log(`awaiting fetch`)
+  return await fetch(BASE_URL + scrollId).then(res => res.json());
+}
+
 export {
   create,
+  getScroll,
 };

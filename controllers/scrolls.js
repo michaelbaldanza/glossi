@@ -22,6 +22,13 @@ async function create(req, res) {
   }
 }
 
+async function show(req, res) {
+  const scroll = await Scroll.findById(req.params.id);
+  console.log(scroll)
+  res.json(scroll);
+}
+
 module.exports = {
   create: create,
+  show: show,
 };

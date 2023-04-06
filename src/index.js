@@ -6,13 +6,16 @@ import {
 } from 'react-router-dom';
 import './index.css';
 import App from './App';
+import Index, { loader as indexLoader } from './routes/Index';
 import Lookup from './routes/lookup';
 import Profile from './routes/Profile'
 import Login, { action as loginAction } from './routes/Login';
+import Scroll, { loader as scrolLoader } from './routes/Scroll.jsx';
 import Signup from './routes/Signup';
 import Reader from './routes/Reader';
 import ErrorPage from './error-page';
 import reportWebVitals from './reportWebVitals';
+
 
 const router = createBrowserRouter([
   {
@@ -21,24 +24,39 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'reader',
-        element: <Reader />,
-      },
-      {
-        path: 'profile',
-        element: <Profile />
-      },
-      {
-        path:'lookup',
-        element: <Lookup />,
-      },
-      {
-        path: 'login',
-        element: <Login />,
-      },
-      {
-        path: 'signup',
-        element: <Signup />
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            index: true,
+            element: <Index />,
+            loader: indexLoader,
+          },
+          {
+            path: 'scrolls/:scrollId',
+            element: <Scroll />,
+            loader: scrolLoader,
+          },
+          {
+            path: 'reader',
+            element: <Reader />,
+          },
+          {
+            path: 'profile',
+            element: <Profile />
+          },
+          {
+            path:'lookup',
+            element: <Lookup />,
+          },
+          {
+            path: 'login',
+            element: <Login />,
+          },
+          {
+            path: 'signup',
+            element: <Signup />
+          }
+        ]
       }
     ],
   },

@@ -45,13 +45,19 @@ async function signup(req, res) {
 }
 
 async function indexUserScrolls(req, res) {
-  console.log(`LOOKING FOR USER SCROLLS`)
-  const user = await User.findById(req.user._id).exec();
-  // console.log(`logging user`)
-  // console.log(user);
-  await user.populate('scrolls');
-  const scrolls = user.scrolls;
-  res.json(user.scrolls);
+  if (req.user) {
+    console.log(`LOOKING FOR USER SCROLLS`)
+    const user = await User.findById(req.user._id).exec();
+    // console.log(`logging user`)
+    // console.log(user);
+    await user.populate('scrolls');
+    res.json(user.scrolls);
+  } else {
+    const scrolls = await Scroll.find({}).sort({createdAt: 'desc'}).limit(2);
+    res.json(scrolls);
+  }
+
+  
 }
 
 module.exports = {
