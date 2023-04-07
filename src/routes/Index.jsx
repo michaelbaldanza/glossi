@@ -26,7 +26,7 @@ export default function Index() {
     <div className="outer-container">
       <div className="inner-container">
         <div>
-          <h3>{user ? user.username + "'s" : 'Most recent'} scrolls</h3>
+          <h3>{user ? user.username + "'s" : 'Recent'} scrolls</h3>
           { 
               scrolls.map((scroll, idx1) => (
                 <Link to={`scrolls/${scroll._id}`} className="link-dark text-decoration-none">

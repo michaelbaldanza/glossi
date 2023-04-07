@@ -10,6 +10,7 @@ import Index, { loader as indexLoader } from './routes/Index';
 import Lookup from './routes/lookup';
 import Profile from './routes/Profile'
 import Login, { action as loginAction } from './routes/Login';
+import { action as scrollDeleteAction } from './routes/ScrollDelete';
 import ScrollPage, { loader as scrolLoader } from './routes/ScrollPage.jsx';
 import Signup from './routes/Signup';
 import Reader from './routes/Reader';
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
             path: 'scrolls/:scrollId',
             element: <ScrollPage />,
             loader: scrolLoader,
+          },
+          {
+            path: 'scrolls/:scrollId/delete',
+            action: scrollDeleteAction,
           },
           {
             path: 'reader',

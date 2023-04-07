@@ -17,6 +17,19 @@ function create(scroll) {
   });
 }
 
+async function deleteScroll(scrollId) {
+  console.log(`hitting scrolls/service deleteScroll`)
+  const options = {
+    method: 'DELETE',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + getToken(),
+    }),
+  }
+  await fetch(BASE_URL + scrollId + '/delete', options);
+  return true;
+}
+
 async function getScroll(scrollId) {
   console.log(scrollId);
   console.log(`awaiting fetch`)
@@ -25,5 +38,6 @@ async function getScroll(scrollId) {
 
 export {
   create,
+  deleteScroll,
   getScroll,
 };

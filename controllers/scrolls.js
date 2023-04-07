@@ -22,6 +22,11 @@ async function create(req, res) {
   }
 }
 
+async function deleteScroll(req, res) {
+  await Scroll.deleteOne({ _id: req.params.id });
+  res.json('delete successful')
+}
+
 async function show(req, res) {
   const scroll = await Scroll.findById(req.params.id);
   console.log(scroll)
@@ -30,5 +35,6 @@ async function show(req, res) {
 
 module.exports = {
   create: create,
+  delete: deleteScroll,
   show: show,
 };

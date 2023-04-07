@@ -7,5 +7,6 @@ router.get('/:id', scrollsCtrl.show);
 /*---------- Protected Routes ----------*/
 router.use(require('../../config/auth'));
 router.post('/save', scrollsCtrl.create);
+router.delete('/:id/delete', scrollsCtrl.delete);
 
 module.exports = router;
