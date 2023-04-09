@@ -16,7 +16,7 @@ export default function Word(props) {
     console.log(e._reactName);
     const eName = e._reactName;
     if (eName === 'onClick') {
-      alert(`${eName} event!`)
+      alert(`get ${props.word}`)
     }
     setPosition(e.target.getBoundingClientRect());
     setReaderPosition(e.target.parentNode.getBoundingClientRect());
@@ -57,7 +57,6 @@ export default function Word(props) {
       id={props.wordId}
       className={`word-span ${isSelected ? 'highlighted' : ''}`}
       onClick={(e) => handleClick(e)}
-      onTouchStart={(e) => handleClick(e)}
     >
       {props.word}{infobox}
     </span>
