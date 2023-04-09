@@ -50,6 +50,7 @@ body {
   right: 0;
   max-height: 200px;
   overflow-y: auto;
+  background-color: #fdfdfd;
 }
 
 .highlighted {
@@ -75,6 +76,7 @@ body {
 
 .word-span {
   word-break: keep-all;
+  cursor: pointer;
 }
 
 .scroll-preview-container {
