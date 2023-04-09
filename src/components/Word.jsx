@@ -13,6 +13,11 @@ export default function Word(props) {
   const isSelected = mostRecent?.wordId === props.wordId ? true : false;
 
   async function handleClick(e) {
+    console.log(e._reactName);
+    const eName = e._reactName;
+    if (eName === 'onClick') {
+      alert(`${eName} event!`)
+    }
     setPosition(e.target.getBoundingClientRect());
     setReaderPosition(e.target.parentNode.getBoundingClientRect());
     const lookup = depunctuate(props.word).toLowerCase();
