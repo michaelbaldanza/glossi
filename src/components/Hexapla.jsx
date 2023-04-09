@@ -15,7 +15,6 @@ export default function Hexapla(props) {
           <h5
             className="faded"
             onClick={(e) => handleClick(e)}
-            onTouchStart={(e) => handleClick(e)}
           >
             X
           </h5>
@@ -31,7 +30,7 @@ export default function Hexapla(props) {
       </p>
     </div> : null;
     
-  const dictionary = props.mostRecent ? (lookupErr ?
+  const dictionary = props.mostRecent.wikt.response !== 'error' ? (lookupErr ?
     lookupErr
     : 
     <div id="hexapla" className="">
@@ -54,7 +53,34 @@ export default function Hexapla(props) {
       }
       </div>
     </div>
-    ) : ''
+    )
+    :
+    <div id="hexapla">
+      <div>
+        {makeHeading(props.mostRecent.term)}
+      </div>
+      {
+        props.mostRecent.fd.response.map((entry, idx0) => (
+          <div key={`entry-${idx0}`}>
+            {
+              entry.meanings.map((meaning, idx1) => (
+                <div key={`meaning-${idx0}-${idx1}`}>
+                  {
+                    meaning.definitions.map((definition, idx2) => (
+                      <div key={`definition-${idx0}-${idx1}-${idx2}`}>
+                        {
+                          definition.definition
+                        }
+                      </div>
+                    ))
+                  }
+                </div>
+              ))
+            }
+          </div>
+        ))
+      }
+    </div>
   ;
 
   return (

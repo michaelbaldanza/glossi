@@ -13,11 +13,6 @@ export default function Word(props) {
   const isSelected = mostRecent?.wordId === props.wordId ? true : false;
 
   async function handleClick(e) {
-    console.log(e._reactName);
-    const eName = e._reactName;
-    if (eName === 'onClick') {
-      alert(`get ${props.word}`)
-    }
     setPosition(e.target.getBoundingClientRect());
     setReaderPosition(e.target.parentNode.getBoundingClientRect());
     const lookup = depunctuate(props.word).toLowerCase();
@@ -30,15 +25,25 @@ export default function Word(props) {
     :
       termres
     ;
+    const fdRes = await get(lexica.fd.args(lookup));
     const wikt = {
       ...lexica.wikt,
       'response': resObj,
     };
+
+    const fd = {
+      ...lexica.fd,
+      'response': fdRes,
+    }
+    console.log(fd);
     const responses = {
       'term': lookup,
       'wordId': props.wordId,
       'wikt': wikt,
+      'fd': fd,
     };
+    console.log(`here's the fd res`)
+    console.log(fdRes)
     setLookupHistory([...lookupHistory.slice(), responses]);
   }
 

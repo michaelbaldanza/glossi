@@ -24,19 +24,13 @@ export const lexica = {
 };
 
 export async function get(term) {
-  if (Array.isArray(term)) {
-    const data = await fetch(...term)
-    .then((res) => res.json()
-    .then((data) => {
-      return data;
-    }));
-    return data;
-  } else {
-    const data = await fetch(term)
-    .then((res) => res.json()
-    .then((data) => {
-      return data;
-    }));
-    return data;
+  try {
+    const data = Array.isArray(term) ?
+      await fetch(...term) : await fetch(term)
+    ;
+    return data.json();
+  } catch (error) {
+    console.error(error);
+    return `error`;
   }
 }
