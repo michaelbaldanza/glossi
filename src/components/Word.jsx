@@ -52,6 +52,7 @@ export default function Word(props) {
       id={props.wordId}
       className={`word-span ${isSelected ? 'highlighted' : ''}`}
       onClick={(e) => handleClick(e)}
+      onTouchStart={(e) => handleClick(e)}
     >
       {props.word}{infobox}
     </span>

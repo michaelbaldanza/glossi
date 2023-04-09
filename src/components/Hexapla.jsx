@@ -12,7 +12,13 @@ export default function Hexapla(props) {
     return (
       <div className="action-heading">
           <h5>{headingText}</h5>
-          <h5 className="faded" onClick={(e) => handleClick(e)}>X</h5>
+          <h5
+            className="faded"
+            onClick={(e) => handleClick(e)}
+            onTouchStart={(e) => handleClick(e)}
+          >
+            X
+          </h5>
       </div>
     );
   }
