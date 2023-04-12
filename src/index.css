@@ -24,6 +24,10 @@ body {
   margin-bottom: 0;
 }
 
+.toolbar {
+  display: flex;
+}
+
 .toolbar-btn {
   padding: 0;
   margin: auto 0;
@@ -102,7 +106,11 @@ body {
     margin: 0 auto;
   }
 
-  #reader-header, #reader-body, .scroll, .toolbar, .form-container > form, .inner-container  {
+  #reader-header {
+    max-width: 768px;
+  }
+
+  #reader-body, .scroll, .toolbar, .form-container > form, .inner-container  {
     margin: 0;
   }
 

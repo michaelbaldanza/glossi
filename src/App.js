@@ -7,7 +7,6 @@ import { clipTags } from './services/helpers';
 function App() {
   const [lookupHistory, setLookupHistory] = useState([]);
   const [user, setUser] = useState(getUser());
-  console.log(user);
   const mostRecent = lookupHistory[lookupHistory.length - 1];
   const navigate = useNavigate();
   function handleLogout(e) {
@@ -69,7 +68,7 @@ function App() {
             user ?
             <>
               <li className="nav-item">
-                <Link className="nav-link" to={`/profile`}>View profile</Link>
+                <Link className="nav-link" to={`/users/${user.username}`}>{user.username}</Link>
               </li>
               <li className="nav-item">
                 <Form

@@ -6,6 +6,10 @@ function getUser() {
   return getUserFromToken();
 }
 
+async function getByUsername(username) {
+  return await fetch(BASE_URL + username).then(res => res.json());
+}
+
 async function getUserDecksAndScrolls() {
   const options = {
     method: 'GET',
@@ -55,6 +59,7 @@ async function signup(user) {
 
 export {
   getUser,
+  getByUsername,
   getUserDecksAndScrolls,
   login,
   logout,

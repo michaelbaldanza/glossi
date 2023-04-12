@@ -1,5 +1,7 @@
-import { getToken } from '../services/tokens';
 import { Link, useLoaderData, useOutletContext } from 'react-router-dom';
+import ScrollPreview from '../components/ScrollPreview';
+import { getToken } from '../services/tokens';
+import { index } from '../services/scrolls';
 
 export async function loader() {
   const BASE_URL = '/api/users/';
@@ -12,31 +14,25 @@ export async function loader() {
   }
   const userScrolls = await fetch(BASE_URL + 'profile', options)
     .then(response => response.json())
-  console.log(userScrolls)
-  // }
-  // const userScrolls = '';
-  return userScrolls;
+  const scrolls = await index();
+  return scrolls;
 }
 
 export default function Index() {
   const [user, setUser] = useOutletContext();
+  console.log(user);
   const scrolls = useLoaderData();
-  console.log(scrolls);
   return (
     <div className="outer-container">
       <div className="inner-container">
         <div>
-          <h3>{user ? user.username + "'s" : 'Recent'} scrolls</h3>
+          <h3>Recent scrolls</h3>
           { 
               scrolls.map((scroll, idx1) => (
-                <Link to={`scrolls/${scroll._id}`} className="link-dark text-decoration-none">
-                  <span className="scroll-preview-container" style={{'display': 'block'}}>
-                    <h5>{scroll.title ? scroll.title : 'untitled'}</h5>
-                    <span className="scroll-preview" style={{'display': 'block'}}>
-                      {scroll.body.slice(0,70) + '...'}
-                    </span>
-                  </span>
-                </Link>
+                <ScrollPreview
+                  key={idx1 + '-' + scroll._id}
+                  scroll={scroll}
+                />
               ))
           }
         </div>

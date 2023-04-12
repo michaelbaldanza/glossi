@@ -11,6 +11,11 @@ function createJWT(user) {
   );
 }
 
+async function getByUsername(req, res) {
+  const user = await User.find({ username: req.params.username }).populate('scrolls');
+  res.json(user);
+}
+
 async function login(req, res) {
   try {
     const user = await User.findOne({ $or: [
@@ -48,19 +53,16 @@ async function indexUserScrolls(req, res) {
   if (req.user) {
     console.log(`LOOKING FOR USER SCROLLS`)
     const user = await User.findById(req.user._id).exec();
-    // console.log(`logging user`)
-    // console.log(user);
     await user.populate('scrolls');
     res.json(user.scrolls);
   } else {
     const scrolls = await Scroll.find({}).sort({createdAt: 'desc'}).limit(5);
     res.json(scrolls);
-  }
-
-  
+  } 
 }
 
 module.exports = {
+  getByUsername: getByUsername,
   login: login,
   signup: signup,
   index: indexUserScrolls,

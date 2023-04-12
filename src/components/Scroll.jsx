@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ScrollToolbar from './ScrollToolbar';
 import Word from './Word';
 import { breakLines } from '../services/helpers';
 
@@ -32,7 +33,8 @@ export default function Scroll(props) {
   return (
     <>
       <div id="reader-header">
-        <h1>{props.scroll.title ? props.scroll.title : 'untitled'}</h1>
+        <h3>{props.scroll.title ? props.scroll.title : 'untitled'}</h3>
+        <ScrollToolbar scroll={props.scroll} />
       </div>
       <div id="reader-body">
         {words}

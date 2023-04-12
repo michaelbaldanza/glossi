@@ -8,10 +8,11 @@ import './index.css';
 import App from './App';
 import Index, { loader as indexLoader } from './routes/Index';
 import Lookup from './routes/lookup';
-import Profile from './routes/Profile'
+import UserPage, { loader as userPageLoader } from './routes/UserPage'
 import Login, { action as loginAction } from './routes/Login';
 import { action as scrollDeleteAction } from './routes/ScrollDelete';
-import ScrollPage, { loader as scrolLoader } from './routes/ScrollPage.jsx';
+import ScrollEdit, { action as scrollEditAction, loader as scrollEditLoader } from './routes/ScrollEdit';
+import ScrollPage, { loader as scrollLoader } from './routes/ScrollPage.jsx';
 import Signup from './routes/Signup';
 import Reader from './routes/Reader';
 import ErrorPage from './error-page';
@@ -35,19 +36,30 @@ const router = createBrowserRouter([
           {
             path: 'scrolls/:scrollId',
             element: <ScrollPage />,
-            loader: scrolLoader,
+            loader: scrollLoader,
           },
           {
             path: 'scrolls/:scrollId/delete',
             action: scrollDeleteAction,
           },
           {
+            path: 'scrolls/:scrollId/edit',
+            element: <ScrollEdit />,
+            action: scrollEditAction,
+            loader: scrollEditLoader,
+          },
+          {
             path: 'reader',
             element: <Reader />,
           },
           {
+            path: 'users/:username',
+            element: <UserPage />,
+            loader: userPageLoader,
+          },
+          {
             path: 'profile',
-            element: <Profile />
+            element: <UserPage />
           },
           {
             path:'lookup',

@@ -1,7 +1,7 @@
 import { getToken } from './tokens';
 const BASE_URL = '/api/scrolls/'
 
-function create(scroll) {
+async function create(scroll) {
   const options = {
     method: 'POST',
     headers: new Headers({
@@ -10,7 +10,7 @@ function create(scroll) {
     }),
     body: JSON.stringify(scroll),
   };
-  return fetch(BASE_URL + 'save', options)
+  return await fetch(BASE_URL + 'save', options)
   .then(res => {
     if (res.ok) return res.json();
     throw new Error('bad credentials');
@@ -18,7 +18,6 @@ function create(scroll) {
 }
 
 async function deleteScroll(scrollId) {
-  console.log(`hitting scrolls/service deleteScroll`)
   const options = {
     method: 'DELETE',
     headers: new Headers({
@@ -30,14 +29,30 @@ async function deleteScroll(scrollId) {
   return true;
 }
 
+async function index() {
+  return await fetch(BASE_URL).then(res => res.json());
+}
+
 async function getScroll(scrollId) {
-  console.log(scrollId);
-  console.log(`awaiting fetch`)
   return await fetch(BASE_URL + scrollId).then(res => res.json());
+}
+
+async function update(scrollId, updates) {
+  const options = {
+    method: 'PUT',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + getToken(),
+    }),
+    body: JSON.stringify(updates)
+  };
+  return await fetch(BASE_URL + scrollId, options).then(res => res.json());
 }
 
 export {
   create,
   deleteScroll,
   getScroll,
+  index,
+  update,
 };
