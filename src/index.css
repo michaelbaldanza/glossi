@@ -71,15 +71,15 @@ body {
   hyphens: auto;
 }
 
-.word-btn {
+/* .word-btn {
   width: fit-content;
   height: fit-content;
   padding: 0;
   display: contents;
-}
+} */
 
 .word-span {
-  word-break: keep-all;
+  /* word-break: keep-all; */
   cursor: pointer;
 }
 

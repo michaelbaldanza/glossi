@@ -11,13 +11,14 @@ const termSchema = new Schema({
 });
 
 const deckSchema = new Schema({
-  name: { type: String, },
+  name: { type: String, default: 'new deck'},
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
   },
   terms: [termSchema],
+  scrolls: [{type: Schema.Types.ObjectId, ref: 'Deck'}],
 }, {
   timestamps: true,
 });

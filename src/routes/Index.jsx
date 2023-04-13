@@ -20,7 +20,6 @@ export async function loader() {
 
 export default function Index() {
   const [user, setUser] = useOutletContext();
-  console.log(user);
   const scrolls = useLoaderData();
   return (
     <div className="outer-container">

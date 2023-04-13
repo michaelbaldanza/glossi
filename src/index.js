@@ -34,6 +34,10 @@ const router = createBrowserRouter([
             loader: indexLoader,
           },
           {
+            path: 'decks',
+            element: <div>Decks will go here</div>,
+          },
+          {
             path: 'scrolls/:scrollId',
             element: <ScrollPage />,
             loader: scrollLoader,

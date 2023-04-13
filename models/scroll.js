@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const scrollSchema = new Schema({
-  title: { type: String, },
+  title: { type: String, default: 'untitled' },
   body: { type: String, required: true },
   source: { type: String, },
   createdBy: {

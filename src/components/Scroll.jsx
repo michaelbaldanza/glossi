@@ -4,6 +4,7 @@ import Word from './Word';
 import { breakLines } from '../services/helpers';
 
 export default function Scroll(props) {
+  const decks = props.scroll.decks;
   const [lookupHistory, setLookupHistory] = useState([]);
   const numLookups = lookupHistory.length;
   const mostRecent = numLookups ? lookupHistory[numLookups - 1] : null;

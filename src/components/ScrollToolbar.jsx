@@ -46,7 +46,7 @@ export default function ScrollToolbar(props) {
             // ...as logged in scroll author
             <>
               &nbsp;
-              <Link to={'edit'}>
+              <Link to={'edit'} title={`Edit ${props.scroll.title}`}>
                 {makeButton(icons.edit)}
               </Link>
               <Form
@@ -57,6 +57,7 @@ export default function ScrollToolbar(props) {
                     event.preventDefault();
                   }
                 }}
+                title={`Delete ${props.scroll.title}`}
               >
                 {makeButton(icons.delete)}
               </Form>
@@ -72,8 +73,12 @@ export default function ScrollToolbar(props) {
       :
       // reader view
       <>
-        {makeButton(icons.add)}
-        {makeButton(icons.save)}
+        <span title={`Add`}>
+          {makeButton(icons.add)}
+        </span>
+        <span title={`Save`}>
+          {makeButton(icons.save)}
+        </span>
       </>
     }
   </div>;

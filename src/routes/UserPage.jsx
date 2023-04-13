@@ -13,7 +13,6 @@ export default function UserPage() {
   const [user, setUser] = useOutletContext();
   const viewUser = useLoaderData();
   const scrolls = viewUser.scrolls;
-  console.log(scrolls)
 
   return (
     <div className="outer-container">

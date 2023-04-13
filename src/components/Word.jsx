@@ -13,7 +13,9 @@ export default function Word(props) {
   const isSelected = mostRecent?.wordId === props.wordId ? true : false;
 
   async function handleClick(e) {
-    setPosition(e.target.getBoundingClientRect());
+    const rect = e.target.getBoundingClientRect();
+    const rects = e.target.getClientRects();
+    setPosition(rects.length > 1 ? rects[0] : rect);
     setReaderPosition(e.target.parentNode.getBoundingClientRect());
     const lookup = depunctuate(props.word).toLowerCase();
     const termres = await get(lexica.wikt.args(lookup));
@@ -35,15 +37,12 @@ export default function Word(props) {
       ...lexica.fd,
       'response': fdRes,
     }
-    console.log(fd);
     const responses = {
       'term': lookup,
       'wordId': props.wordId,
       'wikt': wikt,
       'fd': fd,
     };
-    console.log(`here's the fd res`)
-    console.log(fdRes)
     setLookupHistory([...lookupHistory.slice(), responses]);
   }
 

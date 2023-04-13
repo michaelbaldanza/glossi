@@ -41,7 +41,7 @@ export default function Login(props) {
         </div>
         <div className="mb-3">
           <label htmlFor="password">Password</label>
-          <input className="form-control" name="password" type="text" onChange={handleChange} />
+          <input className="form-control" name="password" type="password" onChange={handleChange} />
         </div>
         <button type="submit" className="btn btn-primary">
           Go

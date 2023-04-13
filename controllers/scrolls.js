@@ -1,5 +1,6 @@
 const Scroll = require('../models/scroll');
 const User = require('../models/user');
+const Deck = require('../models/deck');
 
 async function create(req, res) {
   const userId = req.user._id;
@@ -7,9 +8,17 @@ async function create(req, res) {
   scroll.createdBy = req.user._id;
   const scribe = await User.findById(userId);
   scribe.scrolls.push(scroll);
-  scribe.save();
+  const deck = new Deck({
+    name: `${scroll.title}'s deck`,
+    createdBy: scribe._id,
+    scrolls: [scroll.id]
+  });
+  scribe.decks.push(deck);
+  scroll.decks.push(deck);
   try {
-    await scroll.save()
+    await deck.save();
+    await scribe.save();
+    await scroll.save();
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
@@ -24,7 +33,7 @@ async function deleteScroll(req, res) {
   user.scrolls.splice(scrollIdx, 1);
   user.save();
   await Scroll.findByIdAndDelete(req.params.id);
-  res.json('delete successful')
+  res.json('delete successful');
 }
 
 async function index(req, res) {
@@ -33,7 +42,7 @@ async function index(req, res) {
 }
 
 async function get(req, res) {
-  const scroll = await Scroll.findById(req.params.id).populate('createdBy');
+  const scroll = await Scroll.findById(req.params.id).populate('createdBy').populate('decks');
   res.json(scroll);
 }
 
@@ -43,7 +52,7 @@ async function update(req, res) {
   scroll.title = req.body.title;
   scroll.body = req.body.body;
   scroll.modifiedPaths();
-  scroll.save()
+  scroll.save();
   res.json(scroll);
 }
 
