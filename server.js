@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
@@ -9,7 +10,7 @@ require('./config/database');
 const app = express();
 
 app.use(logger('dev'));
-app.use(express.json());
+app.use(express.json({limit: '1mb'}));
 app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'build')));
 

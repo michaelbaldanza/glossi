@@ -20,7 +20,7 @@ export default function Infobox(props) {
   ;
 
   return (
-      <div className={`infobox`} style={position} >
+      <div className={`infobox`} style={{...position, 'cursor': 'auto'}} >
         {
             props.mostRecent ?
             <div id="dictionary-container" className={``}>

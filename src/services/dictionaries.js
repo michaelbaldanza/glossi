@@ -1,3 +1,5 @@
+import Wiktionary from '../components/Dictionaries/Wiktionary';
+
 export const lexica = {
   'fd': {
     'name': 'Free Dictionary',

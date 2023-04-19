@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { breakLines } from '../services/helpers';
 import { create } from '../services/scrolls';
@@ -20,16 +20,15 @@ export default function Reader() {
         line.split(' ').map((word, idx1) => {
           const wordId = 'line-' + idx0 + '-word-' + idx1;
           return (
-            <>
+            <Fragment key={wordId}>
               <Word
-                key={wordId}
                 wordId={wordId}
                 word={word}
                 lookupHistory={[lookupHistory, setLookupHistory]}
                 mostRecent={mostRecent}
               />
               {' '}
-            </>
+            </Fragment>
           )
         })
       }

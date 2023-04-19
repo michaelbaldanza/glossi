@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import ScrollToolbar from './ScrollToolbar';
 import Word from './Word';
 import { breakLines } from '../services/helpers';
@@ -15,16 +15,15 @@ export default function Scroll(props) {
         line.split(' ').map((word, idx1) => {
           const wordId = 'line-' + idx0 + '-word-' + idx1;
           return (
-            <>
+            <Fragment key={wordId}>
               <Word
-                key={wordId}
                 wordId={wordId}
                 word={word}
                 lookupHistory={[lookupHistory, setLookupHistory]}
                 mostRecent={mostRecent}
               />
               {' '}
-            </>
+            </Fragment>
           )
         })
       }
@@ -33,7 +32,7 @@ export default function Scroll(props) {
 
   return (
     <>
-      <div id="reader-header">
+      <div id="reader-header" key="heresakey">
         <h3>{props.scroll.title ? props.scroll.title : 'untitled'}</h3>
         <ScrollToolbar scroll={props.scroll} />
       </div>

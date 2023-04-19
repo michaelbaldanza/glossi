@@ -13,6 +13,7 @@ export default function Word(props) {
   const isSelected = mostRecent?.wordId === props.wordId ? true : false;
 
   async function handleClick(e) {
+    if (isSelected) return;
     const rect = e.target.getBoundingClientRect();
     const rects = e.target.getClientRects();
     setPosition(rects.length > 1 ? rects[0] : rect);
@@ -28,6 +29,7 @@ export default function Word(props) {
       termres
     ;
     const fdRes = await get(lexica.fd.args(lookup));
+    console.log(fdRes);
     const wikt = {
       ...lexica.wikt,
       'response': resObj,
@@ -38,11 +40,12 @@ export default function Word(props) {
       'response': fdRes,
     }
     const responses = {
-      'term': lookup,
+      'quarry': lookup,
       'wordId': props.wordId,
       'wikt': wikt,
       'fd': fd,
     };
+    console.log(responses);
     setLookupHistory([...lookupHistory.slice(), responses]);
   }
 
