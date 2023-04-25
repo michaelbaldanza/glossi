@@ -4,7 +4,7 @@ body {
   
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, ol {
   margin: 0;
 }
 
@@ -23,10 +23,6 @@ h1, h2, h3, h4, h5, h6 {
 .scroll, #reader-header, #hexapla, #reader-body, .form-container, .form-container > form, .inner-container{
   margin: 0 auto;
   max-width: 380px;
-}
-
-#reader-header > h1 {
-  margin-bottom: 0;
 }
 
 .toolbar-btn {
@@ -95,6 +91,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .nav-btn {
   height: 40px;
+}
+
+.entry-container .dictionary-bar {
+  border-bottom: 1px rgba(239, 239, 240, 1) solid;
 }
 
 @media (min-width: 640px) {

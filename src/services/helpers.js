@@ -6,6 +6,16 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function clipColon(str) {
+  const re = /\:.*/;
+  return str.replace(re, '');
+}
+
+function clipNums(str) {
+  const re = /[1234567890]/g;
+  return str.replace(re, '');
+}
+
 function clipTags(str) {
   const re = /<[^>]*>/g;
   return str.replace(re, '');
@@ -23,4 +33,4 @@ function isLast(idx, arr) {
 
 
 
-export { breakLines, capitalize, clipTags, depunctuate, isLast };
+export { breakLines, capitalize, clipColon, clipNums, clipTags, depunctuate, isLast };

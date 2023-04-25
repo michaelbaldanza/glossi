@@ -4,10 +4,9 @@ import Word from './Word';
 import { breakLines } from '../services/helpers';
 
 export default function Scroll(props) {
-  const decks = props.scroll.decks;
   const [lookupHistory, setLookupHistory] = useState([]);
-  const numLookups = lookupHistory.length;
-  const mostRecent = numLookups ? lookupHistory[numLookups - 1] : null;
+  console.log(lookupHistory)
+  const decks = props.scroll.decks;
   const lines = breakLines(props.scroll.body);
   const words = lines.map((line, idx0) => (
     <div className="line" key={'line-' + idx0}>
@@ -17,10 +16,10 @@ export default function Scroll(props) {
           return (
             <Fragment key={wordId}>
               <Word
+                lookupHistory={[lookupHistory, setLookupHistory]}
                 wordId={wordId}
                 word={word}
-                lookupHistory={[lookupHistory, setLookupHistory]}
-                mostRecent={mostRecent}
+                active={wordId === lookupHistory[lookupHistory.length - 1] ? true : false }
               />
               {' '}
             </Fragment>

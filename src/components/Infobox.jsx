@@ -1,7 +1,8 @@
 import Hexapla from './Hexapla';
 
 export default function Infobox(props) {
-  const [lookupHistory, setLookupHistory] = props.lookupHistory;
+  const [clickThroughHistory, setClickThroughHistory] = props.clickThroughHistory;
+  // const [clickThroughHistory, setClickThroughHistory] = lookupHistory[lookupHistory.length - 1];
   const [x, y, bottom] = [
     props?.position.x,
     props?.position.y,
@@ -24,7 +25,11 @@ export default function Infobox(props) {
         {
             props.mostRecent ?
             <div id="dictionary-container" className={``}>
-            <Hexapla mostRecent={props.mostRecent} lookupHistory={[lookupHistory, setLookupHistory]}/>
+            <Hexapla
+              mostRecent={props.mostRecent}
+              clickThroughHistory={[clickThroughHistory, setClickThroughHistory]}
+              lookupHistory={props.lookupHistory}
+            />
           </div>
           : ''
           }

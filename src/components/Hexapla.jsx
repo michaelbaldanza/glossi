@@ -1,34 +1,54 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import Wiktionary from './Dictionaries/Wiktionary';
 import FreeDictionary from './Dictionaries/FreeDictionary';
-import { clipTags } from '../services/helpers';
-import { lexica } from '../services/dictionaries';
+import MerriamWebster from './Dictionaries/MerriamWebster';
+import { clipTags, isLast } from '../services/helpers';
+import { lexica, refOrder } from '../services/dictionaries';
 
 export default function Hexapla(props) {
+  console.log(props)
+  const quarry = props.mostRecent.quarry;
+  const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const [activeDict, setActiveDict] = useState('Wiktionary');
   const [addView, setAddView] = useState(false);
-  const [lookupHistory, setLookupHistory] = props.lookupHistory;
+  const [clickThroughHistory, setClickThroughHistory] = props.clickThroughHistory;
+  const [current, setCurrent] = useState(clickThroughHistory.length - 1);
+  const dictionaries = clickThroughHistory[current].dictionaries;
 
   function handleClick(e) {
     e.stopPropagation();
     setActiveDict(e.target.innerText);
   }
 
-  const dictKeys = Object.keys(lexica);
+  const pages = {
+    'fd': function(mostRecent) {
+      return <FreeDictionary mostRecent={mostRecent} quarry={quarry} />;
+    },
+    'mw': function(mostRecent) {
+      return <MerriamWebster mostRecent={mostRecent} quarry={quarry} />;
+    },
+    'wikt': function (mostRecent) {
+      return <Wiktionary mostRecent={mostRecent} quarry={quarry} />;
+    }
+  };
 
   const dictionaryBar = <div className="dictionary-bar">
       {
-        dictKeys.map((dictKey, idx0) => (
-          <button
-            key={dictKey + '-' + idx0}
-            className={`btn btn-link link-secondary toolbar-btn ${lexica[dictKey].name === activeDict ? 'active' : 'text-decoration-none'}`}
-            data-bs-toggle={lexica[dictKey].name === activeDict ? 'button' : ''}
-            aria-pressed={lexica[dictKey].name === activeDict ? 'true' : 'false'}
-            onClick={(e) => handleClick(e)}
-            style={{'fontSize': 'small'}}
-          >
-            {lexica[dictKey].name}
-          </button>
+        refOrder.map((dictKey, idx0) => (
+          dictionaries[dictKey] ?
+          <Fragment key={dictKey + '-' + idx0}>
+            <button
+              className={`btn btn-link link-secondary toolbar-btn ${lexica[dictKey].name === activeDict ? 'active' : 'text-decoration-none'}`}
+              data-bs-toggle={lexica[dictKey].name === activeDict ? 'button' : ''}
+              aria-pressed={lexica[dictKey].name === activeDict ? 'true' : 'false'}
+              onClick={(e) => handleClick(e)}
+              style={{'fontSize': 'small'}}
+            >
+              {lexica[dictKey].name}
+            </button>
+          </Fragment>
+          :
+          ''
         ))
       }
   </div>;
@@ -74,18 +94,22 @@ export default function Hexapla(props) {
     <div id="hexapla" className="">
       {makeHeading(props.mostRecent.quarry)}
       {dictionaryBar}
-      <div
-        id="wiktionary"
-        style={{'display': activeDict === 'Wiktionary' ? 'block' : 'none'}}
-      >
-        <Wiktionary mostRecent={props.mostRecent} />
-      </div>
-      <div
-        id="free-dictionary"
-        style={{'display': activeDict === 'Free Dictionary' ? 'block' : 'none'}}
-      >
-        <FreeDictionary mostRecent={props.mostRecent} />
-      </div>
+      {
+        refOrder.map((dictKey, idx0) => (
+          dictionaries[dictKey] && pages[dictKey] ?
+          (
+            <div
+              key={dictKey + '-' + idx0 + '-' + dictionaries[dictKey].name }
+              style={{'display': activeDict === dictionaries[dictKey].name ? 'block' : 'none'}}
+            >
+              {pages[dictKey](dictionaries[dictKey])}
+            </div>
+          )
+          :
+          ''
+          )
+        )
+      }
     </div>
   ;
 
@@ -95,23 +119,3 @@ export default function Hexapla(props) {
     </>
   )
 }
-
-// props.mostRecent.fd.response.map((entry, idx0) => (
-//   <div key={`entry-${idx0}`}>
-//     {
-//       entry.meanings.map((meaning, idx1) => (
-//         <div key={`meaning-${idx0}-${idx1}`}>
-//           {
-//             meaning.definitions.map((definition, idx2) => (
-//               <div key={`definition-${idx0}-${idx1}-${idx2}`}>
-//                 {
-//                   definition.definition
-//                 }
-//               </div>
-//             ))
-//           }
-//         </div>
-//       ))
-//     }
-//   </div>
-// ))

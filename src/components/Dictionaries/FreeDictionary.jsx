@@ -1,8 +1,11 @@
 import { Fragment } from 'react';
 import { isLast } from '../../services/helpers';
+import Entry from './Entry';
 
 export default function FreeDictionary(props) {
-  const res = props.mostRecent.fd.response;
+  const fd = props.mostRecent;
+  const res = fd.response;
+  const api = fd.name;
   if (res.title) {
     return (
       <div className="error-message">
@@ -16,66 +19,17 @@ export default function FreeDictionary(props) {
   return(
     <>
       {
-        res.map((entry, idx0) => (
-          <div key={`entry-${idx0}`}>
+        res.map((term, idx0) => (
+          <div key={`term-${idx0}`}>
             {
-              entry.meanings.map((meaning, idx1) => (
-                <div key={`meaning-${idx0}-${idx1}`}>
-                  <ol>
-                    {
-                      meaning.definitions.map((definition, idx2) => (
-                        <li key={`definition-${idx0}-${idx1}-${idx2}`}>
-                          {definition.definition}
-                          &nbsp;
-                          <cite>{definition.example}</cite>
-                        </li>
-                      ))
-                    }
-                  </ol>
-                  {
-                    meaning.synonyms.length ?
-                      <div>
-                        <h6>Synonyms</h6>
-                        <div>
-                          {
-                          meaning.synonyms.map((synonym, idx2) => (
-                            <Fragment key={`${synonym}-${idx0}-${idx1}-${idx2}`}>
-                              <span>{synonym}</span>
-                              {
-                                isLast(idx2, meaning.synonyms) ?
-                                '' :
-                                <span>,&nbsp;</span>
-                              } 
-                            </Fragment>
-                          ))
-                          }
-                        </div>
-                      </div>
-                    :''
-                  }
-                  {
-                    meaning.antonyms.length ?
-                      <div>
-                        <h6>Antonyms</h6>
-                        <div>
-                          {
-                          meaning.antonyms.map((antonym, idx2) => (
-                            <Fragment key={`${antonym}-${idx0}-${idx1}-${idx2}`}>
-                              <span>{antonym}</span>
-                              {
-                                isLast(idx2, meaning.antonyms) ?
-                                ''
-                                :
-                                <span>,&nbsp;</span>
-                              } 
-                            </Fragment>
-                          ))
-                          }
-                        </div>
-                      </div>
-                    :''
-                  }
-                </div>
+              term.meanings.map((meaning, idx1) => (
+                <Entry
+                  key={`${api}-${idx1}`}
+                  entry={meaning}
+                  idx1={idx1}
+                  api={api}
+                  quarry={props.mostRecent.quarry}
+                /> 
               ))
             }
           </div>
