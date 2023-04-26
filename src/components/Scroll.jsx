@@ -5,7 +5,6 @@ import { breakLines } from '../services/helpers';
 
 export default function Scroll(props) {
   const [lookupHistory, setLookupHistory] = useState([]);
-  console.log(lookupHistory)
   const decks = props.scroll.decks;
   const lines = breakLines(props.scroll.body);
   const words = lines.map((line, idx0) => (

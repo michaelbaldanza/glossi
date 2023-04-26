@@ -35,10 +35,6 @@ h1, h2, h3, h4, h5, h6, ol {
   position: relative;
 }
 
-#dictionary-container {
-  font-size: smaller;
-}
-
 .faded {
   opacity: 50%;
 }
@@ -52,7 +48,12 @@ h1, h2, h3, h4, h5, h6, ol {
   max-height: 200px;
   overflow-y: auto;
   background-color: #fdfdfd;
+  font-size: smaller;
 }
+
+/* #hexapla {
+  font-size: smaller;
+} */
 
 .highlighted {
   background: #d3d3d3;

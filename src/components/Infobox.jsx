@@ -1,8 +1,13 @@
+import {useRef} from 'react';
 import Hexapla from './Hexapla';
 
 export default function Infobox(props) {
+  const infoboxRef = useRef(null);
+  function handleRef() {
+    infoboxRef.current.scrollTop = 0;
+  }
+
   const [clickThroughHistory, setClickThroughHistory] = props.clickThroughHistory;
-  // const [clickThroughHistory, setClickThroughHistory] = lookupHistory[lookupHistory.length - 1];
   const [x, y, bottom] = [
     props?.position.x,
     props?.position.y,
@@ -21,18 +26,14 @@ export default function Infobox(props) {
   ;
 
   return (
-      <div className={`infobox`} style={{...position, 'cursor': 'auto'}} >
-        {
-            props.mostRecent ?
-            <div id="dictionary-container" className={``}>
-            <Hexapla
-              mostRecent={props.mostRecent}
-              clickThroughHistory={[clickThroughHistory, setClickThroughHistory]}
-              lookupHistory={props.lookupHistory}
-            />
-          </div>
-          : ''
-          }
+      <div className={`infobox`} ref={infoboxRef} style={{...position, 'cursor': 'auto'}} >
+        <Hexapla
+          handleRef={handleRef}
+          wordId={props.wordId}
+          mostRecent={props.mostRecent}
+          clickThroughHistory={[clickThroughHistory, setClickThroughHistory]}
+          lookupHistory={props.lookupHistory}
+        />
       </div>
   )
 }

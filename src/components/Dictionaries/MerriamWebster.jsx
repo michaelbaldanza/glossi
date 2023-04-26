@@ -2,9 +2,9 @@ import Entry from './Entry';
 import { clipColon, clipNums, depunctuate, isLast } from '../../services/helpers';
 
 export default function MerriamWebster(props) {
+  const [clickThroughHistory, setClickThroughHistory] = props.clickThroughHistory;
   const mw = props.mostRecent;
   const res = props.mostRecent.response;
-  console.log(props.mostRecent)
   if (typeof(res[0]) === 'string') {
     return (
       <div className="error-message">
@@ -51,9 +51,11 @@ export default function MerriamWebster(props) {
         entries.map((entry, idx0) => (
           <Entry
             key={`${api.toLowerCase()}-${idx0}`}
+            clickThroughHistory={[clickThroughHistory, setClickThroughHistory]}
             api={api}
             entry={entry}
             quarry={props.quarry}
+            handleRef={props.handleRef}
           />
         ))
       }

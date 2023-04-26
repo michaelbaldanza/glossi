@@ -3,6 +3,7 @@ import { isLast } from '../../services/helpers';
 import Entry from './Entry';
 
 export default function FreeDictionary(props) {
+  const [clickThroughHistory, setClickThroughHistory] = props.clickThroughHistory;
   const fd = props.mostRecent;
   const res = fd.response;
   const api = fd.name;
@@ -25,10 +26,12 @@ export default function FreeDictionary(props) {
               term.meanings.map((meaning, idx1) => (
                 <Entry
                   key={`${api}-${idx1}`}
+                  clickThroughHistory={[clickThroughHistory, setClickThroughHistory]}
                   entry={meaning}
                   idx1={idx1}
                   api={api}
                   quarry={props.mostRecent.quarry}
+                  handleRef={props.handleRef}
                 /> 
               ))
             }

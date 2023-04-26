@@ -1,34 +1,40 @@
-import { Fragment, useState } from 'react';
+import { forwardRef, Fragment, useState } from 'react';
 import Wiktionary from './Dictionaries/Wiktionary';
 import FreeDictionary from './Dictionaries/FreeDictionary';
 import MerriamWebster from './Dictionaries/MerriamWebster';
+import BoxWord from './Dictionaries/BoxWord';
 import { clipTags, isLast } from '../services/helpers';
 import { lexica, refOrder } from '../services/dictionaries';
 
 export default function Hexapla(props) {
-  console.log(props)
   const quarry = props.mostRecent.quarry;
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
+  const [clickThroughHistory, setClickThroughHistory] = props.clickThroughHistory;
   const [activeDict, setActiveDict] = useState('Wiktionary');
   const [addView, setAddView] = useState(false);
-  const [clickThroughHistory, setClickThroughHistory] = props.clickThroughHistory;
   const [current, setCurrent] = useState(clickThroughHistory.length - 1);
-  const dictionaries = clickThroughHistory[current].dictionaries;
+  const dictionaries = props.mostRecent.dictionaries;
 
   function handleClick(e) {
     e.stopPropagation();
     setActiveDict(e.target.innerText);
   }
 
+  const dictProps = {
+    quarry: quarry,
+    clickThroughHistory: [clickThroughHistory, setClickThroughHistory],
+    handleRef: props.handleRef,
+  };
+
   const pages = {
     'fd': function(mostRecent) {
-      return <FreeDictionary mostRecent={mostRecent} quarry={quarry} />;
+      return <FreeDictionary mostRecent={mostRecent} {...dictProps} />;
     },
     'mw': function(mostRecent) {
-      return <MerriamWebster mostRecent={mostRecent} quarry={quarry} />;
+      return <MerriamWebster mostRecent={mostRecent} {...dictProps}/>;
     },
     'wikt': function (mostRecent) {
-      return <Wiktionary mostRecent={mostRecent} quarry={quarry} />;
+      return <Wiktionary mostRecent={mostRecent} {...dictProps}/>;
     }
   };
 
@@ -79,19 +85,41 @@ export default function Hexapla(props) {
     );
     return (
       <div className="action-heading">
-          <h5>{headingText} {isWiktionary}</h5>
+        <div style={{'display': 'flex'}}>
           <button
+            className="btn btn-link link-secondary toolbar-btn text-decoration-none"
+            style={{'font-size': 'largest'}}
+          >
+            ←
+          </button>
+          <h5>
+            <BoxWord
+              clickThroughHistory={[clickThroughHistory, setClickThroughHistory]}
+              word={headingText}
+            >
+              {headingText}
+            </BoxWord>
+            {isWiktionary}
+          </h5>
+
+          <button
+            className="btn btn-link link-secondary toolbar-btn text-decoration-none"
+          >
+            →
+          </button>
+        </div>
+        <button
             className="btn btn-link link-secondary toolbar-btn text-decoration-none"
             onClick={(e) => handleX(e)}
           >
-            X
-          </button>
+          X
+        </button>          
       </div>
     );
   }
 
   const dictionary = 
-    <div id="hexapla" className="">
+    <>
       {makeHeading(props.mostRecent.quarry)}
       {dictionaryBar}
       {
@@ -110,7 +138,7 @@ export default function Hexapla(props) {
           )
         )
       }
-    </div>
+    </>
   ;
 
   return (

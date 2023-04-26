@@ -4,6 +4,7 @@ import { clipTags } from '../../services/helpers';
 import { lexica } from '../../services/dictionaries';
 
 export default function Wiktionary(props) {
+  const [clickThroughHistory, setClickThroughHistory] = props.clickThroughHistory;
   const wikt = props.mostRecent;
   const res = wikt.response;
   const langs = Object.keys(res);
@@ -30,11 +31,13 @@ export default function Wiktionary(props) {
         <Entry
           key={`${api.toLowerCase()}-${idx0}-${idx1}`}
           api={api}
+          clickThroughHistory={[clickThroughHistory, setClickThroughHistory]}
           entry={entry}
           selLang={selLang}
           lang={lang}
           idx1={idx1}
           quarry={props.mostRecent.quarry}
+          handleRef={props.handleRef}
         />
       ))
     )

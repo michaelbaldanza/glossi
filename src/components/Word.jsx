@@ -19,30 +19,26 @@ export default function Word(props) {
     setReaderPosition(e.target.parentNode.getBoundingClientRect());
     const term = depunctuate(props.word).toLowerCase();
     if (!clickThroughHistory.length) {
-      const responses = {
+      const response = {
         'quarry': term,
         'wordId': props.wordId,
         'dictionaries': await collect(term),
       };
-      setClickThroughHistory([...clickThroughHistory.slice(), responses]);
+      setClickThroughHistory([...clickThroughHistory.slice(), response]);
     }
-    console.log({[props.wordId]: props.word})
     setLookupHistory([
       ...lookupHistory.slice(),
       props.wordId
     ]);
-    console.log(lookupHistory)
-    console.log(lookupHistory.length)
-    console.log(Object.keys(lookupHistory))
-    console.log(props.wordId)
   }
 
   const infobox = isActive ?
     <Infobox
       lookupHistory={[lookupHistory, setLookupHistory]}
-      clickThroughHistory={[clickThroughHistory, clickThroughHistory]}
+      clickThroughHistory={[clickThroughHistory, setClickThroughHistory]}
       mostRecent={mostRecent}
       word={props.word}
+      wordId={props.wordId}
       position={position}
       readerPosition={readerPosition}
     />

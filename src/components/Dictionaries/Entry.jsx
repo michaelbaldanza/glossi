@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import BoxWord from './BoxWord';
 import { clipTags, isLast } from '../../services/helpers';
 
 export default function Entry(props) {
@@ -21,17 +22,24 @@ export default function Entry(props) {
       </h6>
       <div>
         {
-        entry.antonyms.map((antonym, idx0) => (
-          <Fragment key={`${antonym}-${idx0}`}>
-            <span>{antonym}</span>
-            {
-              isLast(idx0, entry.antonyms) ?
-              ''
-              :
-              <span>,&nbsp;</span>
-            } 
-          </Fragment>
-        ))
+          entry.antonyms.map((antonym, idx0) => {
+            return (
+              <Fragment key={`${antonym}-${idx0}`}>
+                <BoxWord
+                  clickThroughHistory={props.clickThroughHistory}
+                  wordId={`${antonym}-${idx0}`}
+                  word={antonym}
+                  handleRef={props.handleRef}
+                />
+                {
+                  isLast(idx0, entry.antonyms) ?
+                  ''
+                  :
+                  ', '
+                } 
+              </Fragment>
+            )
+          })
         }
       </div>
     </div>
@@ -48,11 +56,15 @@ export default function Entry(props) {
       {
         entry.synonyms.map((synonym, idx0) => (
           <Fragment key={`${synonym}-${idx0}`}>
-            <span>{synonym}</span>
+            <BoxWord
+              clickThroughHistory={props.clickThroughHistory}
+              wordId={`${synonym}-${idx0}`}
+              word={synonym}
+            />
             {
               isLast(idx0, entry.synonyms) ?
               '' :
-              <span>,&nbsp;</span>
+              ', '
             } 
           </Fragment>
         ))
@@ -83,7 +95,19 @@ export default function Entry(props) {
           entry.definitions.map((def, idx2) => {
             function makeLi(defOrDefinition) {
               return <li key={`sense-${props.idx1}-${idx2}`}>
-              {defOrDefinition}
+              {
+              defOrDefinition.split(' ').map((word, idx3) => (
+                <Fragment key={`${word}-${idx2}-${idx3}`}>
+                  <BoxWord
+                      clickThroughHistory={props.clickThroughHistory}
+                      wordId={`${word}-${idx2}-${idx3}`}
+                      word={word}
+                      handleRef={props.handleRef}
+                  />
+                  {' '}
+                </Fragment>
+              ))
+            }
             </li>;
             }
 
