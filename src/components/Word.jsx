@@ -6,10 +6,11 @@ import { useState } from 'react';
 export default function Word(props) {
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const [position, setPosition] = useState(null);
+  const [currentIdx, setCurrentIdx] = useState(0);
   const [readerPosition, setReaderPosition] = useState(null);
   const [clickThroughHistory, setClickThroughHistory] = useState([]);
   const isActive = props.active;
-  const mostRecent = clickThroughHistory.length ? clickThroughHistory[clickThroughHistory.length - 1] : null;
+  const mostRecent = clickThroughHistory[currentIdx];
 
   async function handleClick(e) {
     if (isActive) return;
@@ -34,6 +35,7 @@ export default function Word(props) {
 
   const infobox = isActive ?
     <Infobox
+      currentIdx={[currentIdx, setCurrentIdx]}
       lookupHistory={[lookupHistory, setLookupHistory]}
       clickThroughHistory={[clickThroughHistory, setClickThroughHistory]}
       mostRecent={mostRecent}

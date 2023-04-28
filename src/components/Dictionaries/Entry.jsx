@@ -3,6 +3,7 @@ import BoxWord from './BoxWord';
 import { clipTags, isLast } from '../../services/helpers';
 
 export default function Entry(props) {
+  const [currentIdx, setCurrentIdx] = props.currentIdx;
   const api = props.api.toLowerCase().replace(' ', '-');
   const entry = props.entry;
   const quarry = props.quarry;
@@ -26,6 +27,7 @@ export default function Entry(props) {
             return (
               <Fragment key={`${antonym}-${idx0}`}>
                 <BoxWord
+                  currentIdx={[currentIdx, setCurrentIdx]}
                   clickThroughHistory={props.clickThroughHistory}
                   wordId={`${antonym}-${idx0}`}
                   word={antonym}
@@ -57,6 +59,7 @@ export default function Entry(props) {
         entry.synonyms.map((synonym, idx0) => (
           <Fragment key={`${synonym}-${idx0}`}>
             <BoxWord
+              currentIdx={[currentIdx, setCurrentIdx]}
               clickThroughHistory={props.clickThroughHistory}
               wordId={`${synonym}-${idx0}`}
               word={synonym}
@@ -99,10 +102,11 @@ export default function Entry(props) {
               defOrDefinition.split(' ').map((word, idx3) => (
                 <Fragment key={`${word}-${idx2}-${idx3}`}>
                   <BoxWord
-                      clickThroughHistory={props.clickThroughHistory}
-                      wordId={`${word}-${idx2}-${idx3}`}
-                      word={word}
-                      handleRef={props.handleRef}
+                    currentIdx={[currentIdx, setCurrentIdx]}
+                    clickThroughHistory={props.clickThroughHistory}
+                    wordId={`${word}-${idx2}-${idx3}`}
+                    word={word}
+                    handleRef={props.handleRef}
                   />
                   {' '}
                 </Fragment>
