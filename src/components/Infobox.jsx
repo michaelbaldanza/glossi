@@ -18,7 +18,7 @@ export default function Infobox(props) {
     quarry: quarry,
     currentIdx: [currentIdx, setCurrentIdx],
     clickThroughHistory: [clickThroughHistory, setClickThroughHistory],
-    handleRef: props.handleRef,
+    handleRef: handleRef,
   };
   function handleRef() {
     infoboxRef.current.scrollTop = 0;

@@ -1,3 +1,4 @@
+import { Fragment, useState } from 'react';
 import Entry from './Entry';
 import { clipColon, isLast } from '../../services/helpers';
 
@@ -8,9 +9,28 @@ export default function Dictionary(props) {
   const abbr = props.mostRecent.abbr;
   const res = props.mostRecent.response;
   const api = props.mostRecent.name;
-  function makeLanguageNav() {
-    if (abbr !== 'wikt') return;
 
+  const langs = api === 'Wiktionary' ? Object.keys(res) : null;
+  const [selLang, setSelLang] = useState(
+    langs ? langs[0] : null
+  )
+
+  function mapEntries(entryArr, customProps) {
+    const entryMap = entryArr.map((entry, idx1) => {
+      const entryProps = {
+        key: `${api.toLowerCase()}-${idx1}`,
+        currentIdx: [currentIdx, setCurrentIdx],
+        clickThroughHistory: [clickThroughHistory, setClickThroughHistory],
+        entry: entry,
+        idx1: idx1,
+        api: api,
+        quarry: props.quarry,
+        handleRef: props.handleRef,
+      };
+      Object.assign(entryProps, customProps)
+      return <Entry {...entryProps}/>;
+    })
+    return entryMap;
   }
 
   const pages = {
@@ -25,30 +45,7 @@ export default function Dictionary(props) {
         );
       }
 
-      return(
-        <>
-          {
-            res.map((term, idx0) => (
-              <div key={`term-${idx0}`}>
-                {
-                  term.meanings.map((meaning, idx1) => (
-                    <Entry
-                      key={`${api}-${idx1}`}
-                      currentIdx={[currentIdx, setCurrentIdx]}
-                      clickThroughHistory={[clickThroughHistory, setClickThroughHistory]}
-                      entry={meaning}
-                      idx1={idx1}
-                      api={api}
-                      quarry={props.mostRecent.quarry}
-                      handleRef={props.handleRef}
-                    /> 
-                  ))
-                }
-              </div>
-            )) 
-          }
-        </>
-      )
+      return res.map((term, idx0) => mapEntries(term.meanings));
     },
     'mw': function() {
       if (typeof(res[0]) === 'string') { // error handling
@@ -83,23 +80,7 @@ export default function Dictionary(props) {
         };;
         ents.push(entry);
       }
-      return (
-        <>
-          {
-            ents.map((entry, idx0) => (
-              <Entry
-                key={`${api.toLowerCase()}-${idx0}`}
-                currentIdx={[currentIdx, setCurrentIdx]}
-                clickThroughHistory={[clickThroughHistory, setClickThroughHistory]}
-                api={api}
-                entry={entry}
-                quarry={props.quarry}
-                handleRef={props.handleRef}
-              />
-            ))
-          }
-        </>
-      );
+      return mapEntries(ents);
     },
     'wikt': function() {
       if (res.title) { // error handling
@@ -110,29 +91,34 @@ export default function Dictionary(props) {
           </div>
         );
       }
-      if (abbr !== 'wikt') return;
-      const langs = Object.keys(res);
-      let selLang = langs[0];
-      return <>
-      {
-        langs.map((lang, idx0) => (
-          res[lang].map((entry, idx1) => (
-            <Entry
-              key={`${api.toLowerCase()}-${idx0}-${idx1}`}
-              currentIdx={[currentIdx, setCurrentIdx]}
-              api={api}
-              clickThroughHistory={[clickThroughHistory, setClickThroughHistory]}
-              entry={entry}
-              selLang={selLang}
-              lang={lang}
-              idx1={idx1}
-              quarry={props.mostRecent.quarry}
-              handleRef={props.handleRef}
-            />
-          ))
-        ))
+
+      function handleLangClick(e) {
+        e.stopPropagation();
+        setSelLang(e.target.innerText);
       }
-      </>
+
+      const langBar = langs.map((lang, idx1) => (
+        <button
+          key={lang + '-' + '-' + idx1}
+          className={`btn btn-link link-secondary toolbar-btn ${lang === selLang ? 'active' : 'text-decoration-none'}`}
+          data-bs-toggle={lang === selLang ? 'button' : ''}
+          aria-pressed={lang === selLang ? 'true' : 'false'}
+          onClick={(e) => handleLangClick(e)}
+          style={{'fontSize': 'smaller'}}
+        >
+          {lang}
+        </button>
+      ));
+
+      return <>
+          {langBar}
+          {
+            langs.map((lang, idx0) => (
+              mapEntries(res[lang], { selLang: selLang, lang: lang })
+            ))
+          }
+      </>;
+      
     }
   };
   /**
