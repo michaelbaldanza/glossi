@@ -9,7 +9,6 @@ export default function Dictionary(props) {
   const abbr = props.mostRecent.abbr;
   const res = props.mostRecent.response;
   const api = props.mostRecent.name;
-
   const langs = api === 'Wiktionary' ? Object.keys(res) : null;
   const [selLang, setSelLang] = useState(
     langs ? langs[0] : null
@@ -82,6 +81,11 @@ export default function Dictionary(props) {
       }
       return mapEntries(ents);
     },
+    'odus': function() {
+      if (res === 'error') {
+        return <div>error</div>
+      }
+    },
     'wikt': function() {
       if (res.title) { // error handling
         return (
@@ -121,17 +125,5 @@ export default function Dictionary(props) {
       
     }
   };
-  /**
-   * It should be possible to access pages through abbr, and I'd have this
-   * component return
-   * pages[abbr]()
-   * instead of having this if/else if chain.
-   */
-  if (abbr === 'wikt') {
-    return pages['wikt']();
-  } else if (abbr === 'fd') {
-    return pages['fd']();
-  } else if (abbr === 'mw') {
-    return pages['mw']();
-  }
+  return pages[abbr]();
 }

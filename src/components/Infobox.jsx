@@ -5,9 +5,10 @@ import { clipTags, isLast } from '../services/helpers';
 import { lexica, refOrder } from '../services/dictionaries';
 
 export default function Infobox(props) {
-  
   const [currentIdx, setCurrentIdx] = props.currentIdx;
+  console.log(currentIdx)
   const [clickThroughHistory, setClickThroughHistory] = props.clickThroughHistory;
+  console.log(clickThroughHistory)
   const quarry = props.mostRecent.quarry;
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const dictionaries = props.mostRecent.dictionaries;
@@ -60,6 +61,7 @@ export default function Infobox(props) {
   }
 
   function makeInfoboxHeader() {
+    const btnClasses = 'btn btn-link link-dark toolbar-btn text-decoration-none'
     function handleAddClick(e) {
       e.stopPropagation();
       setAddView(!addView);
@@ -67,8 +69,9 @@ export default function Infobox(props) {
     
     function handleArrowClick(e) {
       e.stopPropagation();
-      const num = +e.target.value;
-      setCurrentIdx(currentIdx + num);
+      const val = +e.target.value;
+      if (!canClick(val)) return;
+      setCurrentIdx(currentIdx + val);
     }
 
     function handleXClick(e) {
@@ -76,52 +79,64 @@ export default function Infobox(props) {
       setLookupHistory([...lookupHistory.slice(), null]);
     }
 
-    const isWiktionary = (
-      activeDict === 'Wiktionary' ?
-        <>
-          <button
-            className='btn btn-link link-dark text-decoration-none'
-            onClick={(e) => handleAddClick(e)}
-          >
-            {addView ? 'Lookup View' : 'Add to deck'}
-          </button>
-        </>
-        :
-        ''
-    );
+    // const isWiktionary = (
+    //   activeDict === 'Wiktionary' ?
+    //     <>
+    //       <button
+    //         className={btnClasses}
+    //         onClick={(e) => handleAddClick(e)}
+    //       >
+    //         {addView ? 'Lookup View' : 'Add to deck'}
+    //       </button>
+    //     </>
+    //     :
+    //     ''
+    // );
+
+    function canClick(val) {
+      const canClick = (
+        (
+          val > 0 &&
+          clickThroughHistory.length > 1 &&
+          !isLast(currentIdx, clickThroughHistory))
+        )
+        ||
+        (
+          val < 0 &&
+          currentIdx > 0
+        ) ?
+        true : false
+      ;
+      return canClick;
+    }
+    
+    function makeArrow(val) {
+      return <button
+        type="button"
+        id={val > 0 ? 'fwd-btn' : 'bwd-btn'}
+        value={val}
+        className={`${btnClasses} ${!canClick(val) ? 'faded' : ''}`}
+        onClick={(e) => handleArrowClick(e)}
+        style={!canClick(val) ? {'cursor': 'auto'} : {}}
+      >
+        {val > 0 ? '→' : '←'}
+      </button>
+    }
 
     const infoboxHeader = <div className="action-heading">
+      <h5>
+        {quarry}
+      </h5>
       <div style={{'display': 'flex'}}>
+        {makeArrow(-1)}
+        {makeArrow(1)}
         <button
-          type="button"
-          id="backward-btn"
-          value="-1"
-          className="btn btn-link link-secondary toolbar-btn text-decoration-none"
-          onClick={(e) => handleArrowClick(e)}
-        >
-          ←
-        </button>
-        <h5>
-          {quarry}
-          {isWiktionary}
-        </h5>
-
-        <button
-          type="button"
-          value="1"
-          id="forward-btn"
-          className="btn btn-link link-secondary toolbar-btn text-decoration-none"
-          onClick={(e) => handleArrowClick(e)}
-        >
-          →
-        </button>
-      </div>
-      <button
-          className="btn btn-link link-secondary toolbar-btn text-decoration-none"
+          className={btnClasses}
           onClick={(e) => handleXClick(e)}
         >
-        X
-      </button>          
+          X
+        </button>
+      </div>         
     </div>;
 
     return infoboxHeader;

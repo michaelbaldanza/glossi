@@ -12,7 +12,9 @@ export default function BoxWord(props) {
       'wordId': props.wordId,
       'dictionaries': await collect(term),
     };
-    setClickThroughHistory([...clickThroughHistory.slice(), response]);
+    console.log(`what's happening in BoxWord's handleClick?`)
+    console.log(clickThroughHistory.slice(0, currentIdx + 1))
+    setClickThroughHistory([...clickThroughHistory.slice(0, currentIdx + 1), response]);
     setCurrentIdx(currentIdx + 1);
     props.handleRef();
   }
