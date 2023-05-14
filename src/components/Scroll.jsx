@@ -5,29 +5,32 @@ import { breakLines } from '../services/helpers';
 
 export default function Scroll(props) {
   const [lookupHistory, setLookupHistory] = useState([]);
-  const decks = props.scroll.decks;
-  const lines = breakLines(props.scroll.body);
-  const words = lines.map((line, idx0) => (
-    <div className="line" key={'line-' + idx0}>
-      {
-        line.split(' ').map((word, idx1) => {
-          const wordId = 'line-' + idx0 + '-word-' + idx1;
-          return (
-            <Fragment key={wordId}>
-              <Word
-                lookupHistory={[lookupHistory, setLookupHistory]}
-                wordId={wordId}
-                word={word}
-                active={wordId === lookupHistory[lookupHistory.length - 1] ? true : false }
-              />
-              {' '}
-            </Fragment>
-          )
-        })
-      }
-    </div>
-  ));
-
+  function makeWords() {
+    if (!props.scroll.body) return;
+    const lines = breakLines(props.scroll.body);
+    const words = lines.map((line, idx0) => (
+      <div className="line" key={'line-' + idx0}>
+        {
+          line.split(' ').map((word, idx1) => {
+            const wordId = 'line-' + idx0 + '-word-' + idx1;
+            return (
+              <Fragment key={wordId}>
+                <Word
+                  lookupHistory={[lookupHistory, setLookupHistory]}
+                  wordId={wordId}
+                  word={word}
+                  active={wordId === lookupHistory[lookupHistory.length - 1] ? true : false }
+                />
+                {' '}
+              </Fragment>
+            )
+          })
+        }
+      </div>
+    ));
+    return words;
+  }
+  
   return (
     <>
       <div id="reader-header" key="heresakey">
@@ -35,7 +38,7 @@ export default function Scroll(props) {
         <ScrollToolbar scroll={props.scroll} />
       </div>
       <div id="reader-body">
-        {words}
+        {makeWords()}
       </div>
     </>
   )

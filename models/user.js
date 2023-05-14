@@ -24,7 +24,8 @@ const userSchema = new mongoose.Schema({
   bio: { type: String, },
   profilePictureUrl: { type: String, },
   scrolls: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Scroll' }],
-  decks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Scroll'}],
+  decks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Deck' }],
+  cards: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Card' }],
 }, {
   timestamps: true,
 });

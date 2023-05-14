@@ -6,7 +6,10 @@ import {
 } from 'react-router-dom';
 import './index.css';
 import App from './App';
-import Index, { loader as indexLoader } from './routes/Index';
+import Index, {
+  action as indexAction,
+  loader as indexLoader
+} from './routes/Index';
 import Lookup from './routes/lookup';
 import UserPage, { loader as userPageLoader } from './routes/UserPage'
 import Login, { action as loginAction } from './routes/Login';
@@ -18,6 +21,21 @@ import Reader from './routes/Reader';
 import ErrorPage from './error-page';
 import reportWebVitals from './reportWebVitals';
 
+function makeTitle(route) {
+  const siteTitle = 'Glossi';
+  if (route === 'index') {
+    return siteTitle;
+  } else {
+    const element = {
+      'scrolls index': 'Scrolls',
+      'scroll edit': 'Edit ',
+      'scroll': '',
+      'login': 'Log in',
+      'signup': 'Sign up'
+    };
+    return siteTitle + ' - ' + element[route];
+  }
+}
 
 const router = createBrowserRouter([
   {
@@ -30,7 +48,8 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Index />,
+            element: <Index title={makeTitle('index')} />,
+            action: indexAction,
             loader: indexLoader,
           },
           {
@@ -39,7 +58,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'scrolls/:scrollId',
-            element: <ScrollPage />,
+            element: <ScrollPage title={makeTitle('scroll')} />,
             loader: scrollLoader,
           },
           {
@@ -48,7 +67,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'scrolls/:scrollId/edit',
-            element: <ScrollEdit />,
+            element: <ScrollEdit title={makeTitle('scroll')} />,
             action: scrollEditAction,
             loader: scrollEditLoader,
           },
@@ -71,11 +90,11 @@ const router = createBrowserRouter([
           },
           {
             path: 'login',
-            element: <Login />,
+            element: <Login title={makeTitle('login')} />,
           },
           {
             path: 'signup',
-            element: <Signup />
+            element: <Signup title={makeTitle('signup')} />
           }
         ]
       }

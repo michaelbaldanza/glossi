@@ -14,7 +14,15 @@ export default function ScrollPreview(props) {
           <span className="faded">{scroll.updatedAt.slice(0,10)}</span>
         </h6>
         <span className="scroll-preview" style={{'display': 'block'}}>
-          {scroll.body.slice(0,70) + '...'}
+          {
+            scroll.body ?
+              scroll.body.length >= 71 ?
+              scroll.body.slice(0,70) + '...'
+              :
+              scroll.body
+            :
+            ''
+          }
         </span>
       </span>
     </Link>

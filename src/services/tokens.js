@@ -20,7 +20,6 @@ function removeToken() {
 }
 
 function setToken(token) {
-  console.log(`setting the token`)
   localStorage.setItem('token', token);
 }
 

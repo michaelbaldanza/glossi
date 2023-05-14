@@ -1,4 +1,6 @@
-export const refOrder = ['wikt', 'fd', 'mw', 'odus',];
+export const refOrder = ['wikt', 'fd', 'mw',];
+// removed 'odus' and 'wikt' from refOrder for development
+// normal refOrder is 'wikt', ... 'odus
 
 export const lexica = {
   'fd': {
@@ -62,16 +64,16 @@ export async function collect(term) {
   const responses = {};
   for (let i = 0; i < refOrder.length; i++) {
     let ref = refOrder[i];
-    if (
-        i === 0 || responses.wikt &&
-        (responses.wikt.response.en || responses.wikt.response.title)
-      ) {
+    // if (
+    //     i === 0 || responses.wikt &&
+    //     (responses.wikt.response.en || responses.wikt.response.title)
+    //   ) {
       responses[ref] = {
         'name': lexica[ref].name,
         'abbr': ref,
         'response': await get(lexica[ref].args(term)),
       }
     }
-  }
+  // }
   return responses;
 }

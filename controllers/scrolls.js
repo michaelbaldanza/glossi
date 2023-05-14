@@ -1,24 +1,23 @@
 const Scroll = require('../models/scroll');
 const User = require('../models/user');
 const Deck = require('../models/deck');
+const Card = require('../models/card');
 
 async function create(req, res) {
+  const scrolls = await Scroll.find({});
+  console.log(scrolls)
+  console.log(`There are ${scrolls} scrolls`);
+  console.log(`hitting create scroll`)
   const userId = req.user._id;
   const scroll = new Scroll(req.body);
   scroll.createdBy = req.user._id;
   const scribe = await User.findById(userId);
-  scribe.scrolls.push(scroll);
-  const deck = new Deck({
-    name: `${scroll.title}'s deck`,
-    createdBy: scribe._id,
-    scrolls: [scroll.id]
-  });
-  scribe.decks.push(deck);
-  scroll.decks.push(deck);
+  scribe.scrolls.push(scroll._id);
+  console.log(scroll)
   try {
-    await deck.save();
     await scribe.save();
     await scroll.save();
+    res.json(scroll);
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
@@ -42,7 +41,8 @@ async function index(req, res) {
 }
 
 async function get(req, res) {
-  const scroll = await Scroll.findById(req.params.id).populate('createdBy').populate('decks');
+  const scroll = await Scroll.findById(req.params.id).populate('createdBy');
+  // const scroll = await Scroll.findById(req.params.id).populate('createdBy').populate('decks');
   res.json(scroll);
 }
 

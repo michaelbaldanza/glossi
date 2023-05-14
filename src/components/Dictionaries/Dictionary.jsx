@@ -1,9 +1,10 @@
 import { Fragment, useState } from 'react';
 import Entry from './Entry';
 import { clipColon, isLast } from '../../services/helpers';
+import { BTN_CLASSES } from '../../services/constants';
 
 export default function Dictionary(props) {
-  
+  const [addView, setAddView] = props.addView;
   const [currentIdx, setCurrentIdx] = props.currentIdx;
   const [clickThroughHistory, setClickThroughHistory] = props.clickThroughHistory;
   const abbr = props.mostRecent.abbr;
@@ -15,6 +16,7 @@ export default function Dictionary(props) {
   )
 
   function mapEntries(entryArr, customProps) {
+    if (!entryArr) return;
     const entryMap = entryArr.map((entry, idx1) => {
       const entryProps = {
         key: `${api.toLowerCase()}-${idx1}`,
@@ -25,6 +27,9 @@ export default function Dictionary(props) {
         api: api,
         quarry: props.quarry,
         handleRef: props.handleRef,
+        abbr: abbr,
+        isLast: isLast(idx1, entryArr),
+        addView: [addView, setAddView],
       };
       Object.assign(entryProps, customProps)
       return <Entry {...entryProps}/>;
@@ -76,7 +81,7 @@ export default function Dictionary(props) {
           'headword': clipColon(re.meta.id),
           'partOfSpeech': re.fl,
           'definitions': re.shortdef,
-        };;
+        };
         ents.push(entry);
       }
       return mapEntries(ents);
@@ -87,7 +92,18 @@ export default function Dictionary(props) {
       }
     },
     'wikt': function() {
-      if (res.title) { // error handling
+      function checkLanguages() {
+        // work around for lack of response in mobile
+        const langCodes = ['en', 'de', 'fr', 'la', 'it', 'other'];
+        for (let i = 0; i < langCodes.length; i++) {
+          if (res.hasOwnProperty(langCodes[i])) {
+            return true;
+          }
+        }
+        return false;
+      }
+      console.log(res)
+      if (res.title || !checkLanguages()) { // error handling
         return (
           <div className="error-message">
             <div>{res.title}</div>
@@ -115,7 +131,9 @@ export default function Dictionary(props) {
       ));
 
       return <>
-          {langBar}
+          <div className="lang-bar">
+            {langBar}
+          </div>
           {
             langs.map((lang, idx0) => (
               mapEntries(res[lang], { selLang: selLang, lang: lang })

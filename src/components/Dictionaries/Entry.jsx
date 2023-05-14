@@ -1,40 +1,70 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import BoxWord from './BoxWord';
 import { clipTags, isLast } from '../../services/helpers';
+import { BTN_CLASSES } from '../../services/constants';
+import { getUser } from '../../services/users';
 
 export default function Entry(props) {
+  const [user, setUser] = useOutletContext();
+  const [addView, setAddView] = props.addView;
   const [currentIdx, setCurrentIdx] = props.currentIdx;
   const api = props.api.toLowerCase().replace(' ', '-');
   const entry = props.entry;
   const quarry = props.quarry;
+  
+  function makePartOfSpeechHeading() {
+    if (!entry.partOfSpeech) return;
+    function makeAddViewButton() {
+      if (!user || props.abbr === 'mw' || props.abbr === 'odus') return;
 
-  const partOfSpeech = entry.partOfSpeech ? <h6 className="faded" style={{'fontSize': 'small'}}>
+      function handleClick(e) {
+        e.stopPropagation();
+        entry.headword = quarry;
+        setAddView([entry])
+      }
+
+      return (
+        <button
+            className={BTN_CLASSES}
+            onClick={(e) => handleClick(e)}
+        >
+          +
+        </button>
+      );
+    }
+    return (<div style={{'display': 'flex', 'alignItems': 'center'}}>
+      <h6 className="faded" style={{'fontSize': 'small'}}>
       {entry.partOfSpeech.toLowerCase()}
       {props.lang === 'other' ? ' - ' + entry.language : ''}
+      
     </h6>
-    :
-    ''
-  ;
-  const antonyms = entry.antonyms && entry.antonyms.length ? <div>
+    {makeAddViewButton()}
+    </div>)
+  }
+
+  function makeSynsOrAnts(synsOrAnts) {
+    if (!entry[synsOrAnts] || !entry[synsOrAnts].length) return;
+    return <>
       <h6
         className="faded" style={{'fontSize': 'smaller'}}
       >
-        antonyms
+        {synsOrAnts}
       </h6>
       <div>
         {
-          entry.antonyms.map((antonym, idx0) => {
+          entry[synsOrAnts].map((synOrAnt, idx0) => {
             return (
-              <Fragment key={`${antonym}-${idx0}`}>
+              <Fragment key={`${synOrAnt}-${idx0}`}>
                 <BoxWord
                   currentIdx={[currentIdx, setCurrentIdx]}
                   clickThroughHistory={props.clickThroughHistory}
-                  wordId={`${antonym}-${idx0}`}
-                  word={antonym}
+                  wordId={`${synOrAnt}-${idx0}`}
+                  word={synOrAnt}
                   handleRef={props.handleRef}
                 />
                 {
-                  isLast(idx0, entry.antonyms) ?
+                  isLast(idx0, entry[synsOrAnts]) ?
                   ''
                   :
                   ', '
@@ -44,75 +74,44 @@ export default function Entry(props) {
           })
         }
       </div>
-    </div>
-    :''
-  ;
-
-  const synonyms = entry.synonyms && entry.synonyms.length ? <div>
-    <h6
-      className="faded" style={{'fontSize': 'smaller'}}
-    >
-      synonyms
-    </h6>
-    <div>
-      {
-        entry.synonyms.map((synonym, idx0) => (
-          <Fragment key={`${synonym}-${idx0}`}>
-            <BoxWord
-              currentIdx={[currentIdx, setCurrentIdx]}
-              clickThroughHistory={props.clickThroughHistory}
-              wordId={`${synonym}-${idx0}`}
-              word={synonym}
-            />
-            {
-              isLast(idx0, entry.synonyms) ?
-              '' :
-              ', '
-            } 
-          </Fragment>
-        ))
-        }
-      </div>
-    </div>
-    :''
-  ;
+    </>
+  }
 
   return (
     <div
       key={`${api}-entry-${props.idx1}`}
       style={{
-        'display': props.selLang === props.lang ? 'block' : 'none'
+        'display': props.selLang === props.lang ? 'block' : 'none',
+        'borderBottom': props.isLast ? '' : 'dashed grey 0.25px',
       }}
       className={`entry-container ${api}`}
     >
       {
-        entry.headword && entry.headword !== quarry ?
-        <h6 style={{'fontSize': 'small'}}>
-          {entry.headword}
-        </h6>
-        : ''
+        (entry.headword && entry.headword !== quarry) ?
+        <h6>{entry.headword}</h6> : ''
       }
-      {partOfSpeech}
+      {makePartOfSpeechHeading()}
       <ol>
         {
           entry.definitions.map((def, idx2) => {
             function makeLi(defOrDefinition) {
-              return <li key={`sense-${props.idx1}-${idx2}`}>
-              {
-              defOrDefinition.split(' ').map((word, idx3) => (
-                <Fragment key={`${word}-${idx2}-${idx3}`}>
-                  <BoxWord
-                    currentIdx={[currentIdx, setCurrentIdx]}
-                    clickThroughHistory={props.clickThroughHistory}
-                    wordId={`${word}-${idx2}-${idx3}`}
-                    word={word}
-                    handleRef={props.handleRef}
-                  />
-                  {' '}
-                </Fragment>
-              ))
-            }
-            </li>;
+              return (<li key={`sense-${props.idx1}-${idx2}`}>
+                {
+                  defOrDefinition.split(' ').map((word, idx3) => (
+                    <Fragment key={`${word}-${idx2}-${idx3}`}>
+                      <BoxWord
+                        currentIdx={[currentIdx, setCurrentIdx]}
+                        clickThroughHistory={props.clickThroughHistory}
+                        wordId={`${word}-${idx2}-${idx3}`}
+                        word={word}
+                        handleRef={props.handleRef}
+                        isQuarry={word === quarry ? true : false}
+                      />
+                      {' '}
+                    </Fragment>
+                  ))
+                }
+              </li>);
             }
 
             return (
@@ -123,8 +122,8 @@ export default function Entry(props) {
           )})
         }
       </ol>
-      {synonyms}
-      {antonyms}
+      {makeSynsOrAnts('synonyms')}
+      {makeSynsOrAnts('antonyms')}
     </div>
   );
 }

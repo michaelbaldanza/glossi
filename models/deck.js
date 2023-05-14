@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const cardSchema = new Schema({
-  term: { type: String, required: true, },
-  definitions: [String],
-  partOfSpeech: { type: String, required: false },
-  etymology: { type: String, },
+const collaboratorSchema = new Schema({
+  user: { type: Schema.Types.ObjectId, ref: 'User' },
+  permissions: {
+    canAddOwnCards: { type: Boolean, default: false, },
+    canEditOthersCards: { type: Boolean, default: false, },
+    canAddOwnNotes: { type: Boolean, default: false, },
+    canEditOthersNotes: { type: Boolean, default: false, },
+  },
 }, {
   timestamps: true,
 });
@@ -17,8 +20,8 @@ const deckSchema = new Schema({
     ref: 'User',
     required: true,
   },
-  cards: [cardSchema],
-  scrolls: [{type: Schema.Types.ObjectId, ref: 'Deck'}],
+  collaborators: [collaboratorSchema],
+  cards: [{ type: Schema.Types.ObjectId, ref: 'Card'}],
 }, {
   timestamps: true,
 });

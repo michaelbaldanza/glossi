@@ -1,24 +1,27 @@
 import { Fragment, useRef, useState } from 'react';
 import Dictionary from './Dictionaries/Dictionary';
+import CardForm from './Dictionaries/CardForm';
 import BoxWord from './Dictionaries/BoxWord';
 import { clipTags, isLast } from '../services/helpers';
 import { lexica, refOrder } from '../services/dictionaries';
+import { BTN_CLASSES } from '../services/constants';
 
 export default function Infobox(props) {
+  const decks = props.decks;
   const [currentIdx, setCurrentIdx] = props.currentIdx;
-  console.log(currentIdx)
   const [clickThroughHistory, setClickThroughHistory] = props.clickThroughHistory;
-  console.log(clickThroughHistory)
   const quarry = props.mostRecent.quarry;
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const dictionaries = props.mostRecent.dictionaries;
   const [activeDict, setActiveDict] = useState('Wiktionary');
-  const [addView, setAddView] = useState(false);
+  const [addView, setAddView] = useState([]);
   const infoboxRef = useRef(null);
   const dictProps = {
+    decks: decks,
     quarry: quarry,
     currentIdx: [currentIdx, setCurrentIdx],
     clickThroughHistory: [clickThroughHistory, setClickThroughHistory],
+    addView: [addView, setAddView],
     handleRef: handleRef,
   };
   function handleRef() {
@@ -61,37 +64,12 @@ export default function Infobox(props) {
   }
 
   function makeInfoboxHeader() {
-    const btnClasses = 'btn btn-link link-dark toolbar-btn text-decoration-none'
-    function handleAddClick(e) {
-      e.stopPropagation();
-      setAddView(!addView);
-    }
-    
-    function handleArrowClick(e) {
-      e.stopPropagation();
-      const val = +e.target.value;
-      if (!canClick(val)) return;
-      setCurrentIdx(currentIdx + val);
-    }
 
     function handleXClick(e) {
       e.stopPropagation();
+      if (addView.length) return setAddView(addView.slice(0, 0));
       setLookupHistory([...lookupHistory.slice(), null]);
     }
-
-    // const isWiktionary = (
-    //   activeDict === 'Wiktionary' ?
-    //     <>
-    //       <button
-    //         className={btnClasses}
-    //         onClick={(e) => handleAddClick(e)}
-    //       >
-    //         {addView ? 'Lookup View' : 'Add to deck'}
-    //       </button>
-    //     </>
-    //     :
-    //     ''
-    // );
 
     function canClick(val) {
       const canClick = (
@@ -111,11 +89,19 @@ export default function Infobox(props) {
     }
     
     function makeArrow(val) {
+      function handleArrowClick(e) {
+        e.stopPropagation();
+        const val = +e.target.value;
+        if (!canClick(val)) return;
+        setCurrentIdx(currentIdx + val);
+      }
+
+      if (addView.length) return;
       return <button
         type="button"
         id={val > 0 ? 'fwd-btn' : 'bwd-btn'}
         value={val}
-        className={`${btnClasses} ${!canClick(val) ? 'faded' : ''}`}
+        className={`${BTN_CLASSES} ${!canClick(val) ? 'faded' : ''}`}
         onClick={(e) => handleArrowClick(e)}
         style={!canClick(val) ? {'cursor': 'auto'} : {}}
       >
@@ -125,24 +111,26 @@ export default function Infobox(props) {
 
     const infoboxHeader = <div className="action-heading">
       <h5>
-        {quarry}
+        {!addView.length ? quarry : 'Make a card'}
       </h5>
       <div style={{'display': 'flex'}}>
         {makeArrow(-1)}
         {makeArrow(1)}
         <button
-          className={btnClasses}
+          className={BTN_CLASSES}
           onClick={(e) => handleXClick(e)}
         >
-          X
+          {!addView.length ? 'X' : '↩'}
         </button>
-      </div>         
+      </div>
     </div>;
 
     return infoboxHeader;
   }
 
   function makeInfoboxNav(){
+    if (addView.length) return;
+
     function handleDictionaryClick(e) {
       e.stopPropagation();
       setActiveDict(e.target.innerText);
@@ -171,23 +159,31 @@ export default function Infobox(props) {
     return infoboxNav;
   }
 
+
   return (
-      <div className={`infobox`} ref={infoboxRef} style={{...getInfoboxPosition(), 'cursor': 'auto'}} >
-        {makeInfoboxHeader()}
-        {makeInfoboxNav()}
-        {
-          Object.keys(dictionaries).map((dictabbr, idx0) => (
-            <div
-              key={`${dictabbr}-${idx0}`}
-              style={{'display': activeDict === dictionaries[dictabbr].name ? 'block' : 'none'}}
-            >
-              <Dictionary
-                mostRecent={dictionaries[dictabbr]}
-                {...dictProps}
-              />
-            </div>
-          ))
-        }
-      </div>
-  )
+    <div
+      className={`infobox`}
+      ref={infoboxRef}
+      style={{...getInfoboxPosition(), 'cursor': 'auto'}}
+    >
+      {makeInfoboxHeader()}
+      {makeInfoboxNav()}
+      {
+        addView.length ?
+        <CardForm entry={addView[0]} decks={decks} />
+        :
+        Object.keys(dictionaries).map((dictabbr, idx0) => (
+          <div
+            key={`${dictabbr}-${idx0}`}
+            style={{'display': activeDict === dictionaries[dictabbr].name ? 'block' : 'none'}}
+          >
+            <Dictionary
+              mostRecent={dictionaries[dictabbr]}
+              {...dictProps}
+            />
+          </div>
+        ))
+      }
+    </div>
+  );
 }

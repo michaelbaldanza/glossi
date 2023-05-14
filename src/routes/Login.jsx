@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { redirect, useNavigate, useOutletContext } from 'react-router-dom';
 import { getUser, login } from '../services/users';
 
@@ -32,6 +32,10 @@ export default function Login(props) {
     }
   }
   
+  useEffect(() => {
+    document.title = props.title;
+  }, []);
+
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit}>

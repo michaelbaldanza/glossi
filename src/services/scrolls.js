@@ -1,30 +1,20 @@
 import { getToken } from './tokens';
+import { makeOptions } from './constants';
 const BASE_URL = '/api/scrolls/'
 
 async function create(scroll) {
-  const options = {
-    method: 'POST',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + getToken(),
-    }),
-    body: JSON.stringify(scroll),
-  };
-  return await fetch(BASE_URL + 'save', options)
+  console.log(`hitting scrollsService create`)
+  const options = makeOptions('POST', scroll);
+  return await fetch(BASE_URL, options)
   .then(res => {
+    console.log(`so it fetched`)
     if (res.ok) return res.json();
     throw new Error('bad credentials');
   });
 }
 
 async function deleteScroll(scrollId) {
-  const options = {
-    method: 'DELETE',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + getToken(),
-    }),
-  }
+  const options = makeOptions('DELETE');
   await fetch(BASE_URL + scrollId + '/delete', options);
   return true;
 }
@@ -38,14 +28,7 @@ async function getScroll(scrollId) {
 }
 
 async function update(scrollId, updates) {
-  const options = {
-    method: 'PUT',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + getToken(),
-    }),
-    body: JSON.stringify(updates)
-  };
+  const options = makeOptions('PUT', updates);
   return await fetch(BASE_URL + scrollId, options).then(res => res.json());
 }
 

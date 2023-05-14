@@ -36,7 +36,6 @@ export default function Reader() {
   ));
   
   function handleSave() {
-    console.log('click')
     // if (user) {
       create(submission);
     // }

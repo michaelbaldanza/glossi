@@ -1,5 +1,7 @@
 const User = require('../models/user');
+const Deck = require('../models/deck');
 const Scroll = require('../models/scroll');
+const Card = require('../models/card');
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET;
 
@@ -39,7 +41,15 @@ async function login(req, res) {
 async function signup(req, res) {
   console.log('hitting sign up')
   const user = new User(req.body);
+  const deck = new Deck({
+    name: `${user.username}'s deck`,
+    createdBy: user._id,
+  });
+  user.decks.push(deck._id);
+  console.log(deck)
+  console.log(user)
   try {
+    await deck.save();
     await user.save();
     const token = createJWT(user);
     res.json({ token });
