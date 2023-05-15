@@ -14,7 +14,6 @@ export default function Dictionary(props) {
   const [selLang, setSelLang] = useState(
     langs ? langs[0] : null
   )
-  if (abbr !== 'fd') return;
 
   function mapEntries(entryArr, customProps) {
     if (!entryArr) return;
