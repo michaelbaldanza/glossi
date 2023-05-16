@@ -92,22 +92,11 @@ export default function Dictionary(props) {
       }
     },
     'wikt': function() {
-      function checkLanguages() {
-        // work around for lack of response in mobile
-        const langCodes = ['en', 'de', 'fr', 'la', 'it', 'other'];
-        for (let i = 0; i < langCodes.length; i++) {
-          if (res.hasOwnProperty(langCodes[i])) {
-            return true;
-          }
-        }
-        return false;
-      }
-      console.log(res)
-      if (res.title || !checkLanguages()) { // error handling
+      if (res.title || res.hasOwnProperty('1')) { // error handling
         return (
           <div className="error-message">
-            <div>{res.title}</div>
-            <div>{res.detail}</div>
+            <div>{res.title ? res.title : 'Response Unavailable'}</div>
+            <div>{res.detail ? res.detail : 'The Wiktionary API is not available on mobile.'}</div>
           </div>
         );
       }
@@ -131,14 +120,14 @@ export default function Dictionary(props) {
       ));
 
       return <>
-          <div className="lang-bar">
-            {langBar}
-          </div>
-          {
-            langs.map((lang, idx0) => (
-              mapEntries(res[lang], { selLang: selLang, lang: lang })
-            ))
-          }
+        <div className="lang-bar">
+          {langBar}
+        </div>
+        {
+          langs.map((lang, idx0) => (
+            mapEntries(res[lang], { selLang: selLang, lang: lang })
+          ))
+        }
       </>;
       
     }

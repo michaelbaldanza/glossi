@@ -1,4 +1,5 @@
 import { Fragment, useRef, useState } from 'react';
+import { isMobile } from 'react-device-detect';
 import Dictionary from './Dictionaries/Dictionary';
 import CardForm from './Dictionaries/CardForm';
 import BoxWord from './Dictionaries/BoxWord';
@@ -13,7 +14,7 @@ export default function Infobox(props) {
   const quarry = props.mostRecent.quarry;
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const dictionaries = props.mostRecent.dictionaries;
-  const [activeDict, setActiveDict] = useState('Wiktionary');
+  const [activeDict, setActiveDict] = useState(isMobile ? 'Free Dictionary' : 'Wiktionary');
   const [addView, setAddView] = useState([]);
   const infoboxRef = useRef(null);
   const dictProps = {
@@ -138,7 +139,11 @@ export default function Infobox(props) {
 
     const infoboxNav = <div className="dictionary-bar">
       {
-        refOrder.map((dictKey, idx0) => (
+        refOrder.map((dictKey, idx0) => {
+          if (dictKey === 'wikt' && dictionaries[dictKey].response.hasOwnProperty('1')) {
+            return '';
+          }
+          return (
           dictionaries[dictKey] ?
           <Fragment key={dictKey + '-' + idx0}>
             <button
@@ -153,7 +158,7 @@ export default function Infobox(props) {
           </Fragment>
           :
           ''
-        ))
+        )})
       }
     </div>;
     return infoboxNav;
@@ -172,7 +177,7 @@ export default function Infobox(props) {
         addView.length ?
         <CardForm entry={addView[0]} decks={decks} />
         :
-        Object.keys(dictionaries).map((dictabbr, idx0) => (
+        refOrder.map((dictabbr, idx0) => (
           <div
             key={`${dictabbr}-${idx0}`}
             style={{'display': activeDict === dictionaries[dictabbr].name ? 'block' : 'none'}}
