@@ -6,6 +6,11 @@ function getUser() {
   return getUserFromToken();
 }
 
+async function getUserById(id) {
+  console.log(`trying to get user by id`)
+  return await fetch(BASE_URL + 'id/' + id).then(res => res.json());
+}
+
 async function getByUsername(username) {
   return await fetch(BASE_URL + username).then(res => res.json());
 }
@@ -59,6 +64,7 @@ async function signup(user) {
 
 export {
   getUser,
+  getUserById,
   getByUsername,
   getUserDecksAndScrolls,
   login,

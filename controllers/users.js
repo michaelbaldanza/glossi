@@ -13,6 +13,13 @@ function createJWT(user) {
   );
 }
 
+async function getUserById(req, res) {
+  console.log(`hitting getUserById`)
+  const user = await User.findById(req.params.id).populate('decks').exec();
+  console.log(user)
+  res.json(user);
+}
+
 async function getByUsername(req, res) {
   const user = await User.find({ username: req.params.username }).populate('scrolls');
   res.json(user);
@@ -72,6 +79,7 @@ async function indexUserScrolls(req, res) {
 }
 
 module.exports = {
+  getUserById: getUserById,
   getByUsername: getByUsername,
   login: login,
   signup: signup,

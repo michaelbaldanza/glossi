@@ -5,6 +5,7 @@ import { breakLines } from '../services/helpers';
 
 export default function Scroll(props) {
   const [lookupHistory, setLookupHistory] = useState([]);
+  const scrollId = props.scroll._id;
   function makeWords() {
     if (!props.scroll.body) return;
     const lines = breakLines(props.scroll.body);
@@ -12,10 +13,11 @@ export default function Scroll(props) {
       <div className="line" key={'line-' + idx0}>
         {
           line.split(' ').map((word, idx1) => {
-            const wordId = 'line-' + idx0 + '-word-' + idx1;
+            const wordId = (idx0 + 1) + '.' + (idx1 + 1);
             return (
               <Fragment key={wordId}>
                 <Word
+                  scrollId={scrollId}
                   lookupHistory={[lookupHistory, setLookupHistory]}
                   wordId={wordId}
                   word={word}

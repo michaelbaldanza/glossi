@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
   scrolls: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Scroll' }],
   decks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Deck' }],
   cards: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Card' }],
+  notes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Note' }],
 }, {
   timestamps: true,
 });

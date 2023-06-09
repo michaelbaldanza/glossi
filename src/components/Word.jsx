@@ -18,7 +18,7 @@ export default function Word(props) {
     const rects = e.target.getClientRects();
     setPosition(rects.length > 1 ? rects[0] : rect);
     setReaderPosition(e.target.parentNode.getBoundingClientRect());
-    const term = depunctuate(props.word).toLowerCase();
+    const term = depunctuate(props.word);
     if (!clickThroughHistory.length) {
       const response = {
         'quarry': term,
@@ -35,6 +35,7 @@ export default function Word(props) {
 
   const infobox = isActive ?
     <Infobox
+      scrollId={props.scrollId}
       currentIdx={[currentIdx, setCurrentIdx]}
       lookupHistory={[lookupHistory, setLookupHistory]}
       clickThroughHistory={[clickThroughHistory, setClickThroughHistory]}

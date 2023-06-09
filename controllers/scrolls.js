@@ -8,6 +8,7 @@ async function create(req, res) {
   console.log(scrolls)
   console.log(`There are ${scrolls} scrolls`);
   console.log(`hitting create scroll`)
+  console.log(req.user);
   const userId = req.user._id;
   const scroll = new Scroll(req.body);
   scroll.createdBy = req.user._id;
@@ -41,6 +42,10 @@ async function index(req, res) {
 }
 
 async function get(req, res) {
+  const decks = await Deck.find({});
+  const cards = await Card.find({});
+  // console.log(decks);
+  // console.log(cards)
   const scroll = await Scroll.findById(req.params.id).populate('createdBy');
   // const scroll = await Scroll.findById(req.params.id).populate('createdBy').populate('decks');
   res.json(scroll);

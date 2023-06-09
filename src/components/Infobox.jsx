@@ -3,7 +3,7 @@ import { isMobile } from 'react-device-detect';
 import Dictionary from './Dictionaries/Dictionary';
 import CardForm from './Dictionaries/CardForm';
 import BoxWord from './Dictionaries/BoxWord';
-import { clipTags, isLast } from '../services/helpers';
+import { clipTags, isLast, isLemma } from '../services/helpers';
 import { lexica, refOrder } from '../services/dictionaries';
 import { BTN_CLASSES } from '../services/constants';
 
@@ -14,6 +14,12 @@ export default function Infobox(props) {
   const quarry = props.mostRecent.quarry;
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const dictionaries = props.mostRecent.dictionaries;
+  const [selLang, setSelLang] = useState(
+    dictionaries.wikt && !dictionaries.wikt.response.title ?
+    (dictionaries.wikt.response.en ? 'en' : Object.keys(dictionaries.wikt.response)[0])
+    :
+    null
+  );
   const [activeDict, setActiveDict] = useState(isMobile ? 'Free Dictionary' : 'Wiktionary');
   const [addView, setAddView] = useState([]);
   const infoboxRef = useRef(null);
@@ -22,6 +28,7 @@ export default function Infobox(props) {
     quarry: quarry,
     currentIdx: [currentIdx, setCurrentIdx],
     clickThroughHistory: [clickThroughHistory, setClickThroughHistory],
+    selLang: [selLang, setSelLang],
     addView: [addView, setAddView],
     handleRef: handleRef,
   };
@@ -164,6 +171,33 @@ export default function Infobox(props) {
     return infoboxNav;
   }
 
+  function makeInfoboxBody() {
+    function makeCardForm() {
+      return (<CardForm
+        activeDict={activeDict}
+        scrollId={props.scrollId}
+        entry={addView[0]}
+        decks={decks}
+        wordId={props.wordId}
+      />);
+    }
+
+    function makeDictionaryPanels() {
+      return refOrder.map((dictabbr, idx0) => (
+        <div
+          key={`${dictabbr}-${idx0}`}
+          style={{'display': activeDict === dictionaries[dictabbr].name ? 'block' : 'none'}}
+        >
+          <Dictionary
+            mostRecent={dictionaries[dictabbr]}
+            {...dictProps}
+          />
+        </div>
+      ));
+    }
+
+    return addView.length ? makeCardForm() : makeDictionaryPanels();
+  }
 
   return (
     <div
@@ -173,22 +207,7 @@ export default function Infobox(props) {
     >
       {makeInfoboxHeader()}
       {makeInfoboxNav()}
-      {
-        addView.length ?
-        <CardForm entry={addView[0]} decks={decks} />
-        :
-        refOrder.map((dictabbr, idx0) => (
-          <div
-            key={`${dictabbr}-${idx0}`}
-            style={{'display': activeDict === dictionaries[dictabbr].name ? 'block' : 'none'}}
-          >
-            <Dictionary
-              mostRecent={dictionaries[dictabbr]}
-              {...dictProps}
-            />
-          </div>
-        ))
-      }
+      {makeInfoboxBody()}
     </div>
   );
 }

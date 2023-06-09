@@ -31,6 +31,31 @@ function isLast(idx, arr) {
   return last;
 }
 
+function isLemma(quarry, firstWord, lang) {
 
+}
 
-export { breakLines, capitalize, clipColon, clipNums, clipTags, depunctuate, isLast };
+function swapMacron(str) {
+  const macra = {
+    'ā': 'a',
+    'ē': 'e',
+    'ī': 'i',
+    'ō': 'o',
+    'ū': 'u',
+  };
+  const letters = str.split('');
+  const newLetters = [];
+  for (let i = 0; i < letters.length; i++) {
+    if (macra[letters[i]]) {
+      newLetters.push(macra[letters[i]]);
+    } else {
+      newLetters.push(letters[i]);
+    }
+  }
+  return newLetters.join('');
+}
+
+export {
+  breakLines, capitalize, clipColon, clipNums, clipTags, depunctuate, isLast,
+  isLemma, swapMacron,
+};

@@ -4,7 +4,6 @@ const BASE_URL = '/api/cards/';
 
 async function create(card) {
   console.log(`hitting create card services`)
-  console.log(card)
   const options = makeOptions('POST', card);
   return await fetch(BASE_URL, options)
   .then(res => {

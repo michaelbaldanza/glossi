@@ -6,13 +6,14 @@ import { BTN_CLASSES } from '../../services/constants';
 import { getUser } from '../../services/users';
 
 export default function Entry(props) {
+  const [selLang, setSelLang] = props.selLang;
   const [user, setUser] = useOutletContext();
   const [addView, setAddView] = props.addView;
   const [currentIdx, setCurrentIdx] = props.currentIdx;
   const api = props.api.toLowerCase().replace(' ', '-');
   const entry = props.entry;
   const quarry = props.quarry;
-  
+
   function makePartOfSpeechHeading() {
     if (!entry.partOfSpeech) return;
     function makeAddViewButton() {
@@ -62,6 +63,7 @@ export default function Entry(props) {
                   wordId={`${synOrAnt}-${idx0}`}
                   word={synOrAnt}
                   handleRef={props.handleRef}
+                  selLang={[selLang, setSelLang]}
                 />
                 {
                   isLast(idx0, entry[synsOrAnts]) ?
@@ -81,7 +83,7 @@ export default function Entry(props) {
     <div
       key={`${api}-entry-${props.idx1}`}
       style={{
-        'display': props.selLang === props.lang ? 'block' : 'none',
+        'display': props.lang ? selLang === props.lang ? 'block' : 'none' : 'block',
         'borderBottom': props.isLast ? '' : 'dashed grey 0.25px',
       }}
       className={`entry-container ${api}`}
@@ -106,6 +108,7 @@ export default function Entry(props) {
                         word={word}
                         handleRef={props.handleRef}
                         isQuarry={word === quarry ? true : false}
+                        selLang={[selLang, setSelLang]}
                       />
                       {' '}
                     </Fragment>

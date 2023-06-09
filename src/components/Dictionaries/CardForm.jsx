@@ -1,67 +1,74 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { clipTags, isLast } from '../../services/helpers';
+import { clipTags, isLast, isLemma } from '../../services/helpers';
 import { BTN_CLASSES } from '../../services/constants';
 import { create } from '../../services/cards';
+import { getUserById } from '../../services/users';
 
 export default function CardForm(props) {
   const [user, setUser] = useOutletContext();
-  const decks = user.decks;
-  const [card, setCard] = useState(makeCard(props.entry));
-  const [titleInput, setTitleInput] = useState(false);
+  const userId = useOutletContext()[0]._id;
+  const [activeDeckInput, setActiveDeckInput] = useState(null);
+  const [decks, setDecks] = useState(null);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await getUserById(userId);
+        setDecks(response.decks)
+      } catch (error) {
+        console.error('error', error);
+      }
+    }
+    fetchUser();
+  }, []);
 
-  function makeCard(entry) {
+  const [card, setCard] = useState(makeCardState(props.entry));
+  const [submittedCard, setSubmittedCard] = useState(null);
+  console.log(submittedCard);
+  const [titleInput, setTitleInput] = useState(false);
+  function makeCardState(entry) {
     const newCard = structuredClone(entry);
     newCard.title = newCard.headword;
+    newCard.citation = {
+      scroll: props.scrollId,
+      location: props.wordId,
+    };
+    if (newCard.hasOwnProperty('language')) delete newCard.language;
     delete newCard.headword;
     if (newCard.definitions) {
       const defs = newCard.definitions;
       for (let i = 0; i < defs.length; i++) {
-        defs[i].checked = false;
-        defs[i].idx = i;
+        const def = defs[i];
+        def.checked = false;
+        def.idx = i;
+        def.definition = clipTags(def.definition)
+        def.source = { name: props.activeDict, userSubmitted: false };
+        if (def.hasOwnProperty('parsedExamples')) {
+          delete def.parsedExamples;
+        }
+        if (def.hasOwnProperty('examples')) {
+          for (let j = 0; j < def.examples.length; j++) {
+            def.examples[j] = clipTags(def.examples[j]);
+          }
+        }
+        if (def.hasOwnProperty('example')) {
+          def.examples = [];
+          def.examples.push(def.example);
+          delete def.example;
+        }
       }
     }
     return newCard;
   }
-
-  function handleTitleInput(e) {
-    e.stopPropagation();
-    if ((e.type === 'keydown' && e.keyCode === 13) ||
-      e.type === 'click')
-    setTitleInput(!titleInput);
-  }
-
-  function handleSubmit(e) {
-    e.stopPropagation();
-    const submission = {...card}
-    submission.definitions = submission.definitions.filter((def) => def.checked);
-    create(submission);
-  }
-
-  function handleChange(e) {
-    console.log(card)
-    setCard({
-      ...card,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  function handleCheckbox(idx) {
-    const newDefs = card.definitions.map(def => {
-      if (def.idx === idx) {
-        return { ...def, checked: !def.checked };
+  function makeTitleInput() {
+    function handleTitleInput(e) {
+      e.stopPropagation();
+      if (e.type === 'click' || e.type === 'keydown' && e.key === 'Enter') {
+        setTitleInput(!titleInput);
       }
-      return def;
-    });
-    setCard({
-      ...card,
-      definitions: newDefs
-    });
-    console.log(card)
-  }
+    }
 
-  return (<div>
-    <form onSubmit={ e => e.preventDefault()}>
+    return (
       <div style={{'display': 'flex', 'alignItems': 'center'}}>
         {
           titleInput ?
@@ -88,13 +95,53 @@ export default function CardForm(props) {
           </>
         }
       </div>
-      <div style={{'display': 'flex', 'alignItems': 'center'}}>
-      <h6 className="faded" style={{'fontSize': 'small'}}>
-      {card.partOfSpeech.toLowerCase()}
-      {card.language && card.language !== 'English' ? ' - ' + card.language : ''}
-      
-    </h6>
-    </div>
+    )
+  }
+
+  async function handleSubmit(e) {
+    e.stopPropagation();
+    const submission = {...card}
+    submission.definitions = submission.definitions
+      .filter((def) => def.checked)
+      .map(({checked, idx, ...rest}) => rest);
+    setSubmittedCard(await create(submission));
+  }
+
+  function handleChange(e) {
+    if (e.target.name === 'deckId') {
+      setCard({
+        ...card,
+        [e.target.name]: e.target.value,
+        'deckName': '',
+      })
+    } else if (e.target.name === 'deckName') {
+      setCard({
+        ...card,
+        [e.target.name]: e.target.value,
+        'deckId': '',
+      })
+    } else {
+      setCard({
+        ...card,
+        [e.target.name]: e.target.value
+      })
+    }
+  }
+
+  function makeDefChecklist() {
+    function handleCheckbox(idx) {
+      const newDefs = card.definitions.map(def => {
+        if (def.idx === idx) {
+          return { ...def, checked: !def.checked };
+        }
+        return def;
+      });
+      setCard({
+        ...card,
+        definitions: newDefs
+      });
+    }
+    return (
       <fieldset>
         <legend><h6 style={{'fontSize': 'small'}}>Which definitions do you want to include?</h6></legend>
         {
@@ -114,7 +161,7 @@ export default function CardForm(props) {
                 />
                 <label
                   className="form-check-label"
-                  style={{'width': '332px'}}
+                  style={{'width': '332px', 'hyphens': 'auto'}}
                 >
                   {clipTags(def.definition)}
                 </label>
@@ -125,64 +172,137 @@ export default function CardForm(props) {
           ))
         }
       </fieldset>
-      <fieldset>
-        <legend><h6 style={{'fontSize': 'small'}}>{'Which deck(s) would you like to add this card to?'}</h6></legend>
-        {
-          decks.length ?
-          decks.map((deck, idx0) => (
-            <Fragment key={`deck-checkbox-${idx0 + 1}-${deck.id}`}>
-              <div
-                className="form-check"
-                id={deck._id}
-                style={{'display': 'flex', 'alignItems': 'flex-start'}}
-              >
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  // checked={def.checked}
-                  // onChange={() => handleCheckbox(def.idx)}
-                  style={{'marginRight': '10px'}}
-                />
-                <label
-                  className="form-check-label"
-                  style={{'width': '332px'}}
-                >
-                  {deck.name}
-                </label>
-              </div>
-            </Fragment>
-          ))
-          :
-          ''
-        }
-              <div
-                className="form-check"
-                style={{'display': 'flex', 'alignItems': 'flex-start'}}
-              >
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  // checked={def.checked}
-                  // onChange={() => handleCheckbox(def.idx)}
-                  style={{'marginRight': '10px'}}
-                />
-                <label
-                  className="form-check-label"
-                  style={{'width': '332px'}}
-                >
-                  Other (please specify)
-                  <input type="text" className="form-control" />
-                </label>
-              </div>
-      </fieldset>
-      <button
-        type="submit"
-        className="btn btn-primary"
-        onClick={(e) => handleSubmit(e)}
-      >
-        Add to deck
-      </button>
-    </form>
+    );
+  }
 
-  </div>);
+  function makeDeckView() {
+    function makeCollapseButton(target, text, btnId) {
+      const isActive = activeDeckInput === btnId ? true : false;
+      function handleBtnClick(e) {
+        const id = e.target.id;
+        setActiveDeckInput(activeDeckInput === id ? null : id);
+      }
+
+      return (
+        <button
+          className={`btn btn-outline-dark ${isActive ? 'show' : 'hide'}`}
+          id={btnId}
+          type="button"
+          onClick={(e) => handleBtnClick(e)}
+        >
+          {text}
+        </button>
+      )
+    }
+
+    function makeDeckRadio() {
+      if (activeDeckInput !== 'add-btn') return;
+      function handleRadio(e) {
+      }
+      return (
+        <div>
+        <fieldset>
+        <legend><h6 style={{'fontSize': 'small'}}>{'Add this card to an existing deck:'}</h6></legend>
+      {
+        decks && decks.length ?
+        decks.map((deck, idx0) => (
+          <Fragment key={`deck-checkbox-${idx0 + 1}-${deck.id}`}>
+            <div
+              className="form-check"
+              id={deck._id}
+              style={{'display': 'flex', 'alignItems': 'flex-start'}}
+            >
+              <input
+                className="form-check-input"
+                type="radio"
+                value={deck._id}
+                checked={card.deckId === deck._id}
+                onChange={handleChange}
+                name="deckId"
+                // checked={def.checked}
+                // onChange={() => handleCheckbox(def.idx)}
+                style={{'marginRight': '10px'}}
+              />
+              <label // decks need to be populated
+                className="form-check-label"
+                style={{'width': '332px'}}
+              >
+                {deck.name} {deck._id}
+              </label>
+            </div>
+          </Fragment>
+        ))
+        :
+        ''
+      }
+        </fieldset>
+        </div>
+      )
+    }
+
+    function makeDeckTextInput() {
+      if (activeDeckInput !== 'create-btn') return;
+      return (
+        <div
+          // style={{'display': 'flex', 'alignItems': 'flex-start'}}
+        >
+          {/* <label htmlFor="deck" style={{'flexShrink': '0', }}>
+            Create a new deck and add this card to it:
+          </label> */}
+          <input
+            name="deckName"
+            type="text"
+            className="form-control"
+            placeholder="name the new deck"
+            value={card.deckName}
+            onChange={handleChange}
+          />
+        </div>
+      )
+    }
+
+    return (
+      <>
+        <div
+          className="btn-group btn-group-sm"
+          role="group"
+          aria-label="Buttons for toggling radio input and text input"
+        >
+          {makeCollapseButton('collapseRadio', 'Add to an existing deck', 'add-btn')}
+          {makeCollapseButton('collapseTextInput', 'Create a new deck', 'create-btn')}
+        </div>
+        {makeDeckRadio()}
+        {makeDeckTextInput()}
+      </>
+    )
+  }
+
+  return (
+    submittedCard ?
+    <div>
+      <h1>Success</h1>
+      <p>Created a card for "{submittedCard.title}" and added it to the deck "{submittedCard.deck.name}".</p>
+    </div>
+    :
+    <div>
+      <form onSubmit={e => e.preventDefault()}>
+        {makeTitleInput()}
+        <div style={{'display': 'flex', 'alignItems': 'center'}}>
+          <h6 className="faded" style={{'fontSize': 'small'}}>
+            {card.partOfSpeech.toLowerCase()}
+            {card.language && card.language !== 'English' ? ' - ' + card.language : ''}
+          </h6>
+        </div>
+        {makeDefChecklist()}
+        {makeDeckView()}
+        <button
+          type="submit"
+          className="btn btn-primary"
+          onClick={(e) => handleSubmit(e)}
+        >
+          Add to deck
+        </button>
+      </form>
+    </div>
+  );
 }
