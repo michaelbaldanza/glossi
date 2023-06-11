@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLoaderData, useOutletContext } from 'react-router-dom';
-import ScrollPreview from '../components/ScrollPreview';
+import Preview from '../components/Preview';
 import { getUser, getUserDecksAndScrolls, getByUsername } from '../services/users';
 import { getToken } from '../services/tokens';
 
@@ -18,15 +18,22 @@ export default function UserPage() {
     <div className="outer-container">
       <div className="inner-container">
         <div>
-            <h3>{viewUser.username}'s scrolls</h3>
-            { 
-                scrolls.map((scroll, idx1) => (
-                  <ScrollPreview
-                    key={idx1 + '-' + scroll._id}
-                    scroll={scroll}
-                  />
-                ))
-            }
+          <h3>{viewUser.username}'s scrolls</h3>
+          {   
+            scrolls ?
+              scrolls.map((scroll, idx1) => (
+                <Preview
+                  key={idx1 + '-' + scroll._id}
+                  link={`/scrolls/${scroll._id}`}
+                  heading={scroll.title}
+                  content={scroll.body.slice(0,70) + '...'}
+                  updatedAt={scroll.updatedAt}
+                  creator={scroll.createdBy.username}
+                />
+              ))
+              :
+              'No scrolls to display.'
+          }
         </div>
       </div>
     </div>

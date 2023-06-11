@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Form, Link, redirect, useLoaderData, useOutletContext } from 'react-router-dom';
-import ScrollPreview from '../components/ScrollPreview';
+import Preview from '../components/Preview';
 import { getToken } from '../services/tokens';
 import { create as createScroll, index as indexScrolls } from '../services/scrolls';
 
@@ -11,6 +11,7 @@ export async function action() {
 
 export async function loader() {
   const scrolls = await indexScrolls();
+  console.log(scrolls)
   return scrolls;
 }
 
@@ -53,13 +54,17 @@ export default function Index(props) {
           {   
             scrolls ?
               scrolls.map((scroll, idx1) => (
-                <ScrollPreview
+                <Preview
                   key={idx1 + '-' + scroll._id}
-                  scroll={scroll}
+                  link={`/scrolls/${scroll._id}`}
+                  heading={scroll.title}
+                  content={scroll.body.slice(0,70) + '...'}
+                  updatedAt={scroll.updatedAt}
+                  creator={scroll.createdBy.username}
                 />
               ))
               :
-              ''
+              'No scrolls to display.'
           }
         </div>
       </div>

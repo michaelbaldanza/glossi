@@ -18,6 +18,9 @@ import ScrollEdit, { action as scrollEditAction, loader as scrollEditLoader } fr
 import ScrollPage, { loader as scrollLoader } from './routes/ScrollPage.jsx';
 import Signup from './routes/Signup';
 import Reader from './routes/Reader';
+import DeckIndex, { loader as deckIndexLoader } from './routes/decks/index';
+import DeckPage, { loader as deckLoader } from './routes/decks/show';
+import CardPage from './routes/decks/cards/showcard';
 import ErrorPage from './error-page';
 import reportWebVitals from './reportWebVitals';
 
@@ -53,10 +56,6 @@ const router = createBrowserRouter([
             loader: indexLoader,
           },
           {
-            path: 'decks',
-            element: <div>Decks will go here</div>,
-          },
-          {
             path: 'scrolls/:scrollId',
             element: <ScrollPage title={makeTitle('scroll')} />,
             loader: scrollLoader,
@@ -79,6 +78,21 @@ const router = createBrowserRouter([
             path: 'users/:username',
             element: <UserPage />,
             loader: userPageLoader,
+          },
+          {
+            path: 'decks',
+            element: <DeckIndex />,
+            loader: deckIndexLoader,
+          },
+          {
+            path: 'decks/:deckId',
+            element: <DeckPage />,
+            loader: deckLoader,
+          },
+          {
+            path: 'decks/:deckId/cards/:cardId',
+            element: <CardPage />
+            // loader: cardLoader,
           },
           {
             path: 'profile',
