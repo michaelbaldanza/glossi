@@ -2,6 +2,7 @@ const Scroll = require('../models/scroll');
 const User = require('../models/user');
 const Deck = require('../models/deck');
 const Card = require('../models/card');
+const Definition = require('../models/definition');
 
 async function create(req, res) {
   const scrolls = await Scroll.find({});
@@ -68,3 +69,16 @@ module.exports = {
   get: get,
   update: update,
 };
+
+
+async function DELETE_ALL() {
+  const resources = [Scroll, User, Deck, Card, Definition];
+  for (let i = 0; i < resources.length; i++) {
+    try {
+      await resources[i].deleteMany({});
+    } catch (err){
+      console.error(err);
+    }
+  }
+  console.log('deleted')
+}

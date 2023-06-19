@@ -7,7 +7,6 @@ function getUser() {
 }
 
 async function getUserById(id) {
-  console.log(`trying to get user by id`)
   return await fetch(BASE_URL + 'id/' + id).then(res => res.json());
 }
 

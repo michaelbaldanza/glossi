@@ -1,6 +1,6 @@
 import { redirect } from 'react-router-dom';
-import { deleteScroll, getScroll } from '../services/scrolls';
-import { getUser } from '../services/users';
+import { deleteScroll, getScroll } from '../../services/scrolls';
+import { getUser } from '../../services/users';
 
 export async function action({ params }) {
   console.log(`hitting scrolldelete action`)

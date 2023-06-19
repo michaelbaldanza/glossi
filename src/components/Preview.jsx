@@ -1,11 +1,25 @@
-import { Link, useOutletContext } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { BYLINE_ITEM } from '../services/constants';
+import BylineBar from './BylineBar';
 
 export default function Preview(props) {
-  const [user, setUser] = useOutletContext();
+  console.log(props)
+  let navigate = useNavigate();
+
+  function handleClick(e) {
+    const target = e.target;
+    console.log(e.target)
+    console.log(e.target.parentNode)
+    if (target.matches('.' + BYLINE_ITEM)) return;
+    navigate(props.link);
+  }
 
   return (
-    <Link to={props.link} className="link-dark text-decoration-none">
-      <span className="scroll-preview-container" style={{'display': 'block'}}>
+      <div
+        className="preview-container"
+        onClick={(e) => handleClick(e)}
+        style={{'display': 'block', 'cursor': 'pointer'}}
+      >
         <h5>{props.heading ? props.heading : 'untitled'}</h5>
         <div className="scroll-preview">
           {
@@ -15,12 +29,17 @@ export default function Preview(props) {
             ''
           }
         </div>
-        <h6>
-          <span className="faded">{props.creator}</span>
+        {/* <h6>
+          <span className="faded">{props.createdBy}</span>
           &nbsp;
           <span className="faded">{props.updatedAt.slice(0,10)}</span>
-        </h6>
-      </span>
-    </Link>
+        </h6> */}
+        <BylineBar
+          createdBy={props.createdBy}
+          link={props.link}
+          title={props.heading}
+          updatedAt={props.updatedAt}
+        />
+      </div>
   );
 }

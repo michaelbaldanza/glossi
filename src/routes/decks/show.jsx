@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { get as getDeck } from '../../services/decks';
 import Preview from '../../components/Preview';
+import Header from '../../components/Header';
 
 export async function loader({ params }) {
   const deck = await getDeck(params.deckId);
@@ -9,12 +11,21 @@ export async function loader({ params }) {
 
 export default function DeckPage(props) {
   const deck = useLoaderData();
+
+  useEffect(() => {
+    document.title = props.makeDocTitle('Deck: ' + deck.name);
+  }, []);
+
   const cards = deck.cards;
 
   return (
     <div className="outer-container">
       <div className="inner-container">
-        <h3>Cards</h3>
+        <Header 
+          title={deck.name}
+          createdBy={deck.createdBy}
+          updatedAt={deck.updatedAt}
+        />
         <div>
           {   
             cards ?
@@ -31,7 +42,7 @@ export default function DeckPage(props) {
                       : 'No definitions.')
                   }
                   updatedAt={card.updatedAt}
-                  creator={card.createdBy && card.createdBy.username ? card.createdBy.username : ''}
+                  createdBy={card.createdBy && card.createdBy.username ? card.createdBy.username : ''}
                 />
               ))
               :

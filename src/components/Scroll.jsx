@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import ScrollToolbar from './ScrollToolbar';
+import Header from './Header';
 import Word from './Word';
 import { breakLines } from '../services/helpers';
 
@@ -35,10 +35,11 @@ export default function Scroll(props) {
   
   return (
     <>
-      <div id="reader-header" key="heresakey">
-        <h3>{props.scroll.title ? props.scroll.title : 'untitled'}</h3>
-        <ScrollToolbar scroll={props.scroll} />
-      </div>
+      <Header
+        title={props.scroll.title}
+        createdBy={props.scroll.createdBy}
+        updatedAt={props.scroll.updatedAt}
+      />
       <div id="reader-body">
         {makeWords()}
       </div>

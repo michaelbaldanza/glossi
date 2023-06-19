@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { index as indexDecks } from '../../services/decks';
 import Preview from '../../components/Preview';
@@ -9,7 +10,13 @@ export async function loader() {
 }
 
 export default function DeckIndex(props) {
+  useEffect(() => { // set document title
+    document.title = props.makeDocTitle;
+  }, []);
+  
   const decks = useLoaderData();
+
+  console.log(decks.length)
 
   return (
     <div className="outer-container">
@@ -17,7 +24,7 @@ export default function DeckIndex(props) {
         <h3>Decks</h3>
         <div>
           {   
-            decks ?
+            decks.length ?
               decks.map((deck, idx1) => (
                 <Preview
                   key={idx1 + '-' + deck._id}
@@ -30,7 +37,7 @@ export default function DeckIndex(props) {
                       : 'No cards.'
                   }
                   updatedAt={deck.updatedAt}
-                  creator={deck.createdBy && deck.createdBy.username ? deck.createdBy.username : ''}
+                  createdBy={deck.createdBy}
                 />
               ))
               :

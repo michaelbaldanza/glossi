@@ -22,6 +22,7 @@ export default function Entry(props) {
       function handleClick(e) {
         e.stopPropagation();
         entry.headword = quarry;
+        if (selLang) entry.languageCode = selLang;
         setAddView([entry])
       }
 

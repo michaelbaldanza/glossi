@@ -3,6 +3,10 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { getUser, signup } from '../services/users'; 
 
 export default function Signup(props) {
+  useEffect(() => { // set document title
+    document.title = props.makeDocTitle;
+  }, []);
+
   const [creds, setCreds] = useState({
     username: '',
     email: '',
@@ -29,10 +33,6 @@ export default function Signup(props) {
     }
   }
   
-  useEffect(() => {
-    document.title = props.title;
-  }, []);
-
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit}>

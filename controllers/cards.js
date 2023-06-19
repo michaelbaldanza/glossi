@@ -52,6 +52,18 @@ async function create(req, res) {
   }
 }
 
+async function get(req, res) {
+  console.log(`hitting card controller`)
+  const card = await Card.findById(req.params.id)
+    .populate('definitions')
+    .populate('deck')
+    .populate('createdBy')
+  ;
+
+  return res.json(card);
+}
+
 module.exports = {
   create: create,
+  get: get,
 };

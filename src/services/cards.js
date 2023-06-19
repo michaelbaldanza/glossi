@@ -12,6 +12,12 @@ async function create(card) {
   });
 }
 
+async function get(cardId) {
+  console.log(`hitting cards get`)
+  return await fetch(BASE_URL + cardId).then(res => res.json());
+}
+
 export {
   create,
+  get,
 };

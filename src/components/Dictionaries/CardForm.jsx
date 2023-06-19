@@ -6,6 +6,7 @@ import { create } from '../../services/cards';
 import { getUserById } from '../../services/users';
 
 export default function CardForm(props) {
+  console.log(props);
   const [user, setUser] = useOutletContext();
   const userId = useOutletContext()[0]._id;
   const [activeDeckInput, setActiveDeckInput] = useState(null);
@@ -23,8 +24,8 @@ export default function CardForm(props) {
   }, []);
 
   const [card, setCard] = useState(makeCardState(props.entry));
+  console.log(card);
   const [submittedCard, setSubmittedCard] = useState(null);
-  console.log(submittedCard);
   const [titleInput, setTitleInput] = useState(false);
   function makeCardState(entry) {
     const newCard = structuredClone(entry);
@@ -33,7 +34,7 @@ export default function CardForm(props) {
       scroll: props.scrollId,
       location: props.wordId,
     };
-    if (newCard.hasOwnProperty('language')) delete newCard.language;
+    if (props.activeDict === 'Free Dictionary') newCard.languageCode = 'en'
     delete newCard.headword;
     if (newCard.definitions) {
       const defs = newCard.definitions;

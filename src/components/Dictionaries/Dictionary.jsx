@@ -12,24 +12,10 @@ export default function Dictionary(props) {
   const api = props.mostRecent.name;
   const langs = api === 'Wiktionary' ? Object.keys(res) : null;
   const [selLang, setSelLang] = props.selLang;
-  
-  if (langs) {
-    // console.log(res);
-    // console.log(`here are the available langs:`);
-    // console.log(langs);
-    // console.log(`here's the lang to start`)
-    // console.log(selLang)
-    }
 
   function mapEntries(entryArr, customProps) {
     if (!entryArr) return;
     const entryMap = entryArr.map((entry, idx1) => {
-      if (api === 'Wiktionary') {
-      }
-      if (langs){
-      // console.log(`here is the active lang`);
-      // console.log(selLang);
-      }
       const entryProps = {
         key: `${api.toLowerCase()}-${idx1}`,
         currentIdx: [currentIdx, setCurrentIdx],

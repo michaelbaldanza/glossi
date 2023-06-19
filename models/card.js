@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const cardSchema = new Schema({
   title: { type: String, required: true },
   partOfSpeech: String,
+  languageCode: String,
   definitions: [{type: Schema.Types.ObjectId, ref: 'Definition'}],
   notes: [{ type: Schema.Types.ObjectId, ref: 'Note'}],
   synonyms: [String],

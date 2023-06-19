@@ -2,6 +2,8 @@ import { getToken } from './tokens';
 
 const BTN_CLASSES = 'btn btn-link link-dark toolbar-btn text-decoration-none';
 
+const BYLINE_ITEM = 'byline-item';
+
 function makeOptions(method, resource) {
   const options = {
     method: method,
@@ -14,4 +16,4 @@ function makeOptions(method, resource) {
   return options;
 }
 
-export { BTN_CLASSES, makeOptions };
+export { BTN_CLASSES, BYLINE_ITEM, makeOptions };

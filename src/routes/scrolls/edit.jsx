@@ -1,6 +1,11 @@
+import { useEffect } from 'react';
 import { Form, redirect, useLoaderData, useOutletContext } from 'react-router-dom';
-import { getScroll, update as updateScroll } from '../services/scrolls';
-import { getUser } from '../services/users';
+import { 
+  create as createScroll,
+  getScroll,
+  update as updateScroll
+} from '../../services/scrolls';
+import { getUser } from '../../services/users';
 
 export async function loader({ params }) {
   const user = getUser();
@@ -14,13 +19,32 @@ export async function loader({ params }) {
 export async function action({ request, params }) {
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
-  await updateScroll(params.scrollId, updates);
-  return redirect(`/scrolls/${params.scrollId}`);
+  const hasParams = Object.keys(params).length ? true : false;
+  console.log(updates)
+  console.log(params);
+  if (hasParams) {
+    await updateScroll(params.scrollId, updates);
+    return redirect(`/scrolls/${params.scrollId}`);
+  } else {
+    console.log(`doesn't exist yet`)
+    const scroll = await createScroll(updates);
+    console.log(scroll)
+    return redirect(`/scrolls/${scroll._id}`);
+  }
 };
 
-export default function ScrollEdit() {
-  const [user, setUser] = useOutletContext();
+export default function ScrollEdit(props) {
   const scroll = useLoaderData();
+  useEffect(() => {
+    if (!scroll) {
+      document.title = props.makeDocTitle
+    } else {
+      const scrollStr = scroll.title ? scroll.title : 'untitled';
+      document.title = props.makeDocTitle('Edit scroll: ' + scrollStr);
+    }
+  }, [])
+
+  const [user, setUser] = useOutletContext();
 
   return (
     <div className="form-container">
@@ -30,7 +54,7 @@ export default function ScrollEdit() {
         <input
           className="form-control"
           placeholder="untitled"
-          defaultValue={scroll.title}
+          defaultValue={scroll ? scroll.title : ''}
           type="text"
           name="title"
           />
@@ -41,7 +65,7 @@ export default function ScrollEdit() {
           className="form-control reader-body"
           name="body"
           placeholder="no text"
-          defaultValue={scroll.body}
+          defaultValue={scroll ? scroll.body : ''}
           rows="15"
         />
       </div>

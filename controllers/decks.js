@@ -2,7 +2,7 @@ const Deck = require('../models/deck');
 
 async function get(req, res) {
   const id = req.params.id;
-  const deck = await Deck.findById(id).populate('cards');
+  const deck = await Deck.findById(id).populate('cards').populate('createdBy');
   res.json(deck);
 }
 

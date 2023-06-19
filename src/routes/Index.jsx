@@ -11,7 +11,6 @@ export async function action() {
 
 export async function loader() {
   const scrolls = await indexScrolls();
-  console.log(scrolls)
   return scrolls;
 }
 
@@ -20,7 +19,7 @@ export default function Index(props) {
   const scrolls = useLoaderData();
 
   useEffect(() => {
-    document.title = props.title;
+    document.title = props.makeDocTitle;
   }, []);
 
   return (
@@ -34,7 +33,7 @@ export default function Index(props) {
             <span>
               Get started by&nbsp;
             </span>
-            <Form
+            {/* <Form
               method="post"
               style={{'display': 'inline'}}
             >
@@ -45,7 +44,8 @@ export default function Index(props) {
               >
                 adding a scroll
               </button>
-            </Form>
+            </Form> */}
+            <Link to="scrolls/new" className="text-decoration-none">adding a scroll</Link>
             <span>.</span>
           </div>
         </div>
@@ -58,9 +58,9 @@ export default function Index(props) {
                   key={idx1 + '-' + scroll._id}
                   link={`/scrolls/${scroll._id}`}
                   heading={scroll.title}
-                  content={scroll.body.slice(0,70) + '...'}
+                  content={scroll.body ? scroll.body.slice(0,70) + '...' : ''}
                   updatedAt={scroll.updatedAt}
-                  creator={scroll.createdBy.username}
+                  createdBy={scroll.createdBy}
                 />
               ))
               :

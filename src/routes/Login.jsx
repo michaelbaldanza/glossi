@@ -7,6 +7,10 @@ export function action() {
 }
 
 export default function Login(props) {
+  useEffect(() => { // sets document title
+    document.title = props.makeDocTitle;
+  }, []);
+
   const [creds, setCreds] = useState({
     emailOrUsername: '',
     password: '',
@@ -31,10 +35,6 @@ export default function Login(props) {
       alert('invalid credentials');
     }
   }
-  
-  useEffect(() => {
-    document.title = props.title;
-  }, []);
 
   return (
     <div className="form-container">

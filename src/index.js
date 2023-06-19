@@ -13,31 +13,31 @@ import Index, {
 import Lookup from './routes/lookup';
 import UserPage, { loader as userPageLoader } from './routes/UserPage'
 import Login, { action as loginAction } from './routes/Login';
-import { action as scrollDeleteAction } from './routes/ScrollDelete';
-import ScrollEdit, { action as scrollEditAction, loader as scrollEditLoader } from './routes/ScrollEdit';
-import ScrollPage, { loader as scrollLoader } from './routes/ScrollPage.jsx';
+import { action as scrollDeleteAction } from './routes/scrolls/delete';
+import ScrollEdit, { action as scrollEditAction, loader as scrollEditLoader } from './routes/scrolls/edit';
+import ScrollPage, { loader as scrollLoader } from './routes/scrolls/show.jsx';
 import Signup from './routes/Signup';
 import Reader from './routes/Reader';
 import DeckIndex, { loader as deckIndexLoader } from './routes/decks/index';
 import DeckPage, { loader as deckLoader } from './routes/decks/show';
-import CardPage from './routes/decks/cards/showcard';
+import CardPage, { loader as cardLoader } from './routes/decks/cards/show';
 import ErrorPage from './error-page';
 import reportWebVitals from './reportWebVitals';
 
-function makeTitle(route) {
+function makeDocTitle(pageTitle) {
   const siteTitle = 'Glossi';
-  if (route === 'index') {
-    return siteTitle;
-  } else {
-    const element = {
-      'scrolls index': 'Scrolls',
-      'scroll edit': 'Edit ',
-      'scroll': '',
-      'login': 'Log in',
-      'signup': 'Sign up'
-    };
-    return siteTitle + ' - ' + element[route];
-  }
+  const cetera = pageTitle ? pageTitle + ' - ' : '';
+  // if (route === 'index') {
+  //   return siteTitle;
+  // } else {
+  //   const element = {
+  //     'scrolls index': 'Scrolls',
+  //     'scroll edit': 'Edit ',
+  //     'scroll': '',
+  //     'login': 'Log in',
+  //     'signup': 'Sign up'
+  //   };
+  return cetera + siteTitle;
 }
 
 const router = createBrowserRouter([
@@ -51,13 +51,18 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Index title={makeTitle('index')} />,
+            element: <Index makeDocTitle={makeDocTitle()} />,
             action: indexAction,
             loader: indexLoader,
           },
           {
+            path: 'scrolls/new',
+            element: <ScrollEdit makeDocTitle={makeDocTitle('Add scroll')} />,
+            action: scrollEditAction,
+          },
+          {
             path: 'scrolls/:scrollId',
-            element: <ScrollPage title={makeTitle('scroll')} />,
+            element: <ScrollPage makeDocTitle={makeDocTitle} />,
             loader: scrollLoader,
           },
           {
@@ -66,7 +71,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'scrolls/:scrollId/edit',
-            element: <ScrollEdit title={makeTitle('scroll')} />,
+            element: <ScrollEdit makeDocTitle={makeDocTitle} />,
             action: scrollEditAction,
             loader: scrollEditLoader,
           },
@@ -81,18 +86,18 @@ const router = createBrowserRouter([
           },
           {
             path: 'decks',
-            element: <DeckIndex />,
+            element: <DeckIndex makeDocTitle={makeDocTitle('Decks')} />,
             loader: deckIndexLoader,
           },
           {
             path: 'decks/:deckId',
-            element: <DeckPage />,
+            element: <DeckPage makeDocTitle={makeDocTitle} />,
             loader: deckLoader,
           },
           {
             path: 'decks/:deckId/cards/:cardId',
-            element: <CardPage />
-            // loader: cardLoader,
+            element: <CardPage makeDocTitle={makeDocTitle} />,
+            loader: cardLoader,
           },
           {
             path: 'profile',
@@ -104,11 +109,11 @@ const router = createBrowserRouter([
           },
           {
             path: 'login',
-            element: <Login title={makeTitle('login')} />,
+            element: <Login makeDocTitle={makeDocTitle('Login')} />,
           },
           {
             path: 'signup',
-            element: <Signup title={makeTitle('signup')} />
+            element: <Signup makeDocTitle={makeDocTitle('Signup')} />
           }
         ]
       }

@@ -15,7 +15,7 @@ function createJWT(user) {
 
 async function getUserById(req, res) {
   console.log(`hitting getUserById`)
-  const user = await User.findById(req.params.id).populate('decks').exec();
+  const user = await User.findById(req.params.id).populate('decks');
   console.log(user)
   res.json(user);
 }
@@ -53,11 +53,12 @@ async function signup(req, res) {
     createdBy: user._id,
   });
   user.decks.push(deck._id);
-  console.log(deck)
-  console.log(user)
   try {
-    await deck.save();
-    await user.save();
+    await user.save().then(savedUser => {
+      if (savedUser === user) {
+        deck.save();
+      }
+    });
     const token = createJWT(user);
     res.json({ token });
   } catch (err) {
