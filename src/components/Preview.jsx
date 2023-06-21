@@ -3,13 +3,10 @@ import { BYLINE_ITEM } from '../services/constants';
 import BylineBar from './BylineBar';
 
 export default function Preview(props) {
-  console.log(props)
   let navigate = useNavigate();
 
   function handleClick(e) {
     const target = e.target;
-    console.log(e.target)
-    console.log(e.target.parentNode)
     if (target.matches('.' + BYLINE_ITEM)) return;
     navigate(props.link);
   }
@@ -36,6 +33,7 @@ export default function Preview(props) {
         </h6> */}
         <BylineBar
           createdBy={props.createdBy}
+          docId={props.docId}
           link={props.link}
           title={props.heading}
           updatedAt={props.updatedAt}

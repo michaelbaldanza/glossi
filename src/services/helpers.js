@@ -55,7 +55,11 @@ function swapMacron(str) {
   return newLetters.join('');
 }
 
+function varToString(varObj) {
+  return Object.keys(varObj)[0];
+}
+
 export {
   breakLines, capitalize, clipColon, clipNums, clipTags, depunctuate, isLast,
-  isLemma, swapMacron,
+  isLemma, swapMacron, varToString,
 };

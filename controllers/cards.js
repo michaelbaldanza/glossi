@@ -34,7 +34,6 @@ async function create(req, res) {
   Object.assign(card, newCard);
   deck.cards.push(card._id);
   scroll.cards.push(card._id);
-  user.cards.push(card._id);
   try {
     user.save();
     card.save();
@@ -56,7 +55,6 @@ async function get(req, res) {
   console.log(`hitting card controller`)
   const card = await Card.findById(req.params.id)
     .populate('definitions')
-    .populate('deck')
     .populate('createdBy')
   ;
 

@@ -21,9 +21,10 @@ export default function CardPage(props) {
     <div className="outer-container">
       <div className="inner-container">
         <Header 
-          title={card.title}
-          languageCode={card.languageCode}
           createdBy={card.createdBy}
+          languageCode={card.languageCode}
+          link={`/decks/${card.deck}/cards/${card._id}`}
+          title={card.title}
           updatedAt={card.updatedAt}
         />
         <h4 className="faded" style={{'fontSize': 'small'}}>

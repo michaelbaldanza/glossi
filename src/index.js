@@ -20,6 +20,9 @@ import Signup from './routes/Signup';
 import Reader from './routes/Reader';
 import DeckIndex, { loader as deckIndexLoader } from './routes/decks/index';
 import DeckPage, { loader as deckLoader } from './routes/decks/show';
+import DeckEdit, { action as deckEditAction, loader as deckEditLoader } from './routes/decks/edit';
+import { action as deckDeleteAction } from './routes/decks/delete';
+import ScrollIndex, { loader as scrollIndexLoader } from './routes/scrolls/index';
 import CardPage, { loader as cardLoader } from './routes/decks/cards/show';
 import ErrorPage from './error-page';
 import reportWebVitals from './reportWebVitals';
@@ -56,8 +59,13 @@ const router = createBrowserRouter([
             loader: indexLoader,
           },
           {
+            path: 'scrolls',
+            element: <ScrollIndex makeDocTitle={makeDocTitle('Scrolls')} />,
+            loader: scrollIndexLoader,
+          },
+          {
             path: 'scrolls/new',
-            element: <ScrollEdit makeDocTitle={makeDocTitle('Add scroll')} />,
+            element: <ScrollEdit makeDocTitle={makeDocTitle} />,
             action: scrollEditAction,
           },
           {
@@ -93,6 +101,16 @@ const router = createBrowserRouter([
             path: 'decks/:deckId',
             element: <DeckPage makeDocTitle={makeDocTitle} />,
             loader: deckLoader,
+          },
+          {
+            path: 'decks/:deckId/edit',
+            element: <DeckEdit makeDocTitle={makeDocTitle} />,
+            action: deckEditAction,
+            loader: deckEditLoader,
+          },
+          {
+            path: 'decks/:deckId/delete',
+            action: deckDeleteAction,
           },
           {
             path: 'decks/:deckId/cards/:cardId',

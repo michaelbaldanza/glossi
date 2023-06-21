@@ -38,6 +38,9 @@ async function deleteScroll(req, res) {
 }
 
 async function index(req, res) {
+  // await Definition.deleteMany({});
+  console.log(await Card.find({}));
+  console.log(await Definition.find({}))
   const scrolls = await Scroll.find({}).sort({createdAt: 'desc'}).populate('createdBy');
   res.json(scrolls);
 }

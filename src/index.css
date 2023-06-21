@@ -9,24 +9,30 @@ body {
   background-color: #732C2C;
 }
 
-.navbar-text:hover, .navbar-brand:hover, .nav-link:hover {
-  color: #ABA361;
-}
 
 .navbar-brand, .nav-link {
   color: #F7F8FB;
 }
 
+.navbar-brand:hover, .nav-link:hover {
+  color: #ABA361;
+}
+
+/* .navbar-brand:visited, .nav-link:visited {
+  color: #ABA361;
+} */
+
 footer {
   background-color: #d3d6dc;
 }
 
-.outer-container {
-  background-color: #FDFDFD;
+#nonfooter {
+  min-height: 100vh;
 }
 
-.main {
-  background-color: #FDFDFD; 
+.outer-container {
+  min-height: 100vh;
+  background-color: #FDFDFD;
 }
 
 .toolbar {
@@ -42,10 +48,6 @@ h1, h2, h3, h4, h5, h6, ol {
 
 .App {
   /* max-width: 1200px; */
-}
-
-#nonfooter {
-  min-height: 100vh;
 }
 
 .scroll {

@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState } from 'react';
 import { Form, Link, Outlet, useNavigate } from 'react-router-dom';
-import { getUser, logout } from './services/users';
+import { get as getUser, logout } from './services/users';
 import { clipTags } from './services/helpers';
 
 function App() {
@@ -54,6 +54,11 @@ function App() {
       </button>
       <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
+        <li className="nav-item">
+            <Link className="nav-link" to={'/scrolls'}>
+              Scrolls
+            </Link>
+          </li>
           <li className="nav-item">
             <Link className="nav-link" to={'/decks'}>
               Decks
@@ -72,7 +77,6 @@ function App() {
               </li>
               <li className="nav-item">
                 <Form
-                  
                   action={`logout`}
                   method="post"
                   onSubmit={handleLogout}

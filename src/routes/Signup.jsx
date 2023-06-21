@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import { getUser, signup } from '../services/users'; 
+import { get as getUser, signup } from '../services/users'; 
 
 export default function Signup(props) {
   useEffect(() => { // set document title

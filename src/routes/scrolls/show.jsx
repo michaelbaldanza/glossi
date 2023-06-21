@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useLoaderData } from 'react-router-dom';
-import { getScroll } from '../../services/scrolls';
+import { get as getScroll } from '../../services/scrolls';
 import Scroll from  '../../components/Scroll';
 
 export async function loader({ params }) {

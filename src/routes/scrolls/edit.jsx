@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { Form, redirect, useLoaderData, useOutletContext } from 'react-router-dom';
+import { Form, redirect, useLoaderData } from 'react-router-dom';
 import { 
   create as createScroll,
-  getScroll,
+  get as getScroll,
   update as updateScroll
 } from '../../services/scrolls';
-import { getUser } from '../../services/users';
+import { get as getUser } from '../../services/users';
 
 export async function loader({ params }) {
   const user = getUser();
@@ -13,38 +13,33 @@ export async function loader({ params }) {
   if (!user || user._id !== scroll.createdBy._id) {
     throw redirect(`/scrolls/${scroll._id}`)
   }
-  return scroll;
+  return { scroll, user };
 };
 
 export async function action({ request, params }) {
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
   const hasParams = Object.keys(params).length ? true : false;
-  console.log(updates)
-  console.log(params);
   if (hasParams) {
     await updateScroll(params.scrollId, updates);
     return redirect(`/scrolls/${params.scrollId}`);
   } else {
-    console.log(`doesn't exist yet`)
     const scroll = await createScroll(updates);
-    console.log(scroll)
     return redirect(`/scrolls/${scroll._id}`);
   }
 };
 
 export default function ScrollEdit(props) {
-  const scroll = useLoaderData();
+  const scroll = useLoaderData().scroll;
+  const user = useLoaderData().user;
   useEffect(() => {
     if (!scroll) {
-      document.title = props.makeDocTitle
+      document.title = props.makeDocTitle('Add a scroll')
     } else {
       const scrollStr = scroll.title ? scroll.title : 'untitled';
       document.title = props.makeDocTitle('Edit scroll: ' + scrollStr);
     }
   }, [])
-
-  const [user, setUser] = useOutletContext();
 
   return (
     <div className="form-container">

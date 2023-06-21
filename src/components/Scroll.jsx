@@ -6,6 +6,8 @@ import { breakLines } from '../services/helpers';
 export default function Scroll(props) {
   const [lookupHistory, setLookupHistory] = useState([]);
   const scrollId = props.scroll._id;
+  const link = props.link;
+  console.log(link)
   function makeWords() {
     if (!props.scroll.body) return;
     const lines = breakLines(props.scroll.body);
@@ -37,6 +39,7 @@ export default function Scroll(props) {
     <>
       <Header
         title={props.scroll.title}
+        link={'/scrolls/' + props.scroll._id}
         createdBy={props.scroll.createdBy}
         updatedAt={props.scroll.updatedAt}
       />

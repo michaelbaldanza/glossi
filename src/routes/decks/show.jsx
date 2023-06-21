@@ -16,24 +16,26 @@ export default function DeckPage(props) {
     document.title = props.makeDocTitle('Deck: ' + deck.name);
   }, []);
 
+  console.log(deck.constructor())
+
   const cards = deck.cards;
 
   return (
     <div className="outer-container">
       <div className="inner-container">
         <Header 
-          title={deck.name}
           createdBy={deck.createdBy}
+          docId={deck._id}
+          link={'/decks/' + deck._id}
+          title={deck.name}
           updatedAt={deck.updatedAt}
         />
         <div>
-          {   
+          {
             cards ?
               cards.map((card, idx1) => (
                 <Preview
                   key={idx1 + '-' + card._id}
-                  link={`/decks/${deck._id}/cards/${card._id}`}
-                  heading={card.title}
                   content={
                     card?.partOfSpeech.toLowerCase() + ': ' +
                     (card.definitions.length ?
@@ -41,6 +43,8 @@ export default function DeckPage(props) {
                       (card.definitions.length > 1 ? ' definitions' : ' definition')
                       : 'No definitions.')
                   }
+                  link={`/decks/${deck._id}/cards/${card._id}`}
+                  heading={card.title}
                   updatedAt={card.updatedAt}
                   createdBy={card.createdBy && card.createdBy.username ? card.createdBy.username : ''}
                 />

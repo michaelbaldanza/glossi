@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { redirect, useNavigate, useOutletContext } from 'react-router-dom';
-import { getUser, login } from '../services/users';
+import { get as getUser, login } from '../services/users';
 
 export function action() {
   return redirect('/');

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Form, Link, redirect, useLoaderData, useOutletContext } from 'react-router-dom';
 import Preview from '../components/Preview';
 import { getToken } from '../services/tokens';
+import { get as getUser } from '../services/users';
 import { create as createScroll, index as indexScrolls } from '../services/scrolls';
 
 export async function action() {
@@ -15,7 +16,7 @@ export async function loader() {
 }
 
 export default function Index(props) {
-  const [user, setUser] = useOutletContext();
+  const user = getUser();
   const scrolls = useLoaderData();
 
   useEffect(() => {
@@ -51,21 +52,7 @@ export default function Index(props) {
         </div>
         <div>
           <h3>Recent scrolls</h3>
-          {   
-            scrolls ?
-              scrolls.map((scroll, idx1) => (
-                <Preview
-                  key={idx1 + '-' + scroll._id}
-                  link={`/scrolls/${scroll._id}`}
-                  heading={scroll.title}
-                  content={scroll.body ? scroll.body.slice(0,70) + '...' : ''}
-                  updatedAt={scroll.updatedAt}
-                  createdBy={scroll.createdBy}
-                />
-              ))
-              :
-              'No scrolls to display.'
-          }
+
         </div>
       </div>
     </div>

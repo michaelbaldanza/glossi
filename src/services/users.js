@@ -2,7 +2,7 @@ import { getUserFromToken, getToken, removeToken, setToken } from './tokens';
 
 const BASE_URL = '/api/users/';
 
-function getUser() {
+function get() {
   return getUserFromToken();
 }
 
@@ -62,7 +62,7 @@ async function signup(user) {
 }
 
 export {
-  getUser,
+  get,
   getUserById,
   getByUsername,
   getUserDecksAndScrolls,

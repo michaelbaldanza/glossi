@@ -15,6 +15,7 @@ export default function Header(props) {
       </h3>
       <BylineBar
         createdBy={props.createdBy}
+        link={props.link}
         title={props.title}
         updatedAt={props.updatedAt}
       />

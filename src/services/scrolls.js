@@ -14,6 +14,7 @@ async function create(scroll) {
 }
 
 async function deleteScroll(scrollId) {
+  console.log(`hitting delete deck`)
   const options = makeOptions('DELETE');
   await fetch(BASE_URL + scrollId + '/delete', options);
   return true;
@@ -23,7 +24,7 @@ async function index() {
   return await fetch(BASE_URL).then(res => res.json());
 }
 
-async function getScroll(scrollId) {
+async function get(scrollId) {
   return await fetch(BASE_URL + scrollId).then(res => res.json());
 }
 
@@ -35,7 +36,7 @@ async function update(scrollId, updates) {
 export {
   create,
   deleteScroll,
-  getScroll,
+  get,
   index,
   update,
 };
