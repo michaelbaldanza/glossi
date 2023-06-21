@@ -50,10 +50,6 @@ export default function Index(props) {
             <span>.</span>
           </div>
         </div>
-        <div>
-          <h3>Recent scrolls</h3>
-
-        </div>
       </div>
     </div>
   )
