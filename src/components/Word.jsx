@@ -25,8 +25,10 @@ export default function Word(props) {
         'wordId': props.wordId,
         'dictionaries': await collect(term),
       };
+      console.log(response);
       setClickThroughHistory([...clickThroughHistory.slice(), response]);
     }
+    console.log(clickThroughHistory)
     setLookupHistory([
       ...lookupHistory.slice(),
       props.wordId

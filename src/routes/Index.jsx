@@ -39,28 +39,52 @@ export default function Index(props) {
     <div className="outer-container">
       <div className="">
         <div>
-          <h3>Welcome to Glossi.</h3>
+          <h3
+            style={{margin: '1em 0'}}
+          >
+            Welcome to Glossi.
+          </h3>
           <p>This is a tool for reading text with unfamiliar words and reviewing new vocabulary.</p>
           <p>
-            On Glossi, you can create a scroll—a chunk of text, inside of which any word you click will open a dictionary panel
-            populated with entries from a few select APIs.
+            On Glossi, you can create a
+            {' '}<span className="fst-italic">scroll</span>
+            —a chunk of text, clicking any word inside of which will open a dictionary panel
+            populated with entries from a few select APIs. Entries in the dictionary panel can be saved to a vocabulary list, or
+            {' '}<span className="fst-italic">deck</span>.
+            Use your deck to review your saved words—we call them 
+            {' '}<span className="fst-italic">cards</span>.
+            {/* —or use the deck's flashcard view to test your memory. */}
           </p>
           <p>
-            Any entry in the dictionary panel can be saved to a vocabulary list, or deck.
-            When you look at a deck, you can enter the flashcard view to test your memory.
-          </p>
-          <p>
-            If you haven't been here before, you can take a look around at other users' scrolls and decks.
-            You can also try reading your own scroll in the
+            If you haven't been here before, you can take a look around at other users'
             {
               makeLink(
-                'Reader',
+                'scrolls',
+                'scrolls',
+                ' ',
+                ' '
+              ) 
+            }
+            and
+            {
+              makeLink(
+                'decks',
+                'decks',
+                ' ',
+                ''
+              ) 
+            }
+            .
+            You can also try creating and reading your own scroll in the
+            {
+              makeLink(
+                'reader sandbox',
                 'reader',
                 ' ',
                 ' '
               ) 
-            }            
-            sandbox.
+            }          
+            .
           </p>
           <p>
             If you have an account, get started by

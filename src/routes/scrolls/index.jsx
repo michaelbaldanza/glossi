@@ -19,7 +19,6 @@ export default function ScrollIndex(props) {
     <div className="outer-container">
       <div className="inner-container">
         <h3>Scrolls</h3>
-        <h4><Link>Add a scroll.</Link></h4>
         {   
           scrolls.length ?
             scrolls.map((scroll, idx1) => (

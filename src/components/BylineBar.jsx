@@ -4,7 +4,6 @@ import { BYLINE_ITEM } from '../services/constants';
 import { get as getUser } from '../services/users';
 
 export default function BylineBar(props) {
-  console.log(props)
   const [isEditHovered, setIsEditHovered] = useState(false);
   const [isDeleteHovered, setIsDeleteHovered] = useState(false);
   const user = getUser();

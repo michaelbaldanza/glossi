@@ -58,7 +58,7 @@ async function get(req, res) {
     findById(id).
     populate({
       path: 'cards',
-      populate: { path: 'createdBy' },
+      populate: { path: 'createdBy', path: 'definitions' },
     }).
     populate('createdBy');
   console.log(deck)
