@@ -12,13 +12,13 @@ async function deleteDeck(req, res) {
   // delete the deck
   deck.deleteOne();
   // but the deck still exists as this program runs
-  console.log(deck)
   const user = await User.findById(deck.createdBy);
   console.log(`decks pre filter:`)
   console.log(user.decks)
   // remove reference to deck from user's deck array
-  user.decks = user.decks.filter(deckRef => deckRef === deckId);
+  user.decks = user.decks.filter(deckRef => deckRef !== deckId);
   console.log(`decks post filter:`)
+  console.log(user.decks);
   // find and delete cards. also find cards' associated definitions and delete them
   const cardsNum = deck.cards.length;
   if (cardsNum > 0) {
@@ -54,7 +54,14 @@ async function deleteDeck(req, res) {
 
 async function get(req, res) {
   const id = req.params.id;
-  const deck = await Deck.findById(id).populate('cards').populate('createdBy');
+  const deck = await Deck.
+    findById(id).
+    populate({
+      path: 'cards',
+      populate: { path: 'createdBy' },
+    }).
+    populate('createdBy');
+  console.log(deck)
   res.json(deck);
 }
 

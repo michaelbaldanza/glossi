@@ -13,14 +13,14 @@ export default function CardPage(props) {
   console.log(card)
   useEffect(() => { // set document title
     document.title = props.makeDocTitle(
-      'Card: ' + card.title + ' / ' + card.deck.name
+      'Card: ' + card.title
     );
   }, []);
 
   return (
     <div className="outer-container">
       <div className="inner-container">
-        <Header 
+        <Header
           createdBy={card.createdBy}
           languageCode={card.languageCode}
           link={`/decks/${card.deck}/cards/${card._id}`}

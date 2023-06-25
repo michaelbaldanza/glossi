@@ -9,18 +9,21 @@ import { get as getUser } from '../../services/users';
 
 export async function loader({ params }) {
   const user = getUser();
-  const scroll = await getScroll(params.scrollId);
-  if (!user || user._id !== scroll.createdBy._id) {
-    throw redirect(`/scrolls/${scroll._id}`)
+  let scroll;
+  if (params.scrollId) {
+    scroll = await getScroll(params.scrollId);
+    if (!user || user._id !== scroll.createdBy._id) {
+      throw redirect(`/scrolls/${scroll._id}`)
+    }
   }
-  return { scroll, user };
+  const loaded = {scroll: scroll, user: user};
+  return loaded;
 };
 
 export async function action({ request, params }) {
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
-  const hasParams = Object.keys(params).length ? true : false;
-  if (hasParams) {
+  if (params.scrollId) {
     await updateScroll(params.scrollId, updates);
     return redirect(`/scrolls/${params.scrollId}`);
   } else {
@@ -30,8 +33,9 @@ export async function action({ request, params }) {
 };
 
 export default function ScrollEdit(props) {
-  const scroll = useLoaderData().scroll;
-  const user = useLoaderData().user;
+  const loaderData = useLoaderData();
+  const scroll = loaderData ? loaderData.scroll : null;
+  const user = loaderData.user;
   useEffect(() => {
     if (!scroll) {
       document.title = props.makeDocTitle('Add a scroll')

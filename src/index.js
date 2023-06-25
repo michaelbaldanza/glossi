@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
-  RouterProvider
+  RouterProvider,
+  useRoutes,
 } from 'react-router-dom';
 import './index.css';
 import App from './App';
@@ -24,24 +25,22 @@ import DeckEdit, { action as deckEditAction, loader as deckEditLoader } from './
 import { action as deckDeleteAction } from './routes/decks/delete';
 import ScrollIndex, { loader as scrollIndexLoader } from './routes/scrolls/index';
 import CardPage, { loader as cardLoader } from './routes/decks/cards/show';
+import { action as cardDeleteAction } from './routes/decks/cards/delete';
 import ErrorPage from './error-page';
 import reportWebVitals from './reportWebVitals';
 
 function makeDocTitle(pageTitle) {
   const siteTitle = 'Glossi';
-  const cetera = pageTitle ? pageTitle + ' - ' : '';
-  // if (route === 'index') {
-  //   return siteTitle;
-  // } else {
-  //   const element = {
-  //     'scrolls index': 'Scrolls',
-  //     'scroll edit': 'Edit ',
-  //     'scroll': '',
-  //     'login': 'Log in',
-  //     'signup': 'Sign up'
-  //   };
-  return cetera + siteTitle;
+  const etc = pageTitle ? pageTitle + ' - ' : '';
+  return etc + siteTitle;
 }
+
+const ScrollNew = () => useRoutes(['/scrolls/new', '/scrolls/:scrollId/edit'].map(path => ({
+  path,
+  element: <ScrollEdit makeDocTitle={makeDocTitle} />,
+  action: scrollEditAction,
+  loader: scrollEditLoader,
+})))
 
 const router = createBrowserRouter([
   {
@@ -67,6 +66,13 @@ const router = createBrowserRouter([
             path: 'scrolls/new',
             element: <ScrollEdit makeDocTitle={makeDocTitle} />,
             action: scrollEditAction,
+            loader: scrollEditLoader,
+          },
+          {
+            path: 'scrolls/:scrollId/edit',
+            element: <ScrollEdit makeDocTitle={makeDocTitle} />,
+            action: scrollEditAction,
+            loader: scrollEditLoader,
           },
           {
             path: 'scrolls/:scrollId',
@@ -76,12 +82,6 @@ const router = createBrowserRouter([
           {
             path: 'scrolls/:scrollId/delete',
             action: scrollDeleteAction,
-          },
-          {
-            path: 'scrolls/:scrollId/edit',
-            element: <ScrollEdit makeDocTitle={makeDocTitle} />,
-            action: scrollEditAction,
-            loader: scrollEditLoader,
           },
           {
             path: 'reader',
@@ -116,6 +116,10 @@ const router = createBrowserRouter([
             path: 'decks/:deckId/cards/:cardId',
             element: <CardPage makeDocTitle={makeDocTitle} />,
             loader: cardLoader,
+          },
+          {
+            path: 'decks/:deckId/cards/:cardId/delete',
+            action: cardDeleteAction,
           },
           {
             path: 'profile',

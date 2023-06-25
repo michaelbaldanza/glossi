@@ -15,12 +15,11 @@ export default function DeckIndex(props) {
   }, []);
   
   const decks = useLoaderData();
-  const coll = 'decks'; // the name of the collection
 
   return (
     <div className="outer-container">
       <div className="inner-container">
-        <h3>{capitalize(coll)}</h3>
+        <h3>Decks</h3>
         <div>
           {   
             decks.length ?
@@ -33,10 +32,10 @@ export default function DeckIndex(props) {
                       (deck.cards.length > 1 ? ' cards' : ' card')
                       : 'No cards.'
                   }
-                  coll={coll}
                   createdBy={deck.createdBy}
                   heading={deck.name}
                   link={`/decks/${deck._id}`}
+                  nonEdit={true}
                   updatedAt={deck.updatedAt}
                   
                 />

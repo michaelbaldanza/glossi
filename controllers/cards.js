@@ -51,11 +51,38 @@ async function create(req, res) {
   }
 }
 
+async function deleteCard(req, res) {
+  const cardId = req.params.id;
+  const card = await Card.findById(cardId);
+  const defsNum = card.definitions.length;
+  if (defsNum > 0) {
+    for (let j = 0; j < defsNum; j++) {
+      const def = await Definition.findById(card.definitions[j]);
+      await def.deleteOne();
+      console.log(def)
+      // find and delete notes on definitions
+      const defNotesNum = def.notes.length;
+      if (defNotesNum > 0) {
+        for (let k = 0; k < defNotesNum; k++) {
+          console.log(`logging defNotes`)
+          console.log(def.notes[k])
+          await Note.findByIdAndDelete(def.notes[k]);
+        }
+      }
+    }
+  }
+  const deck = await Deck.findById(card.deck);
+  deck.cards = deck.cards.filter(deckCard => String(deckCard) !== String(card._id));
+  deck.save();
+  await card.deleteOne();
+  res.json('delete successful');
+}
+
 async function get(req, res) {
   console.log(`hitting card controller`)
   const card = await Card.findById(req.params.id)
-    .populate('definitions')
     .populate('createdBy')
+    .populate('definitions')
   ;
 
   return res.json(card);
@@ -63,5 +90,6 @@ async function get(req, res) {
 
 module.exports = {
   create: create,
+  delete: deleteCard,
   get: get,
 };

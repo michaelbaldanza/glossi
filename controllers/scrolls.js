@@ -33,7 +33,7 @@ async function deleteScroll(req, res) {
   const scrollIdx = user.scrolls.indexOf(req.params.id);
   user.scrolls.splice(scrollIdx, 1);
   user.save();
-  await Scroll.findByIdAndDelete(req.params.id);
+  scroll.deleteOne();
   res.json('delete successful');
 }
 

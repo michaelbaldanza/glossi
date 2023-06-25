@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import { index as indexScrolls } from '../../services/scrolls';
 import { capitalize, varToString } from '../../services/helpers';
 import Preview from '../../components/Preview';
@@ -19,6 +19,7 @@ export default function ScrollIndex(props) {
     <div className="outer-container">
       <div className="inner-container">
         <h3>Scrolls</h3>
+        <h4><Link>Add a scroll.</Link></h4>
         {   
           scrolls.length ?
             scrolls.map((scroll, idx1) => (

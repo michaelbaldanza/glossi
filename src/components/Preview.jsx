@@ -34,6 +34,7 @@ export default function Preview(props) {
         <BylineBar
           createdBy={props.createdBy}
           docId={props.docId}
+          languageCode={props.languageCode ? props.languageCode : false}
           link={props.link}
           title={props.heading}
           updatedAt={props.updatedAt}

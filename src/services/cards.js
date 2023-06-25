@@ -12,6 +12,12 @@ async function create(card) {
   });
 }
 
+async function deleteCard(cardId) {
+  const options = makeOptions('DELETE');
+  await fetch(BASE_URL + cardId + '/delete', options);
+  return true;
+}
+
 async function get(cardId) {
   console.log(`hitting cards get`)
   return await fetch(BASE_URL + cardId).then(res => res.json());
@@ -19,5 +25,6 @@ async function get(cardId) {
 
 export {
   create,
+  deleteCard,
   get,
 };
