@@ -27,12 +27,21 @@ footer {
 }
 
 #nonfooter {
+  /* min-height: 100vh; */
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
 }
 
+.main-el {
+  flex-grow: 1;
+  display: flex;
+}
+
 .outer-container {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   background-color: #FDFDFD;
+  flex-grow: 1;
 }
 
 .toolbar {
@@ -149,14 +158,36 @@ h1, h2, h3, h4, h5, h6, ol {
   border-bottom: 1px rgba(211, 211, 211, 1) solid;
 }
 
+.flashcard-mat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flashcard {
+  padding: 24px;
+  border: dotted black 0.5px;
+  width: 380px;
+  height: 220px;
+}
+
+.recto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (min-width: 640px) {
 
 }
 
-@media (min-width: 768px) {
-  #reader-container, .form-container, .outer-container {
-    max-width: 768px;
+@media (min-width: 796px) {
+  .form-container, .outer-container {
+    max-width: 796px;
+    /* padding: 0 auto; */
     margin: 0 auto;
+    padding: 0 12px;
   }
 
   .item-header {

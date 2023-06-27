@@ -5,13 +5,14 @@ export default function Header(props) {
     <div className="item-header">
       <h3>
         {props.title ? props.title : 'untitled'}
-        &nbsp;
+        {' '}
         <span
           className="faded"
           style={{'fontSize': 'smaller'}}
         >
           {props.languageCode}
         </span>
+        {props.additional ? props.additional : ''}
       </h3>
       <BylineBar
         createdBy={props.createdBy}

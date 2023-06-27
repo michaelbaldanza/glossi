@@ -1,4 +1,3 @@
-import './App.css';
 import React, { useState } from 'react';
 import { Form, Link, Outlet, useNavigate } from 'react-router-dom';
 import { get as getUser, logout } from './services/users';
@@ -108,7 +107,7 @@ function App() {
         <nav className="navbar navbar-expand-sm">
           {logged}
         </nav>
-        <main className="container-fluid">
+        <main className="container-fluid main-el">
           <Outlet context={[user, setUser]} />
         </main>
       </div>

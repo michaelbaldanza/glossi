@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { get as getDeck } from '../../services/decks';
 import { get as getDef } from '../../services/definitions';
-import Preview from '../../components/Preview';
+import Flash from '../../components/Flash';
 import Header from '../../components/Header';
+import Preview from '../../components/Preview';
 
 export async function loader({ params }) {
   const deck = await getDeck(params.deckId);
@@ -13,8 +14,8 @@ export async function loader({ params }) {
 export default function DeckPage(props) {
   const deck = useLoaderData();
   const cards = deck.cards;
-  console.log(cards);
   const [flashcardView, setFlashcardView] = useState(false);
+  if (!flashcardView) console.log(cards);
   const [cardIdx, setCardIdx] = useState(0);
   const [faceIdx, setFaceIdx] = useState(0);
 
@@ -33,12 +34,33 @@ export default function DeckPage(props) {
         onClick={() => handleBtnClick()}
         style={{padding: '0'}}
       >
-        Enter {!flashcardView ? 'flashcard' : 'list'} view.
-    </button>
+        {!flashcardView ? 'Enter flashcard' : 'Return to list'} view.
+      </button>
     );
   }
 
+  function makeFlashView() {
+    if (!flashcardView) return;
+
+    return <Flash cards={cards} />
+  }
+
+  function makeHeader() {
+    return (
+      <Header 
+        createdBy={deck.createdBy}
+        docId={deck._id}
+        link={'/decks/' + deck._id}
+        title={deck.name}
+        updatedAt={deck.updatedAt}
+        additional={makeBtn()}
+      />
+    )
+  }
+
   function makeListView() {
+    if (flashcardView) return;
+
     return (
       <div>
         {
@@ -67,40 +89,13 @@ export default function DeckPage(props) {
     )
   }
 
-  function makeFlashcardView() {
-
-    const flashcards = cards.map((card, idx) => {
-      const recto = {
-        title: card.title,
-        verso: card.partOfSpeech,
-      };
-      const verso = card.definitions.map((def, idx2) => {
-        return {definition: def};
-      })
-      return [recto, verso];
-    })
-    console.log(flashcards);
-    return <div>flashcards go here</div>
-  }
-
   return (
     <div className="outer-container">
       <div className="inner-container">
-        <Header 
-          createdBy={deck.createdBy}
-          docId={deck._id}
-          link={'/decks/' + deck._id}
-          title={deck.name}
-          updatedAt={deck.updatedAt}
-        />
-        {/* {makeBtn()} */}
-        {
-          !flashcardView ?
-          makeListView()
-          :
-          makeFlashcardView()
-        }
+        {makeHeader()}
+        {makeListView()}
       </div>
+      {makeFlashView()}
     </div>
   )
 }
