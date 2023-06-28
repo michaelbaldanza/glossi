@@ -17,8 +17,6 @@ export default function ScrollPage(props) {
   const scroll = useLoaderData();
 
   return (
-    <div className="outer-container" id="reader-container">
       <Scroll scroll={scroll} />
-    </div>
   )
 }

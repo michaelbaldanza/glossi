@@ -11,7 +11,6 @@ import Index, {
   action as indexAction,
   loader as indexLoader
 } from './routes/Index';
-import Lookup from './routes/lookup';
 import UserPage, { loader as userPageLoader } from './routes/UserPage'
 import Login, { action as loginAction } from './routes/Login';
 import { action as scrollDeleteAction } from './routes/scrolls/delete';
@@ -34,13 +33,6 @@ function makeDocTitle(pageTitle) {
   const etc = pageTitle ? pageTitle + ' - ' : '';
   return etc + siteTitle;
 }
-
-const ScrollNew = () => useRoutes(['/scrolls/new', '/scrolls/:scrollId/edit'].map(path => ({
-  path,
-  element: <ScrollEdit makeDocTitle={makeDocTitle} />,
-  action: scrollEditAction,
-  loader: scrollEditLoader,
-})))
 
 const router = createBrowserRouter([
   {
@@ -124,10 +116,6 @@ const router = createBrowserRouter([
           {
             path: 'profile',
             element: <UserPage />
-          },
-          {
-            path:'lookup',
-            element: <Lookup />,
           },
           {
             path: 'login',

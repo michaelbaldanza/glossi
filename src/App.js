@@ -6,7 +6,6 @@ import { clipTags } from './services/helpers';
 function App() {
   const [lookupHistory, setLookupHistory] = useState([]);
   const [user, setUser] = useState(getUser());
-  const mostRecent = lookupHistory[lookupHistory.length - 1];
   const navigate = useNavigate();
   function handleLogout(e) {
     e.preventDefault();
@@ -14,38 +13,6 @@ function App() {
     setUser(null);
     navigate('/');
   }
-
-  const responses = <div>
-    <h1>{mostRecent?.term}</h1>
-    {
-      mostRecent?.wk.en.map((en, id0) => (
-        <div>
-          <h5>{en.partOfSpeech}</h5>
-          <div>
-            <ol>
-              {
-                en.definitions?.map((def, id1) => (
-                  <li>
-                    {clipTags(def.definition)}
-                    {
-                      def.examples ? <ul>
-                        {
-                          def.examples.map((ex, id2) => (
-                            <li>{clipTags(ex)}</li>
-                          ))
-                        }
-                      </ul> : ''
-                    }
-                  </li>
-                ))
-              }
-            </ol>
-          </div>
-        </div>
-      ))
-    }
-  </div>;
-
   const logged = <div className="container-fluid">
       <Link className="navbar-brand" to={`/`}>Glossi</Link>
       <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -108,7 +75,9 @@ function App() {
           {logged}
         </nav>
         <main className="container-fluid main-el">
-          <Outlet context={[user, setUser]} />
+          <div className="outer-container">
+            <Outlet context={[user, setUser]} />
+          </div>
         </main>
       </div>
       <footer className="container-fluid">

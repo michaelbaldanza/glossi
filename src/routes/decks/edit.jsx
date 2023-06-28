@@ -31,7 +31,7 @@ export default function DeckEdit(props) {
   }, []);
   
   return (
-    <div className="form-container">
+    <div className="inner-container">
       <Form method="put">
         <div className="mb-3">
           <label className="form-label">Name</label>

@@ -90,12 +90,12 @@ export default function DeckPage(props) {
   }
 
   return (
-    <div className="outer-container">
+    <>
       <div className="inner-container">
         {makeHeader()}
         {makeListView()}
       </div>
       {makeFlashView()}
-    </div>
+    </>
   )
 }

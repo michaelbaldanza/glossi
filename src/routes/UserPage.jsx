@@ -15,27 +15,23 @@ export default function UserPage() {
   const scrolls = viewUser.scrolls;
 
   return (
-    <div className="outer-container">
-      <div className="inner-container">
-        <div>
-          <h3>{viewUser.username}'s scrolls</h3>
-          {   
-            scrolls ?
-              scrolls.map((scroll, idx1) => (
-                <Preview
-                  key={idx1 + '-' + scroll._id}
-                  link={`/scrolls/${scroll._id}`}
-                  heading={scroll.title}
-                  content={scroll.body.slice(0,70) + '...'}
-                  updatedAt={scroll.updatedAt}
-                  creator={scroll.createdBy.username}
-                />
-              ))
-              :
-              'No scrolls to display.'
-          }
-        </div>
-      </div>
+    <div className="inner-container">
+      <h3>{viewUser.username}'s scrolls</h3>
+      {   
+        scrolls ?
+          scrolls.map((scroll, idx1) => (
+            <Preview
+              key={idx1 + '-' + scroll._id}
+              link={`/scrolls/${scroll._id}`}
+              heading={scroll.title}
+              content={scroll.body.slice(0,70) + '...'}
+              updatedAt={scroll.updatedAt}
+              creator={scroll.createdBy.username}
+            />
+          ))
+          :
+          'No scrolls to display.'
+      }
     </div>
   )
 }

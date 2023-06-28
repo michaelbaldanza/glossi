@@ -11,35 +11,9 @@ export default function Reader() {
   const saved = false;
   const [editMode, setEditMode] = useState(false);
   const [submission, setSubmission] = useState({title: '', body: ''})
-  const [lookupHistory, setLookupHistory] = useState([]);
-  const numLookups = lookupHistory.length;
-  const mostRecent = numLookups ? lookupHistory[numLookups - 1] : null;
-  const lines = breakLines(submission.body);
-  const words = lines.map((line, idx0) => (
-    <div className="line" key={'line-' + idx0}>
-      {
-        line.split(' ').map((word, idx1) => {
-          const wordId = 'line-' + idx0 + '-word-' + idx1;
-          return (
-            <Fragment key={wordId}>
-              <Word
-                wordId={wordId}
-                word={word}
-                lookupHistory={[lookupHistory, setLookupHistory]}
-                mostRecent={mostRecent}
-              />
-              {' '}
-            </Fragment>
-          )
-        })
-      }
-    </div>
-  ));
   
   function handleSave() {
-    // if (user) {
       create(submission);
-    // }
   }
 
   function makeReaderToolbar(){
@@ -71,34 +45,38 @@ export default function Reader() {
     </svg>
   ;
 
-  const reader = editMode
-    ?
-    <div className="outer-container" id="reader-container">
-      <div id="reader-header">
-        <h1>
-          {
-            submission.title ? submission.title : 'untitled'
-          }
-        </h1>
-        {/* {makeReaderToolbar()} */}
-      </div>
-      <div id="reader-body" className="">
-        <Scroll 
-          scroll={submission}
-        />
-      </div>
-    </div>
-    :
-    <div>
+  function makeReader() {
+    if (editMode) {
+      return (
+        <>
+          <div id="reader-header">
+            <h1>
+              {
+                submission.title ? submission.title : 'untitled'
+              }
+            </h1>
+            {/* {makeReaderToolbar()} */}
+          </div>
+          <div id="reader-body" className="">
+            <Scroll 
+              scroll={submission}
+              reader={true}
+            />
+          </div>
+        </>
+      )
+    }
+    return (
       <ReaderForm
         submission={[submission, setSubmission]}
         editMode={[editMode, setEditMode]}
       />
-    </div>
-  ;
+    )
+  }
+
   return (
     <>
-      {reader}
+      {makeReader()}
     </>
   );
 };

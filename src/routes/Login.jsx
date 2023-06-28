@@ -37,7 +37,7 @@ export default function Login(props) {
   }
 
   return (
-    <div className="form-container">
+    <div className="inner-container">
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="username">Email or username</label>

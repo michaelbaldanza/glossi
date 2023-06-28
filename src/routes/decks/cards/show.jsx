@@ -18,29 +18,27 @@ export default function CardPage(props) {
   }, []);
 
   return (
-    <div className="outer-container">
-      <div className="inner-container">
-        <Header
-          createdBy={card.createdBy}
-          languageCode={card.languageCode}
-          link={`/decks/${card.deck}/cards/${card._id}`}
-          title={card.title}
-          updatedAt={card.updatedAt}
-        />
-        <h4 className="faded" style={{'fontSize': 'small'}}>
-          {card.partOfSpeech.toLowerCase()}
-        </h4>
-        <div>
-          <ol>
-          {
-            card.definitions.map((definition, idx0) => (
-              <li key={definition._id + '-' + idx0}>
-                {definition.definition}
-              </li>
-            ))
-          }
-          </ol>
-        </div>
+    <div className="inner-container">
+      <Header
+        createdBy={card.createdBy}
+        languageCode={card.languageCode}
+        link={`/decks/${card.deck}/cards/${card._id}`}
+        title={card.title}
+        updatedAt={card.updatedAt}
+      />
+      <h4 className="faded" style={{'fontSize': 'small'}}>
+        {card.partOfSpeech.toLowerCase()}
+      </h4>
+      <div>
+        <ol>
+        {
+          card.definitions.map((definition, idx0) => (
+            <li key={definition._id + '-' + idx0}>
+              {definition.definition}
+            </li>
+          ))
+        }
+        </ol>
       </div>
     </div>
   )
