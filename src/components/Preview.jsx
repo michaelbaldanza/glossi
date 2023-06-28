@@ -7,7 +7,7 @@ export default function Preview(props) {
 
   function handleClick(e) {
     const target = e.target;
-    if (target.matches('.' + BYLINE_ITEM)) return;
+    if (target.matches('.byline-item')) return;
     navigate(props.link);
   }
 

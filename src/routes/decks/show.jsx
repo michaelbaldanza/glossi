@@ -15,9 +15,6 @@ export default function DeckPage(props) {
   const deck = useLoaderData();
   const cards = deck.cards;
   const [flashcardView, setFlashcardView] = useState(false);
-  if (!flashcardView) console.log(cards);
-  const [cardIdx, setCardIdx] = useState(0);
-  const [faceIdx, setFaceIdx] = useState(0);
 
   useEffect(() => {
     document.title = props.makeDocTitle('Deck: ' + deck.name);

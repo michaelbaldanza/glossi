@@ -47,8 +47,8 @@ export default function Index(props) {
         populated with entries from a few select APIs. Entries in the dictionary panel can be saved to a vocabulary list, or
         {' '}<span className="fst-italic">deck</span>.
         Use your deck to review your saved words—we call them 
-        {' '}<span className="fst-italic">cards</span>.
-        {/* —or use the deck's flashcard view to test your memory. */}
+        {' '}<span className="fst-italic">cards</span>
+        —or use the deck's flashcard view to test your memory.
       </p>
       <p>
         If you haven't been here before, you can take a look around at other users'
