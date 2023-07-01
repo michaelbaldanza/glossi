@@ -3,29 +3,32 @@ body {
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-.navbar, footer {
+.navbar, .dropdown-menu, .dropdown-toggle, footer {
   font-family:Arial, Helvetica, sans-serif;
   background-color: #732C2C;
 }
 
-.navbar-brand, .nav-link {
+.navbar-brand, .nav-link, .btn-link, .dropdown-link, .dropdown-toggle {
   color: #F7F8FB;
 }
 
-.navbar-brand:hover, .nav-link:hover {
-  color: #ABA361;
+.btn-link:active {
+  color: #ABA361 !important;
 }
 
-/* .navbar-brand:visited, .nav-link:visited {
-  color: #ABA361;
-} */
+.navbar-brand:hover, .nav-link:hover, .dropdown-toggle:hover, .dropdown-toggle:active {
+  color: #ABA361 !important;
+}
+
+.dropdown-toggle {
+  background-color: #732C2C;
+}
 
 footer {
   background-color: #d3d6dc;
 }
 
 #nonfooter {
-  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -178,14 +181,11 @@ h1, h2, h3, h4, h5, h6, ol {
   align-items: center;
 }
 
-
-
 @media (min-width: 640px) {
   .flashcard {
     width: 380px;
     height: 220px;
   }
-
 }
 
 @media (min-width: 796px) {

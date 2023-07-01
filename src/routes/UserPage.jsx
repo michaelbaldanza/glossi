@@ -1,22 +1,25 @@
 import { useState, useEffect } from 'react';
-import { useLoaderData, useOutletContext } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import Preview from '../components/Preview';
-import { getUser, getUserDecksAndScrolls, getByUsername } from '../services/users';
+import { get as getUser, getUserDecksAndScrolls, getByUsername } from '../services/users';
 import { getToken } from '../services/tokens';
 
 export async function loader({ params }) {
-  const viewUser = await getByUsername(params.username);
-  return viewUser[0];
+  const profileUser = await getByUsername(params.username);
+  console.log(profileUser.username);
+
+  return profileUser;
 }
 
 export default function UserPage() {
-  const [user, setUser] = useOutletContext();
-  const viewUser = useLoaderData();
-  const scrolls = viewUser.scrolls;
+  const profileUser = useLoaderData();
+  const currentUser = getUser();
+  const isLogged = currentUser && profileUser._id === currentUser._id ? true : false;
+  const scrolls = profileUser.scrolls;
 
   return (
     <div className="inner-container">
-      <h3>{viewUser.username}'s scrolls</h3>
+      <h3>{isLogged ? 'Your profile' : profileUser.username}</h3>
       {   
         scrolls ?
           scrolls.map((scroll, idx1) => (
@@ -26,7 +29,7 @@ export default function UserPage() {
               heading={scroll.title}
               content={scroll.body.slice(0,70) + '...'}
               updatedAt={scroll.updatedAt}
-              creator={scroll.createdBy.username}
+              createdBy={profileUser}
             />
           ))
           :

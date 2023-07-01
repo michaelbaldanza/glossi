@@ -21,7 +21,8 @@ async function getUserById(req, res) {
 }
 
 async function getByUsername(req, res) {
-  const user = await User.find({ username: req.params.username }).populate('scrolls');
+  const user = await User.findOne({ username: req.params.username }).populate('scrolls');
+  console.log(user);
   res.json(user);
 }
 

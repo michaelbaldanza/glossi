@@ -13,6 +13,8 @@ export default function BylineBar(props) {
   const title = props.title;
   const updatedAt = props.updatedAt;
 
+  console.log(createdBy)
+
   function makeButtons() {
     if (!user || user._id && user._id !== createdBy._id) return;
 

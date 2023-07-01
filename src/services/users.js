@@ -2,7 +2,7 @@ import { getUserFromToken, getToken, removeToken, setToken } from './tokens';
 
 const BASE_URL = '/api/users/';
 
-function get() {
+function get() { // gets the logged in user
   return getUserFromToken();
 }
 

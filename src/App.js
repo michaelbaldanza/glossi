@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Link, Outlet, useNavigate } from 'react-router-dom';
 import { get as getUser, logout } from './services/users';
-import { clipTags } from './services/helpers';
+import { capitalize, clipTags } from './services/helpers';
 
 function App() {
   const [lookupHistory, setLookupHistory] = useState([]);
@@ -13,6 +13,106 @@ function App() {
     setUser(null);
     navigate('/');
   }
+
+  function makeNav() {
+    function makeNavItem(text, url) {
+    return (
+        <li className="nav-item">
+          <Link
+            className="nav-link"
+            to={'/' + (url ? url : text)}
+          >
+            {capitalize(text)}
+          </Link>
+        </li>
+      );
+    }
+
+    function makeDropdownItem(text, url) {
+      return (
+        <li>
+          <Link
+            className="dropdown-item dropdown-link"
+            to={'/' + (url ? url : text)}
+          >
+            {text}
+          </Link>
+        </li>
+      );
+    }
+
+    return (
+      <nav className="navbar navbar-expand-sm">
+        <div className="container-fluid">
+          <Link className="navbar-brand" to={'/'}>Glossi</Link>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul className="navbar-nav mr-auto">
+              {makeNavItem('reader')}
+              {makeNavItem('scrolls')}
+              <div className="dropdown">
+                <button class="btn btn-link text-decoration-none dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Scrolls
+                </button>
+                <ul className="dropdown-menu">
+                  {makeDropdownItem('All scrolls')}
+                  {makeDropdownItem('Your scrolls')}
+                  {makeDropdownItem('Add scroll', 'scrolls/new')}
+                </ul>
+              </div>
+              <div className="dropdown">
+                <button class="btn btn-link text-decoration-none dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Scrolls
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link className="dropdown-item dropdown-link na">
+                      All scrolls
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item">
+                      Your scrolls
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item">
+                      Add scroll
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              {makeNavItem('decks')}
+              {
+                user ?
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link" to={`/users/${user.username}`}>{user.username}</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Form
+                      action={`logout`}
+                      method="post"
+                      onSubmit={handleLogout}
+                    >
+                      <button className="btn btn-link nav-link nav-btn" height="40" type="submit">Log out</button>
+                    </Form>
+                  </li>
+                </> :
+                <>
+                  {makeNavItem('login')}
+                  {makeNavItem('sign up', 'signup')}
+                </>
+              }
+            </ul>
+          </div>
+        </div>
+      </nav>
+    )
+  }
+
   const logged = <div className="container-fluid">
       <Link className="navbar-brand" to={`/`}>Glossi</Link>
       <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,9 +171,10 @@ function App() {
   return (
     <div className="App">
       <div id="nonfooter" className="">
-        <nav className="navbar navbar-expand-sm">
+        {/* <nav className="navbar navbar-expand-sm">
           {logged}
-        </nav>
+        </nav> */}
+        {makeNav()}
         <main className="container-fluid main-el">
           <div className="outer-container">
             <Outlet context={[user, setUser]} />
