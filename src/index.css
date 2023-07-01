@@ -1,3 +1,7 @@
+:root {
+  --bs-btn-active-color: #ABA361;
+}
+
 body {
   background-color: #F7F8FB;
   font-family: Georgia, 'Times New Roman', Times, serif;
@@ -12,7 +16,23 @@ body {
   color: #F7F8FB;
 }
 
+.navbar-brand:focus, .navbar-brand:hover {
+  color: #ABA361 !important;
+}
+
 .btn-link:active {
+  color: #ABA361 !important;
+}
+
+.nav-link:focus {
+  color: #ABA361 !important;
+}
+
+.nav-link:active {
+  color: #ABA361 !important;
+}
+
+.show {
   color: #ABA361 !important;
 }
 

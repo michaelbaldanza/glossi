@@ -1,0 +1,13 @@
+// @import "../node_modules/bootstrap/scss/variables";
+
+:root {
+  --bs-btn-active-color: #ABA361;
+}
+
+.btn-link:active {
+  color: var(--bs-btn-active-color);
+}
+
+.show {
+  color: var(--bs-btn-active-color);
+}
