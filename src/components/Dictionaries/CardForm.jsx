@@ -228,7 +228,7 @@ export default function CardForm(props) {
                 className="form-check-label"
                 style={{'width': '332px'}}
               >
-                {deck.name} {deck._id}
+                {deck.name}
               </label>
             </div>
           </Fragment>

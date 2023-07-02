@@ -28,7 +28,6 @@ export default function Word(props) {
       console.log(response);
       setClickThroughHistory([...clickThroughHistory.slice(), response]);
     }
-    console.log(clickThroughHistory)
     setLookupHistory([
       ...lookupHistory.slice(),
       props.wordId

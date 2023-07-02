@@ -8,7 +8,6 @@ import { lexica, refOrder } from '../services/dictionaries';
 import { BTN_CLASSES } from '../services/constants';
 
 export default function Infobox(props) {
-  console.log(props);
   const decks = props.decks;
   const [currentIdx, setCurrentIdx] = props.currentIdx;
   const [clickThroughHistory, setClickThroughHistory] = props.clickThroughHistory;
