@@ -35,6 +35,7 @@ export default function Signup(props) {
   
   return (
     <div className="inner-container">
+      <h3>Sign up</h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="username">Username</label>

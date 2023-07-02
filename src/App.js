@@ -17,7 +17,7 @@ function App() {
 
   function makeNav() {
     function makeNavItem(text, url) {
-    return (
+      return (
         <li className="nav-item">
           <Link
             className="nav-link"
@@ -27,6 +27,14 @@ function App() {
           </Link>
         </li>
       );
+    }
+
+    function makeDropdownBtn(text) {
+      return (
+        <button class="btn btn-link text-decoration-none dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {text}
+        </button>
+      )
     }
 
     function makeDropdownItem(text, url) {
@@ -43,7 +51,7 @@ function App() {
     }
 
     return (
-      <nav className="navbar navbar-expand-sm">
+      <nav className="nav navbar navbar-expand-sm">
         <div className="container-fluid">
           <Link className="navbar-brand" to={'/'}>Glossi</Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,56 +60,37 @@ function App() {
           <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
               {makeNavItem('reader')}
-              {makeNavItem('scrolls')}
-              <div className="dropdown">
-                <button class="btn btn-link text-decoration-none dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Scrolls
-                </button>
-                <ul className="dropdown-menu">
-                  {makeDropdownItem('All scrolls')}
-                  {makeDropdownItem('Your scrolls')}
-                  {makeDropdownItem('Add scroll', 'scrolls/new')}
-                </ul>
-              </div>
-              <div className="dropdown">
-                <button class="btn btn-link text-decoration-none dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Scrolls
-                </button>
-                <ul className="dropdown-menu">
-                  <li>
-                    <Link className="dropdown-item dropdown-link na">
-                      All scrolls
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item">
-                      Your scrolls
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item">
-                      Add scroll
-                    </Link>
-                  </li>
-                </ul>
-              </div>
               {makeNavItem('decks')}
               {
                 user ?
-                <>
-                  <li className="nav-item">
-                    <Link className="nav-link" to={`/users/${user.username}`}>{user.username}</Link>
-                  </li>
-                  <li className="nav-item">
-                    <Form
-                      action={`logout`}
-                      method="post"
-                      onSubmit={handleLogout}
-                    >
-                      <button className="btn btn-link nav-link nav-btn" height="40" type="submit">Log out</button>
-                    </Form>
-                  </li>
-                </> :
+                <div className="dropdown">
+                  {makeDropdownBtn('Scrolls')}
+                  <ul className="dropdown-menu">
+                    {makeDropdownItem('All scrolls', 'scrolls')}
+                    {makeDropdownItem('Add scroll', 'scrolls/new')}
+                  </ul>
+                </div>
+                :
+                makeNavItem('scrolls')
+              }
+              {
+                user ?
+                  <div className="dropdown">
+                    {makeDropdownBtn(user.username)}
+                    <ul className="dropdown-menu">
+                      {makeDropdownItem('View profile', `users/${user.username}`)}
+                      <li>
+                        <Form
+                          action={`logout`}
+                          method="post"
+                          onSubmit={handleLogout}
+                        >
+                          <button className="btn btn-link dropdown-item dropdown-link" height="40" type="submit">Log out</button>
+                        </Form>
+                      </li>
+                    </ul>
+                  </div>
+                :
                 <>
                   {makeNavItem('login')}
                   {makeNavItem('sign up', 'signup')}
@@ -114,67 +103,9 @@ function App() {
     )
   }
 
-  const logged = <div className="container-fluid">
-      <Link className="navbar-brand" to={`/`}>Glossi</Link>
-      <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
-        <li className="nav-item">
-            <Link className="nav-link" to={'/scrolls'}>
-              Scrolls
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={'/decks'}>
-              Decks
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={'/reader'}>
-              Reader
-            </Link>
-          </li>
-          {
-            user ?
-            <>
-              <li className="nav-item">
-                <Link className="nav-link" to={`/users/${user.username}`}>{user.username}</Link>
-              </li>
-              <li className="nav-item">
-                <Form
-                  action={`logout`}
-                  method="post"
-                  onSubmit={handleLogout}
-                >
-                  <button className="btn btn-link nav-link nav-btn" height="40" type="submit">Log out</button>
-                </Form>
-              </li>
-            </> :
-            <>
-              <li className="nav-item">
-                <Link className="nav-link" to={`/login`}>
-                  Log in
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={`/signup`}>
-                  Sign up
-                </Link>
-              </li>
-            </>
-          }
-        </ul>
-      </div>
-    </div>
-
   return (
     <div className="App">
       <div id="nonfooter" className="">
-        {/* <nav className="navbar navbar-expand-sm">
-          {logged}
-        </nav> */}
         {makeNav()}
         <main className="container-fluid main-el">
           <div className="outer-container">

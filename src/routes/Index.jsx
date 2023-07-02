@@ -20,15 +20,11 @@ export default function Index(props) {
     document.title = props.makeDocTitle;
   }, []);
 
-  function makeLink(str, dest, ante, post) {
+  function makeLink(str, dest) {
     return (
-      <>
-        {ante}
-        <Link to={dest} className="text-decoration-none">
-          {str}
-        </Link>
-        {post}
-        </>
+      <Link to={dest ? dest : str} className="text-decoration-none">
+        {str}
+      </Link>
     );
   }
 
@@ -51,46 +47,15 @@ export default function Index(props) {
         —or use the deck's flashcard view to test your memory.
       </p>
       <p>
-        If you haven't been here before, you can take a look around at other users'
-        {
-          makeLink(
-            'scrolls',
-            'scrolls',
-            ' ',
-            ' '
-          ) 
-        }
-        and
-        {
-          makeLink(
-            'decks',
-            'decks',
-            ' ',
-            ''
-          ) 
-        }
-        .
-        You can also try creating and reading your own scroll in the
-        {
-          makeLink(
-            'reader sandbox',
-            'reader',
-            ' ',
-            ' '
-          ) 
-        }          
-        .
+        If you haven't been here before, you can take a look around at other 
+        users' {makeLink('scrolls')} and {makeLink('decks')}. You can also try
+        creating and reading your own scroll in
+        the {makeLink('reader sandbox', 'reader',)}. You can sign up for an
+        account {makeLink('here', 'signup')}.
       </p>
       <p>
-        If you have an account, get started by
-        {
-          makeLink(
-            'adding a scroll',
-            'scrolls/new',
-            ' ',
-            `. `
-          ) 
-        }
+        If you have an account, get started
+        by {makeLink('adding a scroll', 'scrolls/new')}.
       </p>
     </>
   )

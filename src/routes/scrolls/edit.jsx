@@ -9,6 +9,7 @@ import { get as getUser } from '../../services/users';
 
 export async function loader({ params }) {
   const user = getUser();
+  if (!user && !params.scrollId) throw redirect(`/login`);
   let scroll;
   if (params.scrollId) {
     scroll = await getScroll(params.scrollId);

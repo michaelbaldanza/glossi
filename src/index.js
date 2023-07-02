@@ -123,7 +123,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'signup',
-            element: <Signup makeDocTitle={makeDocTitle('Signup')} />
+            element: <Signup makeDocTitle={makeDocTitle('Sign up')} />
           }
         ]
       }

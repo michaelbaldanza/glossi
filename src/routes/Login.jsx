@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { redirect, useNavigate, useOutletContext } from 'react-router-dom';
+import { Link, redirect, useNavigate, useOutletContext } from 'react-router-dom';
 import { get as getUser, login } from '../services/users';
 
 export function action() {
@@ -38,6 +38,7 @@ export default function Login(props) {
 
   return (
     <div className="inner-container">
+      <h3>Login</h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="username">Email or username</label>
@@ -51,6 +52,9 @@ export default function Login(props) {
           Go
         </button>
       </form>
+      <div className="alert alert-primary" role="alert" style={{'marginTop': '1rem'}}>
+        Don't have an account? Sign up <Link to="/signup">here</Link>.
+      </div>
     </div>
   )
 }
