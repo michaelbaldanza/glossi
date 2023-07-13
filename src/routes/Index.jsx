@@ -1,8 +1,5 @@
 import { useEffect } from 'react';
-import { Form, Link, redirect, useLoaderData, useOutletContext } from 'react-router-dom';
-import Preview from '../components/Preview';
-import { getToken } from '../services/tokens';
-import { get as getUser } from '../services/users';
+import { Link, redirect, } from 'react-router-dom';
 import { create as createScroll, index as indexScrolls } from '../services/scrolls';
 
 export async function action() {
@@ -39,12 +36,12 @@ export default function Index(props) {
       <p>
         On Glossi, you can create a
         {' '}<span className="fst-italic">scroll</span>
-        —a chunk of text, clicking any word inside of which will open a dictionary panel
-        populated with entries from a few select APIs. Entries in the dictionary panel can be saved to a vocabulary list, or
+        —a chunk of text, clicking any word inside of which opens a panel
+        populated with dictionary entries from a few select APIs. These entries can be saved to a vocabulary list, or
         {' '}<span className="fst-italic">deck</span>.
-        Use your deck to review your saved words—we call them 
+        Use decks to review your saved words—we call them 
         {' '}<span className="fst-italic">cards</span>
-        —or use the deck's flashcard view to test your memory.
+        —or use the flashcard view to test your memory.
       </p>
       <p>
         If you haven't been here before, you can take a look around at other 
