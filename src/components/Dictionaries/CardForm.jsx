@@ -6,7 +6,6 @@ import { create } from '../../services/cards';
 import { getUserById } from '../../services/users';
 
 export default function CardForm(props) {
-  console.log(props);
   const [user, setUser] = useOutletContext();
   const userId = useOutletContext()[0]._id;
   const [activeDeckInput, setActiveDeckInput] = useState(null);
@@ -23,9 +22,16 @@ export default function CardForm(props) {
     fetchUser();
   }, []);
 
+  /* card state
+    Card state handles the card when it is being created.
+  */
   const [card, setCard] = useState(makeCardState(props.entry));
-  console.log(card);
+  /* submittedCard state
+    submittedCard state handles the card after it has been created.
+  */
   const [submittedCard, setSubmittedCard] = useState(null);
+  console.log(`here's the submitted card`)
+  console.log(submittedCard)
   const [titleInput, setTitleInput] = useState(false);
   function makeCardState(entry) {
     const newCard = structuredClone(entry);

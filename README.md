@@ -33,6 +33,8 @@ You can also navigate through your lookup history, starting from the word that f
 
 ## Look up words in other languages
 
+*This feature is not available on mobile.*
+
 ![A scroll containing the opening of Candide, with an open dictionary panel displaying Wiktionary's entries for "maison"](screenshots/9-candide_wikt.png)
 
 While Free Dictionary and Merriam-Webster's Collegiate Dictionary only have English words, Wiktionary provides every match from any language. The language toolbar, located just below the dictionary toolbar when Wiktionary is open, contains the ISO language code of every language that has a match for your look up (some language codes are grouped under the "other" category).
