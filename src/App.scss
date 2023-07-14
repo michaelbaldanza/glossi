@@ -24,10 +24,6 @@ footer{
   .navbar-brand, .nav-link, .btn-link, .dropdown-link, .dropdown-toggle {
     color: var(--nav-text-primary);
   }
-  
-  .navbar-toggler-icon {
-    color: var(--nav-text-primary);
-  }
 
   .dropdown-menu, .dropdown-toggle, .dropdown-item:hover {
     font-family:Arial, Helvetica, sans-serif;
@@ -231,11 +227,17 @@ h1, h2, h3, h4, h5, h6, ol {
   align-items: center;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 576px) {
   .flashcard {
     width: 380px;
     height: 220px;
   }
+
+  .dropdown {
+    padding-left: var(--bs-navbar-nav-link-padding-x);
+    padding-right: var(--bs-navbar-nav-link-padding-x);
+  }
+
 }
 
 @media (min-width: 796px) {
