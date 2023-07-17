@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
   RouterProvider,
-  useRoutes,
 } from 'react-router-dom';
-import './index.css';
 import App from './App';
 import Index, {
   action as indexAction,
@@ -26,7 +24,6 @@ import ScrollIndex, { loader as scrollIndexLoader } from './routes/scrolls/index
 import CardPage, { loader as cardLoader } from './routes/decks/cards/show';
 import { action as cardDeleteAction } from './routes/decks/cards/delete';
 import ErrorPage from './error-page';
-import reportWebVitals from './reportWebVitals';
 
 function makeDocTitle(pageTitle) {
   const siteTitle = 'Glossi';
@@ -137,8 +134,3 @@ root.render(
     <RouterProvider router={router} />
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
