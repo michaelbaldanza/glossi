@@ -2,11 +2,11 @@
   --dec-font: Georgia, 'Times New Roman', Times, serif;
   --body-font: Arial, Helvetica, sans-serif;
   --altum-bg: #732C2C; // background for nav and footer
-  --nav-text-primary: rgba(247, 248, 251, 1);
-  --nav-text-primary-faded: rgba(247, 248, 251, 0.5);
+  --nav-text-primary: rgba(253, 253, 253, 1); // hex code #fdfdfd
+  --nav-text-primary-faded: rgba(253, 253, 253, 0.5);
   --nav-text-secondary: #ABA361;
   --relief-bg: #F7F8FB;
-  --main-bg: #FDFDFD;
+  --main-bg: rgba(253, 253, 253, 1);
 }
 
 body {
@@ -74,11 +74,11 @@ footer{
   font-family: var(--body-font);
   background-color: var(--altum-bg);
 
-  .navbar-toggler {
+  .navbar-toggler, .dropdown-menu {
     border: var(--nav-text-primary-faded) 0.5px solid;
   }
 
-  .navbar-toggler:hover, .navbar-toggler:active, .navbar-toggler:focus {
+  .navbar-toggler:active, .navbar-toggler:focus {
     border: var(--nav-text-secondary) 0.5px solid;
   }
 
@@ -219,6 +219,12 @@ ol {
 .entry-container .dictionary-bar {
   border-bottom: 1px rgba(239, 239, 240, 1) solid;
   border-bottom: 1px rgba(211, 211, 211, 1) solid;
+}
+
+.entry-container {
+  h6 {
+    margin: 0;
+  }
 }
 
 .dictionary-bar {

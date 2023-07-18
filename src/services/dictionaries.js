@@ -68,7 +68,6 @@ export async function collect(term) {
     let ref = refOrder[i];
     if (ref === 'wikt' && isMobile) return;
     let response = await get(lexica[ref].args(term));
-    console.log(response)
     if (
       ref === 'wikt' && response &&
       response.detail
