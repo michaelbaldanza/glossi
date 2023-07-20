@@ -1,5 +1,5 @@
-import { depunctuate, swapMacron } from '../../services/helpers';
-import { collect, get, lexica } from '../../services/dictionaries.js'
+import { depunctuate, swapMacron } from '../../../../../services/helpers';
+import { collect } from '../../../../../services/dictionaries.js'
 
 export default function BoxWord(props) {
   const [selLang, setSelLang] = props.selLang;
@@ -8,6 +8,7 @@ export default function BoxWord(props) {
   const term = swapMacron(depunctuate(props.word)).toLowerCase();
 
   async function handleClick(e) {
+    console.log(currentIdx);
     if (props.isQuarry) return;
     const response = {
       'quarry': term,

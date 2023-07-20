@@ -1,9 +1,8 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import BoxWord from './BoxWord';
-import { clipTags, isLast } from '../../services/helpers';
-import { BTN_CLASSES } from '../../services/constants';
-import { getUser } from '../../services/users';
+import Word from '../../Word';
+import { breakLines, clipTags, isLast } from '../../../../../services/helpers';
+import { BTN_CLASSES } from '../../../../../services/constants';
 
 export default function Entry(props) {
   const [selLang, setSelLang] = props.selLang;
@@ -58,9 +57,10 @@ export default function Entry(props) {
           entry[synsOrAnts].map((synOrAnt, idx0) => {
             return (
               <Fragment key={`${synOrAnt}-${idx0}`}>
-                <BoxWord
+                <Word
                   currentIdx={[currentIdx, setCurrentIdx]}
                   clickThroughHistory={props.clickThroughHistory}
+                  isBoxWord={true}
                   wordId={`${synOrAnt}-${idx0}`}
                   word={synOrAnt}
                   handleRef={props.handleRef}
@@ -100,19 +100,22 @@ export default function Entry(props) {
             function makeLi(defOrDefinition) {
               return (<li key={`sense-${props.idx1}-${idx2}`}>
                 {
-                  defOrDefinition.split(' ').map((word, idx3) => (
-                    <Fragment key={`${word}-${idx2}-${idx3}`}>
-                      <BoxWord
-                        currentIdx={[currentIdx, setCurrentIdx]}
-                        clickThroughHistory={props.clickThroughHistory}
-                        wordId={`${word}-${idx2}-${idx3}`}
-                        word={word}
-                        handleRef={props.handleRef}
-                        isQuarry={word === quarry ? true : false}
-                        selLang={[selLang, setSelLang]}
-                      />
-                      {' '}
-                    </Fragment>
+                  breakLines(defOrDefinition).map((line, idx2p5) => (
+                    line.split(' ').map((word, idx3) => (
+                      <Fragment key={`${word}-${idx2}-${idx3}`}>
+                        <Word
+                          currentIdx={[currentIdx, setCurrentIdx]}
+                          clickThroughHistory={props.clickThroughHistory}
+                          isBoxWord={true}
+                          wordId={`${word}-${idx2}-${idx3}`}
+                          word={word}
+                          handleRef={props.handleRef}
+                          isQuarry={word === quarry ? true : false}
+                          selLang={[selLang, setSelLang]}
+                        />
+                        {' '}
+                      </Fragment>
+                    ))
                   ))
                 }
               </li>);

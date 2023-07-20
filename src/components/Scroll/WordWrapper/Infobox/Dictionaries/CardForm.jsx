@@ -1,13 +1,13 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { clipTags, isLast, isLemma } from '../../services/helpers';
-import { BTN_CLASSES } from '../../services/constants';
-import { create } from '../../services/cards';
-import { getUserById } from '../../services/users';
+import { clipTags, isLast, isLemma } from '../../../../../services/helpers';
+import { BTN_CLASSES } from '../../../../../services/constants';
+import { create } from '../../../../../services/cards';
+import { getUserById } from '../../../../../services/users';
 
 export default function CardForm(props) {
   const [user, setUser] = useOutletContext();
-  const userId = useOutletContext()[0]._id;
+  const userId = user._id;
   const [activeDeckInput, setActiveDeckInput] = useState(null);
   const [decks, setDecks] = useState(null);
   useEffect(() => {
@@ -30,8 +30,6 @@ export default function CardForm(props) {
     submittedCard state handles the card after it has been created.
   */
   const [submittedCard, setSubmittedCard] = useState(null);
-  console.log(`here's the submitted card`)
-  console.log(submittedCard)
   const [titleInput, setTitleInput] = useState(false);
   function makeCardState(entry) {
     const newCard = structuredClone(entry);

@@ -1,7 +1,5 @@
-import { Fragment, useState } from 'react';
 import Entry from './Entry';
-import { clipColon, isLast } from '../../services/helpers';
-import { BTN_CLASSES } from '../../services/constants';
+import { clipColon, isLast } from '../../../../../services/helpers';
 
 export default function Dictionary(props) {
   const [addView, setAddView] = props.addView;

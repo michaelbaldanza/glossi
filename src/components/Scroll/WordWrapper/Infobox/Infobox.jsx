@@ -3,9 +3,9 @@ import { isMobile } from 'react-device-detect';
 import Dictionary from './Dictionaries/Dictionary';
 import CardForm from './Dictionaries/CardForm';
 import BoxWord from './Dictionaries/BoxWord';
-import { clipTags, isLast, isLemma } from '../services/helpers';
-import { lexica, refOrder } from '../services/dictionaries';
-import { BTN_CLASSES } from '../services/constants';
+import { clipTags, isLast, isLemma } from '../../../../services/helpers';
+import { lexica, refOrder } from '../../../../services/dictionaries';
+import { BTN_CLASSES } from '../../../../services/constants';
 
 export default function Infobox(props) {
   const decks = props.decks;
@@ -39,9 +39,9 @@ export default function Infobox(props) {
   function getInfoboxPosition() {
     /** The variables for calculating where the Infobox should render.
      * All values are in pixels.
-     * x stores the distance of the left side of the rectangle containing the
-     * word from the left side of the viewport. y and bottom do the same, but
-     * from the top and bottom of the word, respectively, to the top of the
+     * x stores the distance of the left side of WordWrapper from the left side of the viewport.
+     * y and bottom do the same, but
+     * from the top and bottom of WordWrapper, respectively, to the top of the
      * viewport. rRight stores the distance of the right side of the reader from
      * the left side of the viewport.
     */
@@ -60,14 +60,12 @@ export default function Infobox(props) {
      * reader is from the left side of the screen. Otherwise the Infobox renders
      * at the top of the screen is the clicked word is closer to the bottom or
      * at the bottom of the screen if it is closer to the top.
-     * If the width of the window is greater than 767 px
      */
     const position = window.innerWidth > 767 ?
       {top: -((200 / 2) - ((bottom - y) / 2)), left: rRight - x}
       :
       y > window.innerHeight / 2 ? {top: 0} : {bottom: 0}
     ;
-
     return position;
   }
 

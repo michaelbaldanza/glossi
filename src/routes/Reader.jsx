@@ -3,8 +3,8 @@ import { useOutletContext } from 'react-router-dom';
 import { breakLines } from '../services/helpers';
 import { create } from '../services/scrolls';
 import ReaderForm from '../components/ReaderForm';
-import Scroll from '../components/Scroll';
-import Word from '../components/Word';
+import Scroll from '../components/Scroll/Scroll';
+import Word from '../components/Scroll/WordWrapper/Word';
 
 export default function Reader() {
   const [user, setUser] = useOutletContext();
