@@ -22,8 +22,17 @@ function clipTags(str) {
 }
 
 function depunctuate(str) {
-  const re = /[,.?!()/":;—']/g;
+  const re = /[,.?!()/"”“:;—']/g;
   return str.replace(re, '')
+}
+
+function escape(char) {
+  const escs = {
+    ' ': true,
+    '/': true,
+  };
+
+  return escs[char];
 }
 
 function isLast(idx, arr) {
@@ -60,6 +69,6 @@ function varToString(varObj) {
 }
 
 export {
-  breakLines, capitalize, clipColon, clipNums, clipTags, depunctuate, isLast,
-  isLemma, swapMacron, varToString,
+  breakLines, capitalize, clipColon, clipNums, clipTags, depunctuate, escape,
+  isLast, isLemma, swapMacron, varToString,
 };

@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import Word from '../../Word';
-import { breakLines, clipTags, isLast } from '../../../../../services/helpers';
+import { breakLines, clipTags, escape, isLast } from '../../../../../services/helpers';
 import { BTN_CLASSES } from '../../../../../services/constants';
 
 export default function Entry(props) {
@@ -101,20 +101,19 @@ export default function Entry(props) {
               return (<li key={`sense-${props.idx1}-${idx2}`}>
                 {
                   breakLines(defOrDefinition).map((line, idx2p5) => (
-                    line.split(' ').map((word, idx3) => (
-                      <Fragment key={`${word}-${idx2}-${idx3}`}>
-                        <Word
-                          currentIdx={[currentIdx, setCurrentIdx]}
-                          clickThroughHistory={props.clickThroughHistory}
-                          isBoxWord={true}
-                          wordId={`${word}-${idx2}-${idx3}`}
-                          word={word}
-                          handleRef={props.handleRef}
-                          isQuarry={word === quarry ? true : false}
-                          selLang={[selLang, setSelLang]}
-                        />
-                        {' '}
-                      </Fragment>
+                    line.split(/(\s|\/)/g).map((word, idx3) => (
+                      escape(word) ? word :
+                      <Word
+                        currentIdx={[currentIdx, setCurrentIdx]}
+                        clickThroughHistory={props.clickThroughHistory}
+                        handleRef={props.handleRef}
+                        isBoxWord={true}
+                        isQuarry={word === quarry ? true : false}
+                        key={`${word}-${idx2}-${idx3}`}
+                        selLang={[selLang, setSelLang]}
+                        wordId={`${word}-${idx2}-${idx3}`}
+                        word={word}
+                      />
                     ))
                   ))
                 }

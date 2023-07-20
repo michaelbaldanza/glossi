@@ -2,8 +2,7 @@ import { Fragment, useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import Dictionary from './Dictionaries/Dictionary';
 import CardForm from './Dictionaries/CardForm';
-import BoxWord from './Dictionaries/BoxWord';
-import { clipTags, isLast, isLemma } from '../../../../services/helpers';
+import { isLast } from '../../../../services/helpers';
 import { lexica, refOrder } from '../../../../services/dictionaries';
 import { BTN_CLASSES } from '../../../../services/constants';
 

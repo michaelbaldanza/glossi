@@ -9,6 +9,7 @@ export default function Word(props) {
     e.stopPropagation();
     if (isActive || props.isQuarry) return;
     const term = swapMacron(depunctuate(props.word));
+    console.log(term)
     const response = {
       'quarry': term,
       'wordId': props.wordId,
