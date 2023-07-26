@@ -13,22 +13,12 @@ export default function Scroll(props) {
     const words = lines.map((line, idx0) => (
       <div className="line" key={'line-' + idx0}>
         {
-          line.split(/(\s|\/)/g).map((word, idx1) => {
-            // options: 
-            // #1. split words in `line` on space into array.
-            // delivers components that return unssuccessful look ups,
-            // e.g. genitive/dative
-            // component word: genitive/dative
-            // look up (after depunctuate): genitivedative
-            // #2. regex line so that words, punctuation and spaces are all mapped out.
-            // if the mapped out 'word' (string) is a space or in a punctuation
-            // dictionary, then return the string, else return the word
-            // const regex = /(\w+|\s)/g;
-            // const regex = /[\w']+|[^\s\w']/g;            
+          line.split(/(\s|\/)/g).map((word, idx1) => {     
             const wordId = (idx0 + 1) + '.' + (idx1 + 1);
             return (
               escape(word) ? word :
               <WordWrapper
+                key={wordId}
                 scrollId={scrollId}
                 lookupHistory={[lookupHistory, setLookupHistory]}
                 wordId={wordId}
@@ -46,15 +36,15 @@ export default function Scroll(props) {
   return (
     <>
       {
-        props.scroll._id ?
+        // props.scroll._id ?
         <Header
           title={props.scroll.title}
           link={'/scrolls/' + props.scroll._id}
           createdBy={props.scroll.createdBy}
           updatedAt={props.scroll.updatedAt}
         />
-        :
-        ''
+        // :
+        // ''
       }
       <div id="reader-body">
         {makeWords()}

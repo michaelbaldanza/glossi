@@ -17,7 +17,7 @@ export default function Nav(props) {
         {
           user ?
           <div className="dropdown">
-            <DropBtn text={'scrolls'} />
+            <DropBtn text={'Scrolls'} />
             <ul className="dropdown-menu">
               <Item
                 text={'All scrolls'}

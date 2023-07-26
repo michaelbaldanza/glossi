@@ -23,16 +23,16 @@ export default function WordWrapper(props) {
     if (lookupHistory[lookupHistory.length - 1] !== props.wordId) return;
 
     return <Infobox
-      isActive={props.active}
-      scrollId={props.scrollId}
-      currentIdx={[currentIdx, setCurrentIdx]}
-      lookupHistory={[lookupHistory, setLookupHistory]}
       clickThroughHistory={[clickThroughHistory, setClickThroughHistory]}
+      currentIdx={[currentIdx, setCurrentIdx]}
+      isActive={props.active}
+      lookupHistory={[lookupHistory, setLookupHistory]}
       mostRecent={mostRecent}
-      word={props.word}
-      wordId={props.wordId}
       position={position}
       readerPosition={readerPosition}
+      scrollId={props.scrollId}
+      word={props.word}
+      wordId={props.wordId}
     />;
   }
 

@@ -7,6 +7,7 @@ import { getUserById } from '../../../../../services/users';
 
 export default function CardForm(props) {
   const [user, setUser] = useOutletContext();
+  const [newDeckName, setNewDeckName] = useState('');
   const userId = user._id;
   const [activeDeckInput, setActiveDeckInput] = useState(null);
   const [decks, setDecks] = useState(null);
@@ -75,6 +76,7 @@ export default function CardForm(props) {
           'deckName': '',
         })
       } else if (e.target.name === 'deckName') {
+        setNewDeckName(e.target.value)
         setCard({
           ...card,
           [e.target.name]: e.target.value,
@@ -203,8 +205,7 @@ export default function CardForm(props) {
   
       function makeDeckRadio() {
         if (activeDeckInput !== 'add-btn') return;
-        function handleRadio(e) {
-        }
+
         return (
           <div>
           <fieldset>
@@ -260,7 +261,7 @@ export default function CardForm(props) {
               type="text"
               className="form-control"
               placeholder="name the new deck"
-              value={card.deckName}
+              value={newDeckName}
               onChange={handleChange}
             />
           </div>

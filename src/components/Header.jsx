@@ -14,13 +14,18 @@ export default function Header(props) {
         </span>
         {props.additional ? props.additional : ''}
       </h3>
-      <BylineBar
-        createdBy={props.createdBy}
-        languageCode={props.languageCode ? props.languageCode : false}
-        link={props.link}
-        title={props.title}
-        updatedAt={props.updatedAt}
-      />
+      {
+        props.createdBy ?
+        <BylineBar
+          createdBy={props.createdBy}
+          languageCode={props.languageCode ? props.languageCode : false}
+          link={props.link}
+          title={props.title}
+          updatedAt={props.updatedAt}
+        />
+        :
+        ''
+      }
     </div>
   );
 };

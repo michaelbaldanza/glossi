@@ -35,16 +35,11 @@ async function create(req, res) {
   deck.cards.push(card._id);
   scroll.cards.push(card._id);
   try {
-    user.save();
-    card.save();
-    deck.save();
-    scroll.save();
-    // console.log(`did all that save?`)
-    // console.log(user)
-    // console.log(deck);
-    // console.log(scroll);
+    await user.save();
+    await card.save();
+    await deck.save();
+    await scroll.save();
     await card.populate('deck')
-    console.log(card);
     res.json(card);
   } catch {
     res.status(400).json(err);

@@ -9,13 +9,11 @@ export default function Word(props) {
     e.stopPropagation();
     if (isActive || props.isQuarry) return;
     const term = swapMacron(depunctuate(props.word));
-    console.log(term)
     const response = {
       'quarry': term,
       'wordId': props.wordId,
       'dictionaries': await collect(term),
     };
-    console.log(response)
     setClickThroughHistory([...clickThroughHistory.slice(0, currentIdx + 1), response]);
     if (props.isBoxWord) {
       setCurrentIdx(currentIdx + 1);

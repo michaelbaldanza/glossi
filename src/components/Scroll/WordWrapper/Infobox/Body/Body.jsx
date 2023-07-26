@@ -9,11 +9,7 @@ export default function Body(props) {
   const dictionaries = props.dictionaries;
   const dictProps = props.dictProps;
 
-  console.log(`The value of addView is`)
-  console.log(addView);
-
   function makeCardForm() {
-    console.log(`itting`)
     return (<CardForm
       activeDict={activeDict}
       scrollId={props.scrollId}

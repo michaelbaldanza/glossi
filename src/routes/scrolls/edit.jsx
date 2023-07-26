@@ -50,9 +50,10 @@ export default function ScrollEdit(props) {
     <div className="inner-container">
     <Form method="put">
       <div className="mb-3">
-        <label className="form-label">Title</label>
+        <label className="form-label" htmlFor="title">Title</label>
         <input
           className="form-control"
+          id="title"
           placeholder="untitled"
           defaultValue={scroll ? scroll.title : ''}
           type="text"
@@ -60,9 +61,10 @@ export default function ScrollEdit(props) {
           />
       </div>
       <div className="mb-3"> 
-        <label className="form-label">Body</label>
+        <label className="form-label" htmlFor="body">Body</label>
         <textarea
           className="form-control reader-body"
+          id="body"
           name="body"
           placeholder="no text"
           defaultValue={scroll ? scroll.body : ''}

@@ -1,9 +1,7 @@
-import { getToken } from './tokens';
 import { makeOptions } from './constants';
 const BASE_URL = '/api/decks/';
 
 async function deleteDeck(deckId) {
-  console.log(`hitting delete deck service`)
   const options = makeOptions('DELETE');
   await fetch(BASE_URL + deckId + '/delete', options);
   return true;

@@ -39,15 +39,36 @@ export default function Signup(props) {
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="username">Username</label>
-          <input className="form-control" name="username" type="text" onChange={handleChange} />
+          <input
+            className="form-control"
+            id="username"
+            name="username"
+            type="text"
+            onChange={handleChange}
+            autoComplete="off"
+          />
         </div>
         <div className="mb-3">
           <label htmlFor="email">Email</label>
-          <input className="form-control" name="email" type="text" onChange={handleChange} />
+          <input
+            className="form-control"
+            id="email"
+            name="email"
+            type="text"
+            onChange={handleChange}
+            autoComplete="off"
+          />
         </div>
         <div className="mb-3">
           <label htmlFor="password">Password</label>
-          <input className="form-control" name="password" type="password" onChange={handleChange} />
+          <input
+            className="form-control"
+            id="password"
+            name="password"
+            type="password"
+            onChange={handleChange}
+            autoComplete="off"
+          />
         </div>
         <button type="submit" className="btn btn-primary">
           Go

@@ -41,12 +41,26 @@ export default function Login(props) {
       <h3>Login</h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="username">Email or username</label>
-          <input className="form-control" name="emailOrUsername" type="text" onChange={handleChange} />
+          <label htmlFor="emailOrUsername">Email or username</label>
+          <input
+            className="form-control"
+            id="emailOrUsername"
+            name="emailOrUsername"
+            type="text"
+            onChange={handleChange}
+            autoComplete="username"
+          />
         </div>
         <div className="mb-3">
           <label htmlFor="password">Password</label>
-          <input className="form-control" name="password" type="password" onChange={handleChange} />
+          <input
+            className="form-control"
+            id="password"
+            name="password"
+            type="password"
+            onChange={handleChange}
+            autoComplete="current-password"
+          />
         </div>
         <button type="submit" className="btn btn-primary">
           Go

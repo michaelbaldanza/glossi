@@ -29,12 +29,26 @@ export default function ReaderForm(props) {
       <div className="inner-container">
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label className="form-label">Title</label>
-            <input className="form-control" defaultValue={submission?.title} type="text" name="title" onChange={handleChange} />
+            <label className="form-label" htmlFor="title">Title</label>
+            <input
+              className="form-control"
+              id="title"
+              defaultValue={submission?.title}
+              type="text"
+              name="title"
+              onChange={handleChange}
+            />
           </div>
           <div className="mb-3"> 
-            <label className="form-label">Body</label>
-            <textarea className="form-control reader-body" name="body" defaultValue={submission.body} rows="15" onChange={handleChange} />
+            <label className="form-label" htmlFor="body">Body</label>
+            <textarea
+              className="form-control reader-body"
+              id="body"
+              name="body"
+              defaultValue={submission.body}
+              rows="15"
+              onChange={handleChange}
+            />
           </div>
           <div className="btn-group" role="btn-group">
             <button type="submit" className="btn btn-outline-primary">Go</button>
