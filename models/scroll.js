@@ -5,6 +5,7 @@ const scrollSchema = new Schema({
   title: String,
   body: String,
   source: String,
+  isDraft: { type: Boolean, default: false },
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'User',

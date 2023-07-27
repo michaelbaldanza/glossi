@@ -2,6 +2,7 @@ import { clipTags } from '../../../../../../../services/helpers';
 
 export default function Checklist(props) {
   const [card, setCard] = props.card;
+  
   function handleCheckbox(idx) {
     const newDefs = card.definitions.map(def => {
       if (def.idx === idx) {

@@ -1,4 +1,4 @@
-import AddView from './AddView/AddView';
+import CardCtrl from './CardCtrl/CardCtrl';
 import Dictionary from './Dictionary/Dictionary';
 import { refOrder } from '../../../../../services/dictionaries';
 
@@ -9,8 +9,8 @@ export default function Body(props) {
   const dictionaries = props.dictionaries;
   const dictProps = props.dictProps;
 
-  function makeCardForm() {
-    return (<AddView
+  function makeCardCtrl() {
+    return (<CardCtrl
       activeDict={activeDict}
       scrollId={props.scrollId}
       entry={addView[0]}
@@ -33,5 +33,5 @@ export default function Body(props) {
     ));
   }
   
-  return addView.length ? makeCardForm() : makeDictionaryPanels();
+  return addView.length ? makeCardCtrl() : makeDictionaryPanels();
 }

@@ -1,6 +1,6 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import Header from './Header';
-import View from './DeckCtrl/View';
+import DeckCtrl from './DeckCtrl/DeckCtrl';
 import Checklist from './Checklist';
 import { clipTags } from '../../../../../../../services/helpers';
 import { create } from '../../../../../../../services/cards';
@@ -76,7 +76,7 @@ export default function Form(props) {
         <Checklist 
           card={[card, setCard]}
         />
-        <View
+        <DeckCtrl
           card={[card, setCard]}
         />
         <button

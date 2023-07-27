@@ -1,6 +1,5 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import Header from '../Header';
-import Word from './WordWrapper/Word';
 import WordWrapper from './WordWrapper/WordWrapper';
 import { breakLines, escape } from '../../services/helpers';
 

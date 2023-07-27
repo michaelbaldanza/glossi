@@ -4,7 +4,7 @@ import Radio from './Radio';
 import TextInput from './TextInput';
 
 
-export default function View(props) {
+export default function DeckCtrl(props) {
   const [activeDeckInput, setActiveDeckInput] = useState(null);
   const [newDeckName, setNewDeckName] = useState('');
   const [card, setCard] = props.card;

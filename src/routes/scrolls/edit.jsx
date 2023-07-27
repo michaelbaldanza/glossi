@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, redirect, useLoaderData } from 'react-router-dom';
 import { 
   create as createScroll,
@@ -37,6 +37,10 @@ export default function ScrollEdit(props) {
   const loaderData = useLoaderData();
   const scroll = loaderData ? loaderData.scroll : null;
   const user = loaderData.user;
+  const [onOrOff, setOnOrOff] = useState(
+    scroll && scroll.isDraft ? true : false
+  );
+
   useEffect(() => {
     if (!scroll) {
       document.title = props.makeDocTitle('Add a scroll')
@@ -45,6 +49,10 @@ export default function ScrollEdit(props) {
       document.title = props.makeDocTitle('Edit scroll: ' + scrollStr);
     }
   }, [])
+
+  function handleCheckbox() {
+    setOnOrOff(!onOrOff);
+  };
 
   return (
     <div className="inner-container">
@@ -71,16 +79,38 @@ export default function ScrollEdit(props) {
           rows="15"
         />
       </div>
-      <div className="btn-group" role="btn-group">
-        {
-          user ?
-          <>
-            <button type="submit" className="btn btn-outline-primary">Save</button>
-            <button type="submit" className="btn btn-outline-danger">Cancel</button>
-          </>
-          :
-          <button type="submit" className="btn btn-outline-primary">Go</button>
-        }
+      <div
+        className="save-ctrl"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <div className="btn-group" role="btn-group">
+          {
+            user ?
+            <>
+              <button type="submit" className="btn btn-outline-primary">Save</button>
+              <button type="submit" className="btn btn-outline-danger">Cancel</button>
+            </>
+            :
+            <button type="submit" className="btn btn-outline-primary">Go</button>
+          }
+        </div>
+        <div className="form-check">
+          <label className="form-check-label" htmlFor="isDraft">
+            Save as draft
+          </label>
+          <input
+            className="form-check-input"
+            type="checkbox"
+            id="isDraft"
+            name="isDraft"
+            checked={onOrOff}
+            onChange={() => handleCheckbox()}
+          />
+        </div>
       </div>
     </Form>
   </div>
