@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Form, redirect, useLoaderData } from 'react-router-dom';
+import { Form, redirect, useLoaderData, useNavigate } from 'react-router-dom';
 import { 
   create as createScroll,
   get as getScroll,
@@ -36,6 +36,7 @@ export async function action({ request, params }) {
 export default function ScrollEdit(props) {
   const loaderData = useLoaderData();
   const scroll = loaderData ? loaderData.scroll : null;
+  const navigate = useNavigate();
   const user = loaderData.user;
   const [onOrOff, setOnOrOff] = useState(
     scroll && scroll.isDraft ? true : false
@@ -92,7 +93,15 @@ export default function ScrollEdit(props) {
             user ?
             <>
               <button type="submit" className="btn btn-outline-primary">Save</button>
-              <button type="submit" className="btn btn-outline-danger">Cancel</button>
+              <button
+                type="button"
+                className="btn btn-outline-danger"
+                onClick={() => {
+                  navigate(-1)
+                }}
+              >
+                Cancel
+              </button>
             </>
             :
             <button type="submit" className="btn btn-outline-primary">Go</button>
