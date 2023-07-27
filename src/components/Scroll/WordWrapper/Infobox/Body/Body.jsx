@@ -1,4 +1,4 @@
-import CardForm from './CardForm';
+import AddView from './AddView/AddView';
 import Dictionary from './Dictionary/Dictionary';
 import { refOrder } from '../../../../../services/dictionaries';
 
@@ -10,7 +10,7 @@ export default function Body(props) {
   const dictProps = props.dictProps;
 
   function makeCardForm() {
-    return (<CardForm
+    return (<AddView
       activeDict={activeDict}
       scrollId={props.scrollId}
       entry={addView[0]}

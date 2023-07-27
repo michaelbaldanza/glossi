@@ -52,12 +52,6 @@ export default function ReaderForm(props) {
           </div>
           <div className="btn-group" role="btn-group">
             <button type="submit" className="btn btn-outline-primary">Go</button>
-            {
-              user ?
-              <button type="submit" className="btn btn-outline-primary">Save</button>
-              :
-              ''
-            }
           </div>
         </form>
       </div>
