@@ -25,7 +25,6 @@ async function get(scrollId) {
 }
 
 async function update(scrollId, updates) {
-  console.log(updates)
   const options = makeOptions('PUT', updates);
   return await fetch(BASE_URL + scrollId, options).then(res => res.json());
 }

@@ -34,7 +34,7 @@ async function deleteScroll(req, res) {
 }
 
 async function index(req, res) {
-  const scrolls = await Scroll.find({}).sort({createdAt: 'desc'}).populate('createdBy');
+  const scrolls = await Scroll.find({isDraft: false}).sort({createdAt: 'desc'}).populate('createdBy');
   res.json(scrolls);
 }
 
