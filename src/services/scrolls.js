@@ -1,38 +1,49 @@
-import { makeOptions } from './constants';
+import { fido, makeOptions } from './constants';
 const BASE_URL = '/api/scrolls/'
+const API = '/api';
 
 async function create(scroll) {
   const options = makeOptions('POST', scroll);
-  return await fetch(BASE_URL, options)
-  .then(res => {
-    if (res.ok) return res.json();
-    throw new Error('bad credentials');
-  });
+  return await fido(BASE_URL, options);
 }
 
 async function deleteScroll(scrollId) {
+  console.log(`hitting deleteScroll`)
   const options = makeOptions('DELETE');
-  await fetch(BASE_URL + scrollId + '/delete', options);
-  return true;
+  return await fido(BASE_URL + scrollId, options);
 }
 
-async function index() {
-  return await fetch(BASE_URL).then(res => res.json());
+async function edit(scrollId) {
+  const options = makeOptions('GET');
+  return await fido(BASE_URL + scrollId + '/edit', options);
 }
 
-async function get(scrollId) {
-  return await fetch(BASE_URL + scrollId).then(res => res.json());
+async function index(queryString) {
+  const options = makeOptions('GET');
+  return await fido(BASE_URL + queryString, options);
+}
+
+async function get(scrollId, path) {
+  const options = makeOptions('GET');
+  return await fido(BASE_URL + scrollId, options);
+}
+
+async function newScroll() {
+  const options = makeOptions('GET');
+  return await fido(BASE_URL + 'new', options)
 }
 
 async function update(scrollId, updates) {
   const options = makeOptions('PUT', updates);
-  return await fetch(BASE_URL + scrollId, options).then(res => res.json());
+  return await fido(BASE_URL + scrollId, options);
 }
 
 export {
   create,
   deleteScroll,
+  edit,
   get,
   index,
+  newScroll,
   update,
 };

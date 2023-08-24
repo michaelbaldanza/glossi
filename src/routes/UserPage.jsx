@@ -10,21 +10,47 @@ export async function loader({ params }) {
     :
     await getUserById(params.userId)
   ;
-
-  console.log(profileUser.username);
-
   return profileUser;
 }
 
 export default function UserPage() {
   const profileUser = useLoaderData();
   const currentUser = getUser();
-  const isLogged = currentUser && profileUser._id === currentUser._id ? true : false;
   const scrolls = profileUser.scrolls;
+
+  const isLogged = currentUser && profileUser._id === currentUser._id ? true : false;
 
   return (
     <div className="inner-container">
-      <h3>{profileUser.username}</h3>
+      <h3>{profileUser.username }</h3>
+      <div>
+        <h4>Scrolls</h4>
+        <p>
+          {
+            isLogged ?
+            <><a>Drafts</a> - </>
+            :
+            ''
+          }
+          <a>Published</a>
+        </p>
+      </div>
+      <div>
+        <h4>Decks</h4>
+        <p>
+        {
+            isLogged ?
+            <><a>Drafts</a> - </>
+            :
+            ''
+          }
+          <a>Published</a>
+        </p>
+      </div>
+      <div>
+        <h4>All cards</h4>
+      </div>
+
       <div>
         <h4>Scrolls</h4>
         {   

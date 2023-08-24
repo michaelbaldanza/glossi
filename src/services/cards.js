@@ -1,5 +1,5 @@
 import { getToken } from './tokens';
-import { makeOptions } from './constants';
+import { fido, makeOptions } from './constants';
 const BASE_URL = '/api/cards/';
 
 async function create(card) {
@@ -14,7 +14,8 @@ async function create(card) {
 
 async function deleteCard(cardId) {
   const options = makeOptions('DELETE');
-  await fetch(BASE_URL + cardId + '/delete', options);
+  return await fido(BASE_URL + cardId, options);
+  await fetch(BASE_URL + cardId, options);
   return true;
 }
 

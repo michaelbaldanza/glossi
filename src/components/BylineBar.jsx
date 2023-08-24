@@ -15,7 +15,6 @@ export default function BylineBar(props) {
   
   function makeButtons() {
     if (!user || user._id && user._id !== createdBy._id) return;
-
     function makeButton(action, fn) {
       const icons = {
         'delete': isHovered === 'delete' ?
@@ -83,6 +82,7 @@ export default function BylineBar(props) {
             if (!window.confirm(
               'Are you sure you want to delete ' + title + '?'
             )) {
+              console.log(`deleting at ${link}`)
               event.preventDefault();
             }
           }}

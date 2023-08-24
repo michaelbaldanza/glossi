@@ -1,14 +1,27 @@
-import { useRouteError } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useRouteError } from 'react-router-dom';
 
-export default function ErrorPage() {
+export default function ErrorPage(props) {
   const error = useRouteError();
-  console.error(error);
+  const message = error.message;
+  const name = error.name;
+  console.error(`${error.name}
+  ${error.message}
+  ${error.stack}`);
+
+  useEffect(() => { // set document title
+    document.title = `${name} - Glossi`
+  }, []);
+
   return (
     <div id="error-page">
-      <h1>Oh no</h1>
-      <p>An unexpected error occurred.</p>
+      {/* <h1>{title}</h1>
       <p>
-        <i>{error.statusText || error.message}</i>
+        {<i>{details}</i>}
+      </p> */}
+      <h1>{name}</h1>
+      <p>
+        {<i>{message}</i>}
       </p>
     </div>
   )

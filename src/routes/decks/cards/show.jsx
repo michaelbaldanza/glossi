@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { Form, useLoaderData } from 'react-router-dom';
 import { get as getCard } from '../../../services/cards';
 import Header from '../../../components/Header';
 
@@ -40,6 +40,21 @@ export default function CardPage(props) {
         }
         </ol>
       </div>
+      <Form
+          method="delete"
+          action={`/decks/${card.deck}/cards/${card._id}/delete`}
+          onSubmit={(event) => {
+            if (!window.confirm(
+              'Are you sure you want to delete ' + 'this card' + '?'
+            )) {
+              event.preventDefault();
+            }
+          }}
+          title={`Delete ${'this card'}`}
+          style={{'display': 'inline',}}
+        >
+          <button type="submit">Delete</button>
+        </Form>
     </div>
   )
 };

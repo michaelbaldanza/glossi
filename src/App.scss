@@ -7,7 +7,10 @@
   --nav-text-secondary: #ABA361;
   --relief-bg: #F7F8FB;
   --main-bg: rgba(253, 253, 253, 1);
+  --main-text-secondary: rgba(108, 117, 125, 1)
 }
+
+
 
 body {
   background-color: #F7F8FB;
@@ -70,6 +73,10 @@ footer{
   }
 }
 
+.link-dark:hover {
+  color: var(--main-text-secondary)!important;
+}
+
 .navbar {
   font-family: var(--body-font);
   background-color: var(--altum-bg);
@@ -117,6 +124,10 @@ footer{
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+.secondary-text {
+  color: var(--main-text-secondary)!important;
 }
 
 .main-el {

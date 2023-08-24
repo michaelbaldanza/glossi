@@ -40,10 +40,6 @@ function isLast(idx, arr) {
   return last;
 }
 
-function isLemma(quarry, firstWord, lang) {
-
-}
-
 function swapMacron(str) {
   const macra = {
     'ā': 'a',
@@ -70,5 +66,5 @@ function varToString(varObj) {
 
 export {
   breakLines, capitalize, clipColon, clipNums, clipTags, depunctuate, escape,
-  isLast, isLemma, swapMacron, varToString,
+  isLast, swapMacron, varToString,
 };

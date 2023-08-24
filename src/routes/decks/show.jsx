@@ -43,6 +43,11 @@ export default function DeckPage(props) {
   }
 
   function makeHeader() {
+    const additional = {
+      handleClick: () => setFlashcardView(!flashcardView),
+      text: (!flashcardView ? 'Enter flashcard' : 'Return to list') + ' view.'
+    };
+    
     return (
       <Header 
         createdBy={deck.createdBy}
@@ -50,7 +55,7 @@ export default function DeckPage(props) {
         link={'/decks/' + deck._id}
         title={deck.name}
         updatedAt={deck.updatedAt}
-        additional={makeBtn()}
+        additional={additional}
       />
     )
   }

@@ -9,7 +9,7 @@ import Index, {
   action as indexAction,
   loader as indexLoader
 } from './routes/Index';
-import UserPage, { loader as userPageLoader } from './routes/UserPage'
+import UserPage, { loader as userLoader } from './routes/users/show';
 import Login, { action as loginAction } from './routes/Login';
 import { action as scrollDeleteAction } from './routes/scrolls/delete';
 import ScrollEdit, { action as scrollEditAction, loader as scrollEditLoader } from './routes/scrolls/edit';
@@ -25,6 +25,10 @@ import CardPage, { loader as cardLoader } from './routes/decks/cards/show';
 import { action as cardDeleteAction } from './routes/decks/cards/delete';
 import ErrorPage from './error-page';
 
+function placement(word) {
+  console.log(`logging placement ${word}`);
+}
+
 function makeDocTitle(pageTitle) {
   const siteTitle = 'Glossi';
   const etc = pageTitle ? pageTitle + ' - ' : '';
@@ -35,15 +39,20 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    errorElement: <ErrorPage />,
+    errorElement: <ErrorPage
+      makeDocTitle={makeDocTitle}
+    />,
+
     children: [
       {
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage
+          makeDocTitle={makeDocTitle}
+        />,
         children: [
           {
             index: true,
             element: <Index makeDocTitle={makeDocTitle()} />,
-            action: indexAction,
+            // action: indexAction,
             loader: indexLoader,
           },
           {
@@ -79,7 +88,7 @@ const router = createBrowserRouter([
           {
             path: 'users/:username',
             element: <UserPage />,
-            loader: userPageLoader,
+            loader: userLoader,
           },
           {
             path: 'decks',
