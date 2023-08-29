@@ -63,6 +63,9 @@ To view a card, navigate to the decks index, and select the deck that contains t
 
 ![The view for the "bilocular" card](screenshots/13-bilocular_card.png)
 
+
+## Flashcard view
+
 You can also quiz yourself on the cards you've created. On the deck page, click "Enter flashcard view" beside the deck name. You will then be able to cycle through your cards, seeing first the card's title and part of speech, then its definitions.
 
 ![The view for the front of the "bilocular" card, containing its title and part of speech.](screenshots/14-flashcard_recto.png)
