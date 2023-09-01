@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const { handleError } = require('./controllers/errors');
@@ -10,6 +11,18 @@ require('./config/database');
 
 const app = express();
 
+const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
+app.use(cors(corsOptions));
 app.use(logger('dev'));
 app.use(express.json({limit: '1mb'}));
 app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
