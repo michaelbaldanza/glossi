@@ -29,7 +29,10 @@ async function getByUsername(req, res) {
 }
 
 async function login(req, res) {
+  console.log(`hitting controllers/users.login`);
+  console.log(req.body)
   try {
+    console.log(`trying something`)
     const user = await User.findOne({ $or: [
       {username: req.body.emailOrUsername},
       {email: req.body.emailOrUsername}
@@ -38,6 +41,7 @@ async function login(req, res) {
     user.comparePassword(req.body.password, (err, isMatch) => {
       if (isMatch) {
         const token = createJWT(user);
+        console.log(`returning token`)
         res.json({token});
       } else {
         return res.status(401).json({err: 'bad credentials'});

@@ -10,17 +10,7 @@ require('dotenv').config();
 require('./config/database');
 
 const app = express();
-
 const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  }
-};
 
 app.use(cors(corsOptions));
 app.use(logger('dev'));
@@ -45,3 +35,17 @@ const port = process.env.PORT || 3001;
 app.listen(port, function() {
   console.log(`Express app running on port ${port}`);
 });
+
+/*  Configure CORS for dynamic origin
+  https://expressjs.com/en/resources/middleware/cors.html#configuring-cors-w-dynamic-origin
+  Keep this at the bottom the file to avoid the error.
+*/
+var corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};

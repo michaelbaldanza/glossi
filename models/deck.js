@@ -3,12 +3,10 @@ const Schema = mongoose.Schema;
 
 const collaboratorSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User' },
-  permissions: {
-    canAddOwnCards: { type: Boolean, default: false, },
-    canEditOthersCards: { type: Boolean, default: false, },
-    canAddOwnNotes: { type: Boolean, default: false, },
-    canEditOthersNotes: { type: Boolean, default: false, },
-  },
+  canAddOwnCards: { type: Boolean, default: false, },
+  canEditOthersCards: { type: Boolean, default: false, },
+  canAddOwnNotes: { type: Boolean, default: false, },
+  canEditOthersNotes: { type: Boolean, default: false, },
 }, {
   timestamps: true,
 });
